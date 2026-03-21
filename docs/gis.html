@@ -324,85 +324,6 @@
             max-height: 300px;
         }
 
-        /* Gallery Section */
-        .gallery-section {
-            padding: 3rem 0;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .gallery-card {
-            background: var(--white);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
-        }
-
-        .gallery-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border-color: var(--primary-blue);
-        }
-
-        .gallery-card-header {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-teal) 100%);
-            color: var(--white);
-            padding: 1rem;
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .gallery-card-body {
-            padding: 1rem;
-            min-height: 80px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .gallery-card-title {
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .gallery-card-desc {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            flex: 1;
-        }
-
-        .gallery-card-link {
-            display: inline-block;
-            color: var(--primary-blue);
-            text-decoration: none;
-            font-weight: 500;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .gallery-card-link:hover {
-            text-decoration: underline;
-        }
-
-        .category-header {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin: 2rem 0 1rem 0;
-            padding-top: 1rem;
-            border-top: 2px solid var(--border-color);
-        }
-
         /* Footer */
         footer {
             background: var(--primary-dark);
@@ -445,9 +366,6 @@
                 height: 400px;
             }
 
-            .gallery-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         /* Leaflet overrides */
@@ -657,13 +575,6 @@
         </div>
     </section>
 
-    <!-- Charts Gallery Section -->
-    <section class="gallery-section" id="gallery-section">
-        <div class="container">
-            <h2 class="section-title">Charts Gallery</h2>
-            <div id="galleryContainer"></div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer>
@@ -750,7 +661,6 @@
             populateFilters();
             renderStatsCards();
             createCharts();
-            loadGallery();
             updateMap();
 
             // Update hero counts
@@ -1127,108 +1037,6 @@
                         y: { beginAtZero: true }
                     }
                 }
-            });
-        }
-
-        // Load gallery
-        function loadGallery() {
-            const galleryContainer = document.getElementById('galleryContainer');
-            galleryContainer.innerHTML = '';
-
-            const chartBase = '../output/charts/';
-            const mapBase = '../output/maps/';
-            const charts = [
-                { category: 'Assessor Analysis', items: [
-                    { title: 'Price Trends (1980–2025)', file: chartBase + '01_price_trends.html', desc: 'Median & mean sale price by year with transaction volume' },
-                    { title: 'Price by Property Type', file: chartBase + '02_price_by_type.html', desc: 'Median sale price over time by single family, condo, two-family' },
-                    { title: 'Value by Zoning District', file: chartBase + '03_value_by_zoning.html', desc: 'Box plot of assessed values by zoning district' },
-                    { title: 'Assessed vs Sale Price', file: chartBase + '04_assessed_vs_sale.html', desc: 'Scatter of sale price vs assessed value with 1:1 line' },
-                    { title: 'Appreciation by Sale Year', file: chartBase + '05_appreciation_by_sale_year.html', desc: 'How much properties appreciated since last sale' },
-                    { title: 'Year Built Distribution', file: chartBase + '06_year_built_distribution.html', desc: 'Housing stock age by decade with median value overlay' },
-                    { title: 'Land vs Building Ratio', file: chartBase + '07_land_vs_building_ratio.html', desc: 'Land value as % of total by decade and type' },
-                    { title: 'Price/SqFt by Zip Code', file: chartBase + '08_price_sqft_by_zip.html', desc: 'Median sale price per sq ft by zip over time' },
-                    { title: 'Zoning × Land Use Heatmap', file: chartBase + '09_zoning_landuse_heatmap.html', desc: 'Median assessed value by zoning × land use' },
-                    { title: 'Recent Sales Scatter', file: chartBase + '10_recent_sales_scatter.html', desc: 'Individual sales since 2015, sized by lot area' }
-                ]},
-                { category: 'Buildings Analysis', items: [
-                    { title: 'Footprint Distribution', file: chartBase + '11_footprint_distribution.html', desc: 'Distribution of building footprint sizes' },
-                    { title: 'Height Distribution', file: chartBase + '12_height_distribution.html', desc: 'Distribution of building heights' },
-                    { title: 'Value/SqFt by Zone', file: chartBase + '13_value_per_sqft_by_zone.html', desc: 'Value per sq ft by zoning district' },
-                    { title: 'Size vs Value', file: chartBase + '14_size_vs_value.html', desc: 'Building footprint size vs assessed value' },
-                    { title: 'Height vs Value', file: chartBase + '15_height_vs_value.html', desc: 'Building height vs assessed value' },
-                    { title: 'Footprint by Decade', file: chartBase + '16_footprint_by_decade.html', desc: 'Building footprint size by decade built' },
-                    { title: 'Value Density', file: chartBase + '17_value_density.html', desc: 'Value density ($/sq ft of footprint)' },
-                    { title: 'Structure Type Comparison', file: chartBase + '18_structure_type_comparison.html', desc: 'Comparison across structure types' },
-                    { title: 'Top 50 Buildings', file: chartBase + '19_top_50_buildings.html', desc: 'Top 50 buildings by footprint area' },
-                    { title: 'Appreciation by Size', file: chartBase + '20_appreciation_by_building_size.html', desc: 'Appreciation rates by building size' }
-                ]},
-                { category: 'Trees Analysis', items: [
-                    { title: 'Top Species', file: chartBase + '21_top_species.html', desc: 'Most common tree species in Arlington' },
-                    { title: 'Size by Species', file: chartBase + '22_size_by_species.html', desc: 'Tree canopy size by species' },
-                    { title: 'Planting History', file: chartBase + '23_planting_history.html', desc: 'Tree planting trends over time' },
-                    { title: 'Environmental Value', file: chartBase + '24_environmental_value.html', desc: 'Estimated stormwater and carbon value' },
-                    { title: 'Trees vs Property Value', file: chartBase + '25_trees_vs_property_value.html', desc: 'Tree proximity vs assessed value' },
-                    { title: 'Canopy Size vs Value', file: chartBase + '26_canopy_size_vs_value.html', desc: 'Canopy size vs nearby property values' }
-                ]},
-                { category: 'Appleton St Historical', items: [
-                    { title: 'Median Assessment Trend', file: chartBase + '27_appleton_median_trend.html', desc: 'Median assessment trend over time' },
-                    { title: 'Year-over-Year Change', file: chartBase + '28_appleton_yoy_change.html', desc: 'Year-over-year % change in assessments' },
-                    { title: 'Individual Trajectories', file: chartBase + '29_appleton_spaghetti.html', desc: 'Individual property assessment trajectories' },
-                    { title: 'Land vs Building Split', file: chartBase + '30_appleton_land_building_pct.html', desc: 'Land vs building value split over time' },
-                    { title: 'Cumulative Growth', file: chartBase + '31_appleton_cumulative.html', desc: 'Cumulative assessment growth' },
-                    { title: 'By Property Type', file: chartBase + '32_appleton_by_type.html', desc: 'Assessment trends by property type' },
-                    { title: 'Sales vs Assessed', file: chartBase + '33_appleton_sales_scatter.html', desc: 'Actual sales vs assessed values' }
-                ]},
-                { category: 'Dimensions & Regression', items: [
-                    { title: 'Correlation Heatmap', file: chartBase + 'dim_01_correlation_heatmap.html', desc: 'Pearson correlation of 16 property dimensions' },
-                    { title: 'Scatter vs Value/SqFt', file: chartBase + 'dim_02_scatter_vs_value_sqft.html', desc: 'Top 6 dimensions vs assessed value per sq ft' },
-                    { title: 'Value by Beds & Baths', file: chartBase + 'dim_03_value_by_beds_baths.html', desc: 'Box plots of total value by bedroom & bath count' },
-                    { title: 'Regression Coefficients', file: chartBase + 'dim_04_marginal_value_regression.html', desc: 'OLS marginal values for all 15 features' },
-                    { title: 'Size vs Value Trendline', file: chartBase + 'dim_05_size_vs_value_trendline.html', desc: 'Finished area vs value with trendlines by type' },
-                    { title: 'Age vs Value', file: chartBase + 'dim_06_age_vs_value.html', desc: 'Median value by decade built' },
-                    { title: 'Feature Premiums', file: chartBase + 'dim_07_feature_premiums.html', desc: 'AC, fireplace, renovation, stories premium comparison' },
-                    { title: 'Multivariate Bubble', file: chartBase + 'dim_08_bubble_multi.html', desc: 'Area vs value/sqft, sized by lot, colored by year' },
-                    { title: 'Bang for Buck', file: chartBase + 'dim_09_bang_for_buck.html', desc: 'Dollar impact of realistic improvements' },
-                    { title: 'Marginal SqFt Curve', file: chartBase + 'dim_10_marginal_sqft_curve.html', desc: 'How marginal value of +200 sqft changes by house size' },
-                    { title: 'Marginal Footprint Curve', file: chartBase + 'dim_11_marginal_footprint_curve.html', desc: 'Marginal value of +5% footprint/lot coverage' },
-                    { title: 'Marginal Bath Value', file: chartBase + 'dim_12_marginal_bath.html', desc: 'Accelerating returns per additional bathroom' }
-                ]},
-                { category: 'Interactive Maps', items: [
-                    { title: 'Property Values Map', file: mapBase + 'map_property_values.html', desc: 'Choropleth of assessed values across Arlington' },
-                    { title: 'Recent Sales Map', file: mapBase + 'map_recent_sales.html', desc: 'Recent property sales plotted on map' },
-                    { title: 'Tree Canopy Map', file: mapBase + 'map_tree_canopy.html', desc: 'Public shade tree locations with canopy info' },
-                    { title: 'Stormwater Heatmap', file: mapBase + 'map_tree_stormwater_heatmap.html', desc: 'Heatmap of tree stormwater value' },
-                    { title: 'Trees & Values Map', file: mapBase + 'map_trees_and_values.html', desc: 'Trees overlaid with property values' },
-                    { title: 'Value Heatmap', file: mapBase + 'map_value_heatmap.html', desc: 'Heatmap of property values' },
-                    { title: 'Value per SqFt Map', file: mapBase + 'map_value_per_sqft.html', desc: 'Value per sq ft across Arlington' },
-                    { title: 'Year Built Map', file: mapBase + 'map_year_built.html', desc: 'Building age map' }
-                ]}
-            ];
-
-            charts.forEach(category => {
-                const categoryHeader = document.createElement('h3');
-                categoryHeader.className = 'category-header';
-                categoryHeader.textContent = category.category;
-                galleryContainer.appendChild(categoryHeader);
-
-                const grid = document.createElement('div');
-                grid.className = 'gallery-grid';
-
-                category.items.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'gallery-card';
-                    card.innerHTML = `
-                        <div class="gallery-card-header">${category.category}</div>
-                        <div class="gallery-card-body">
-                            <div class="gallery-card-title">${item.title}</div>
-                            <div class="gallery-card-desc">${item.desc}</div>
-                            <a href="${item.file}" target="_blank" class="gallery-card-link">View Chart →</a>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-
-                galleryContainer.appendChild(grid);
             });
         }
 
