@@ -330,9 +330,9 @@
             background: var(--light-bg);
         }
 
-        .estimator-grid {
+        .estimator-layout {
             display: grid;
-            grid-template-columns: 360px 1fr;
+            grid-template-columns: 320px 1fr;
             gap: 2rem;
             margin-top: 1.5rem;
         }
@@ -354,10 +354,28 @@
             background: var(--white);
         }
 
-        .estimator-results {
+        .estimator-right {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
+        }
+
+        .estimator-top-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .estimator-charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        #estPrecinctMap {
+            height: 100%;
+            min-height: 280px;
+            border-radius: 8px;
         }
 
         .estimate-value-display {
@@ -395,7 +413,7 @@
             margin-top: 0.25rem;
         }
 
-        .reset-button {
+        .est-reset-button {
             width: 100%;
             padding: 0.6rem;
             margin-top: 1rem;
@@ -408,13 +426,20 @@
             transition: background 0.2s;
         }
 
-        .reset-button:hover {
+        .est-reset-button:hover {
             background: var(--primary-dark);
         }
 
-        @media (max-width: 768px) {
-            .estimator-grid {
+        @media (max-width: 900px) {
+            .estimator-layout {
                 grid-template-columns: 1fr;
+            }
+            .estimator-top-row,
+            .estimator-charts-row {
+                grid-template-columns: 1fr;
+            }
+            #estPrecinctMap {
+                min-height: 300px;
             }
         }
 
@@ -559,6 +584,106 @@
         </div>
     </section>
 
+    <!-- Value Estimator Section -->
+    <section class="estimator-section" id="estimator-section">
+        <div class="container">
+            <h2 class="section-title">Build Your House Value Estimator</h2>
+            <p style="text-align:center; color:var(--text-light); max-width:650px; margin:0 auto 1rem;">
+                Configure home attributes and select a voting precinct to see what your house would be assessed at in Arlington.
+            </p>
+
+            <div class="estimator-layout">
+                <div class="estimator-controls">
+                    <div class="filter-group">
+                        <label class="filter-label">Voting Precinct</label>
+                        <select id="estPrecinct">
+                            <option value="any">All Precincts</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Bedrooms</label>
+                        <select id="estBedrooms">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6+</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Bathrooms</label>
+                        <select id="estBathrooms">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                            <option value="4">4+</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Finished Sq Ft: <span id="estSqftDisplay">1,800</span></label>
+                        <input type="range" id="estSqft" min="500" max="5000" value="1800" step="100">
+                        <div class="range-labels"><span>500</span><span>5,000</span></div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Decade Built</label>
+                        <select id="estDecade">
+                            <option value="1850">1850s</option>
+                            <option value="1860">1860s</option>
+                            <option value="1870">1870s</option>
+                            <option value="1880">1880s</option>
+                            <option value="1890">1890s</option>
+                            <option value="1900">1900s</option>
+                            <option value="1910">1910s</option>
+                            <option value="1920">1920s</option>
+                            <option value="1930">1930s</option>
+                            <option value="1940">1940s</option>
+                            <option value="1950">1950s</option>
+                            <option value="1960" selected>1960s</option>
+                            <option value="1970">1970s</option>
+                            <option value="1980">1980s</option>
+                            <option value="1990">1990s</option>
+                            <option value="2000">2000s</option>
+                            <option value="2010">2010s</option>
+                            <option value="2020">2020s</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Zoning District</label>
+                        <select id="estZoning">
+                            <option value="any">Any District</option>
+                        </select>
+                    </div>
+                    <button class="est-reset-button" id="estReset">Reset to Defaults</button>
+                </div>
+
+                <div class="estimator-right">
+                    <div class="estimator-top-row">
+                        <div class="chart-container" style="text-align:center;">
+                            <h3 class="chart-title">Estimated Assessed Value</h3>
+                            <div class="estimate-value-display" id="estValueDisplay">--</div>
+                            <div class="estimate-match-info" id="estMatchInfo"></div>
+                            <span class="estimate-badge strong" id="estBadge"></span>
+                        </div>
+                        <div class="chart-container" style="padding:0; overflow:hidden;">
+                            <div id="estPrecinctMap"></div>
+                        </div>
+                    </div>
+                    <div class="estimator-charts-row">
+                        <div class="chart-container">
+                            <h3 class="chart-title">How Each Attribute Shifts Value</h3>
+                            <canvas id="estWaterfallChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h3 class="chart-title">Value Distribution of Similar Homes</h3>
+                            <canvas id="estDistributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Map Section -->
     <section class="map-section" id="map-section">
         <div class="container">
@@ -669,93 +794,6 @@
         </div>
     </section>
 
-
-    <!-- Value Estimator Section -->
-    <section class="estimator-section" id="estimator-section">
-        <div class="container">
-            <h2 class="section-title">Build Your House Value Estimator</h2>
-            <p style="text-align:center; color:var(--text-light); max-width:600px; margin:0 auto 1rem;">
-                Configure home attributes and see what it would be assessed at in Arlington based on real property data.
-            </p>
-
-            <div class="estimator-grid">
-                <div class="estimator-controls">
-                    <div class="filter-group">
-                        <label class="filter-label">Bedrooms</label>
-                        <select id="estBedrooms">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3" selected>3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6+</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Bathrooms</label>
-                        <select id="estBathrooms">
-                            <option value="1">1</option>
-                            <option value="2" selected>2</option>
-                            <option value="3">3</option>
-                            <option value="4">4+</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Finished Sq Ft: <span id="estSqftDisplay">1,800</span></label>
-                        <input type="range" id="estSqft" min="500" max="5000" value="1800" step="100">
-                        <div class="range-labels"><span>500</span><span>5,000</span></div>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Decade Built</label>
-                        <select id="estDecade">
-                            <option value="1850">1850s</option>
-                            <option value="1860">1860s</option>
-                            <option value="1870">1870s</option>
-                            <option value="1880">1880s</option>
-                            <option value="1890">1890s</option>
-                            <option value="1900">1900s</option>
-                            <option value="1910">1910s</option>
-                            <option value="1920">1920s</option>
-                            <option value="1930">1930s</option>
-                            <option value="1940">1940s</option>
-                            <option value="1950">1950s</option>
-                            <option value="1960" selected>1960s</option>
-                            <option value="1970">1970s</option>
-                            <option value="1980">1980s</option>
-                            <option value="1990">1990s</option>
-                            <option value="2000">2000s</option>
-                            <option value="2010">2010s</option>
-                            <option value="2020">2020s</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Zoning District</label>
-                        <select id="estZoning">
-                            <option value="any">Any District</option>
-                        </select>
-                    </div>
-                    <button class="reset-button" id="estReset">Reset to Defaults</button>
-                </div>
-
-                <div class="estimator-results">
-                    <div class="chart-container" style="text-align:center;">
-                        <h3 class="chart-title">Estimated Assessed Value</h3>
-                        <div class="estimate-value-display" id="estValueDisplay">--</div>
-                        <div class="estimate-match-info" id="estMatchInfo"></div>
-                        <span class="estimate-badge strong" id="estBadge"></span>
-                    </div>
-                    <div class="chart-container">
-                        <h3 class="chart-title">How Each Attribute Shifts Value</h3>
-                        <canvas id="estWaterfallChart"></canvas>
-                    </div>
-                    <div class="chart-container">
-                        <h3 class="chart-title">Value Distribution of Similar Homes</h3>
-                        <canvas id="estDistributionChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer>
@@ -1258,9 +1296,25 @@
             state.medianByBathroom = groupMedian(state.residentialProperties, p => Math.min(p.FullBath, 4));
             state.medianByDecade = groupMedian(state.residentialProperties, p => p.YearBuilt ? Math.floor(p.YearBuilt / 10) * 10 : null);
             state.medianByZone = groupMedian(state.residentialProperties, p => p.Z_Desc);
+            state.medianByPrecinct = groupMedian(state.residentialProperties, p => p.Precinct);
             state.medianBySqftBucket = groupMedian(state.residentialProperties, p => {
                 return Math.floor(p.FinishedArea / 500) * 500;
             });
+
+            // Populate precinct dropdown (sorted numerically)
+            const precinctCounts = {};
+            state.residentialProperties.forEach(p => {
+                if (p.Precinct) precinctCounts[p.Precinct] = (precinctCounts[p.Precinct] || 0) + 1;
+            });
+            const precinctSelect = document.getElementById('estPrecinct');
+            Object.entries(precinctCounts)
+                .sort((a, b) => parseInt(a[0].replace('P','')) - parseInt(b[0].replace('P','')))
+                .forEach(([precinct, count]) => {
+                    const opt = document.createElement('option');
+                    opt.value = precinct;
+                    opt.textContent = `Precinct ${precinct.replace('P','')} (${count} homes)`;
+                    precinctSelect.appendChild(opt);
+                });
 
             // Populate zoning dropdown from residential data
             const zoneCounts = {};
@@ -1275,6 +1329,41 @@
                     opt.value = zone;
                     opt.textContent = `${zone} (${count})`;
                     zoningSelect.appendChild(opt);
+                });
+
+            // Initialize precinct map
+            state.estMap = L.map('estPrecinctMap', { zoomControl: false, attributionControl: false })
+                .setView([42.4154, -71.1568], 13);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                maxZoom: 18
+            }).addTo(state.estMap);
+
+            // Load precinct boundaries
+            fetch('data/precincts.geojson')
+                .then(r => r.json())
+                .then(geojson => {
+                    state.precinctGeoJSON = geojson;
+                    state.precinctLayer = L.geoJSON(geojson, {
+                        style: feature => ({
+                            color: '#3b82f6',
+                            weight: 1.5,
+                            fillColor: '#3b82f6',
+                            fillOpacity: 0.08
+                        }),
+                        onEachFeature: (feature, layer) => {
+                            const name = feature.properties.DIST_NAME;
+                            const num = name.replace('P', '');
+                            layer.bindTooltip(`Precinct ${num}`, {
+                                permanent: false, direction: 'center', className: 'precinct-tooltip'
+                            });
+                            layer.on('click', () => {
+                                document.getElementById('estPrecinct').value = name;
+                                updateEstimate();
+                            });
+                        }
+                    }).addTo(state.estMap);
+                    state.estMap.fitBounds(state.precinctLayer.getBounds(), { padding: [10, 10] });
+                    updateEstimate();
                 });
 
             // Create charts
@@ -1322,7 +1411,7 @@
 
             // Event listeners
             let debounceTimer;
-            const inputs = ['estBedrooms', 'estBathrooms', 'estDecade', 'estZoning'];
+            const inputs = ['estBedrooms', 'estBathrooms', 'estDecade', 'estZoning', 'estPrecinct'];
             inputs.forEach(id => document.getElementById(id).addEventListener('change', updateEstimate));
             document.getElementById('estSqft').addEventListener('input', () => {
                 document.getElementById('estSqftDisplay').textContent = parseInt(document.getElementById('estSqft').value).toLocaleString();
@@ -1330,8 +1419,6 @@
                 debounceTimer = setTimeout(updateEstimate, 150);
             });
             document.getElementById('estReset').addEventListener('click', resetEstimator);
-
-            updateEstimate();
         }
 
         function updateEstimate() {
@@ -1340,11 +1427,25 @@
             const targetSqft = parseInt(document.getElementById('estSqft').value);
             const targetDecade = parseInt(document.getElementById('estDecade').value);
             const targetZone = document.getElementById('estZoning').value;
+            const targetPrecinct = document.getElementById('estPrecinct').value;
 
             const pool = state.residentialProperties;
 
+            // Highlight selected precinct on map
+            if (state.precinctLayer) {
+                state.precinctLayer.eachLayer(layer => {
+                    const name = layer.feature.properties.DIST_NAME;
+                    if (targetPrecinct !== 'any' && name === targetPrecinct) {
+                        layer.setStyle({ color: '#2563eb', weight: 3, fillColor: '#3b82f6', fillOpacity: 0.35 });
+                        layer.bringToFront();
+                    } else {
+                        layer.setStyle({ color: '#3b82f6', weight: 1.5, fillColor: '#3b82f6', fillOpacity: 0.08 });
+                    }
+                });
+            }
+
             // Tiered filtering
-            function findMatches(bedRange, bathRange, sqftPct, decadeRange, useZone) {
+            function findMatches(bedRange, bathRange, sqftPct, decadeRange, useZone, usePrecinct) {
                 return pool.filter(p => {
                     const beds = Math.min(p.NumBedroom, 6);
                     if (beds < targetBeds - bedRange || beds > targetBeds + bedRange) return false;
@@ -1356,23 +1457,24 @@
                         if (Math.abs(pDecade - targetDecade) > decadeRange * 10) return false;
                     }
                     if (useZone && targetZone !== 'any' && p.Z_Desc !== targetZone) return false;
+                    if (usePrecinct && targetPrecinct !== 'any' && p.Precinct !== targetPrecinct) return false;
                     return true;
                 });
             }
 
             let matches, tier;
-            matches = findMatches(0, 0, 0.2, 0, true);
+            matches = findMatches(0, 0, 0.2, 0, true, true);
             tier = 'Strong';
             if (matches.length < 10) {
-                matches = findMatches(1, 1, 0.35, 1, true);
+                matches = findMatches(1, 1, 0.35, 1, true, true);
                 tier = 'Good';
             }
             if (matches.length < 10) {
-                matches = findMatches(2, 2, 0.5, 2, false);
+                matches = findMatches(2, 2, 0.5, 2, false, true);
                 tier = 'Approximate';
             }
             if (matches.length < 5) {
-                matches = findMatches(3, 3, 0.75, -1, false);
+                matches = findMatches(3, 3, 0.75, -1, false, false);
                 tier = 'Limited';
             }
 
@@ -1417,6 +1519,9 @@
                 { label: 'Sq Ft (' + targetSqft.toLocaleString() + ')', delta: (state.medianBySqftBucket[sqftBucket] || townMed) - townMed },
                 { label: 'Decade (' + targetDecade + 's)', delta: (state.medianByDecade[targetDecade] || townMed) - townMed },
             ];
+            if (targetPrecinct !== 'any') {
+                impacts.push({ label: 'Precinct ' + targetPrecinct.replace('P',''), delta: (state.medianByPrecinct[targetPrecinct] || townMed) - townMed });
+            }
             if (targetZone !== 'any') {
                 impacts.push({ label: targetZone, delta: (state.medianByZone[targetZone] || townMed) - townMed });
             }
@@ -1464,6 +1569,7 @@
             document.getElementById('estSqftDisplay').textContent = '1,800';
             document.getElementById('estDecade').value = '1960';
             document.getElementById('estZoning').value = 'any';
+            document.getElementById('estPrecinct').value = 'any';
             updateEstimate();
         }
 
