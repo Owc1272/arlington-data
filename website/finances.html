@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arlington Finances — Open Data Explorer</title>
+    <style>
+        :root {
+            --primary-dark: #1e3a5f;
+            --primary-blue: #3b82f6;
+            --accent-teal: #14b8a6;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --white: #ffffff;
+            --green-dark: #1a4731;
+            --green: #2d6b4d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: var(--light-bg); color: var(--text-dark); line-height: 1.6; }
+        nav { position: sticky; top: 0; background: var(--white); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .nav-brand { font-size: 1.25rem; font-weight: 700; color: var(--primary-dark); text-decoration: none; }
+        .nav-brand:hover { color: var(--primary-blue); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.nav-active { color: var(--primary-blue); }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+        .hero { background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%); color: var(--white); padding: 4rem 2rem; text-align: center; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; }
+        .loading-spinner { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 1000; justify-content: center; align-items: center; font-size: 1.2rem; color: var(--text-light); }
+        .loading-spinner.active { display: flex; }
+        .stats-bar { max-width: 1200px; margin: -2rem auto 2rem; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; position: relative; z-index: 10; }
+        .stat-card { background: var(--white); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1.25rem; text-align: center; }
+        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--green-dark); }
+        .stat-label { font-size: 0.85rem; color: var(--text-light); margin-top: 0.25rem; }
+        .charts-section { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+        .chart-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .chart-grid-2col { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        @media (max-width: 768px) { .chart-grid-2col { grid-template-columns: 1fr; } }
+        .chart-card { background: var(--white); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 1.5rem; }
+        .chart-card h3 { font-size: 1.1rem; color: var(--primary-dark); margin-bottom: 1rem; }
+        .chart-card canvas { max-height: 400px; }
+        .source-note { font-size: 0.8rem; color: var(--text-light); margin-top: 0.75rem; font-style: italic; }
+        footer { text-align: center; padding: 2rem; color: var(--text-light); border-top: 1px solid var(--border-color); margin-top: 3rem; }
+        footer a { color: var(--primary-blue); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-brand">Arlington Data Explorer</a>
+        <ul class="nav-links">
+            <li><a href="gis.html">GIS</a></li>
+            <li><a href="finances.html" class="nav-active">Finances</a></li>
+            <li><a href="schools.html">Schools</a></li>
+            <li><a href="population.html">Population</a></li>
+            <li><a href="crime.html">Crime</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <h1>Arlington Finances</h1>
+        <p>Town budget, revenue sources, and spending trends for Arlington, MA</p>
+    </div>
+
+    <div class="loading-spinner" id="loadingSpinner">Loading financial data...</div>
+
+    <div class="stats-bar" id="statsBar"></div>
+
+    <div class="charts-section">
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Total Revenue &amp; Expenditures Over Time</h3>
+                <canvas id="totalChart"></canvas>
+                <div class="source-note">Source: Arlington Town Manager Annual Budget & Financial Plan</div>
+            </div>
+        </div>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Revenue Sources Over Time</h3>
+                <canvas id="revenueChart"></canvas>
+                <div class="source-note">Source: Budget Section II — Revenue</div>
+            </div>
+            <div class="chart-card">
+                <h3>Revenue Breakdown (Latest Year)</h3>
+                <canvas id="revenueDoughnut"></canvas>
+                <div class="source-note">Source: Budget Section II — Revenue</div>
+            </div>
+        </div>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Spending by Category Over Time</h3>
+                <canvas id="spendingChart"></canvas>
+                <div class="source-note">Source: Budget Section III — Budget Summaries</div>
+            </div>
+            <div class="chart-card">
+                <h3>Spending Breakdown (Latest Year)</h3>
+                <canvas id="spendingDoughnut"></canvas>
+                <div class="source-note">Source: Budget Section III — Budget Summaries</div>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Schools vs Healthcare/Pensions vs Municipal Departments</h3>
+                <canvas id="majorChart"></canvas>
+                <div class="source-note">Source: Budget Section III — Budget Summaries</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>Data Source:</strong> <a href="https://www.arlingtonma.gov/departments/town-manager/town-manager-s-annual-budget-financial-report" target="_blank">Arlington Town Manager Annual Budget</a></p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: March 2026</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        const state = { data: null, charts: {} };
+
+        function fmt(n) {
+            if (n == null) return 'N/A';
+            if (Math.abs(n) >= 1e9) return '$' + (n/1e9).toFixed(1) + 'B';
+            if (Math.abs(n) >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+            if (Math.abs(n) >= 1e3) return '$' + (n/1e3).toFixed(0) + 'K';
+            return '$' + n;
+        }
+
+        function setLoading(on) {
+            document.getElementById('loadingSpinner').classList.toggle('active', on);
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            setLoading(true);
+            try {
+                const resp = await fetch('data/finances.json');
+                state.data = await resp.json();
+                // Filter to years with expenditure data for most charts
+                state.withExp = state.data.years.filter(y => y.expenditures.total_expenditures && y.expenditures.total_expenditures > 1000);
+                renderStats();
+                createTotalChart();
+                createRevenueChart();
+                createRevenueDoughnut();
+                createSpendingChart();
+                createSpendingDoughnut();
+                createMajorChart();
+            } catch(e) {
+                console.error('Error loading data:', e);
+            }
+            setLoading(false);
+        });
+
+        function renderStats() {
+            const latest = state.withExp[state.withExp.length - 1];
+            const prev = state.withExp[state.withExp.length - 2];
+            const rev = latest.revenue.total_revenue;
+            const exp = latest.expenditures.total_expenditures;
+            const school = (latest.expenditures.school_department || 0) + (latest.expenditures.minuteman_school || 0);
+            const pensions = latest.expenditures.healthcare_pensions || 0;
+            const growth = prev ? ((rev - prev.revenue.total_revenue) / prev.revenue.total_revenue * 100).toFixed(1) : '?';
+
+            const items = [
+                { value: fmt(rev), label: `FY${latest.fiscal_year} Revenue` },
+                { value: fmt(exp), label: 'Total Expenditures' },
+                { value: '+' + growth + '%', label: 'Revenue Growth' },
+                { value: fmt(school), label: 'Schools (APS + Minuteman)' },
+                { value: fmt(pensions), label: 'Healthcare & Pensions' },
+                { value: fmt(latest.expenditures.capital_debt), label: 'Capital & Debt' },
+            ];
+
+            document.getElementById('statsBar').innerHTML = items.map(i => `
+                <div class="stat-card">
+                    <div class="stat-value">${i.value}</div>
+                    <div class="stat-label">${i.label}</div>
+                </div>
+            `).join('');
+        }
+
+        function createTotalChart() {
+            const years = state.data.years.filter(y => y.revenue.total_revenue > 1000);
+            const ctx = document.getElementById('totalChart').getContext('2d');
+            state.charts.total = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years.map(y => 'FY' + y.fiscal_year),
+                    datasets: [
+                        {
+                            label: 'Total Revenue',
+                            data: years.map(y => y.revenue.total_revenue),
+                            borderColor: '#2d6b4d',
+                            backgroundColor: 'rgba(45, 107, 77, 0.1)',
+                            borderWidth: 2, pointRadius: 3, fill: true,
+                        },
+                        {
+                            label: 'Total Expenditures',
+                            data: years.map(y => y.expenditures.total_expenditures || null),
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            borderWidth: 2, pointRadius: 3, fill: true,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { y: { ticks: { callback: v => '$' + (v/1e6).toFixed(0) + 'M' } } }
+                }
+            });
+        }
+
+        function createRevenueChart() {
+            const years = state.withExp;
+            const ctx = document.getElementById('revenueChart').getContext('2d');
+            state.charts.revenue = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: years.map(y => 'FY' + y.fiscal_year),
+                    datasets: [
+                        { label: 'Property Tax', data: years.map(y => y.revenue.property_tax || 0), backgroundColor: 'rgba(59, 130, 246, 0.7)' },
+                        { label: 'State Aid', data: years.map(y => y.revenue.state_aid || 0), backgroundColor: 'rgba(20, 184, 166, 0.7)' },
+                        { label: 'Local Receipts', data: years.map(y => y.revenue.local_receipts || 0), backgroundColor: 'rgba(217, 119, 6, 0.7)' },
+                        { label: 'Free Cash & Other', data: years.map(y => (y.revenue.free_cash || 0) + (y.revenue.other_funds || 0)), backgroundColor: 'rgba(139, 92, 246, 0.7)' },
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => '$' + (v/1e6).toFixed(0) + 'M' } } }
+                }
+            });
+        }
+
+        function createRevenueDoughnut() {
+            const latest = state.withExp[state.withExp.length - 1];
+            const r = latest.revenue;
+            const ctx = document.getElementById('revenueDoughnut').getContext('2d');
+            const total = r.total_revenue || 1;
+            state.charts.revDoughnut = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Property Tax', 'State Aid', 'Local Receipts', 'Free Cash', 'Other'],
+                    datasets: [{
+                        data: [r.property_tax, r.state_aid, r.local_receipts, r.free_cash, r.other_funds],
+                        backgroundColor: ['#3b82f6', '#14b8a6', '#d97706', '#8b5cf6', '#6b7280'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'right' },
+                        title: { display: true, text: 'FY' + latest.fiscal_year },
+                        tooltip: { callbacks: { label: ctx => { const pct = ((ctx.parsed / total) * 100).toFixed(1); return ctx.label + ': ' + fmt(ctx.parsed) + ' (' + pct + '%)'; } } }
+                    }
+                }
+            });
+        }
+
+        function createSpendingChart() {
+            const years = state.withExp;
+            const ctx = document.getElementById('spendingChart').getContext('2d');
+            state.charts.spending = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: years.map(y => 'FY' + y.fiscal_year),
+                    datasets: [
+                        { label: 'Schools (APS)', data: years.map(y => y.expenditures.school_department || 0), backgroundColor: 'rgba(59, 130, 246, 0.7)' },
+                        { label: 'Minuteman School', data: years.map(y => y.expenditures.minuteman_school || 0), backgroundColor: 'rgba(96, 165, 250, 0.7)' },
+                        { label: 'Healthcare & Pensions', data: years.map(y => y.expenditures.healthcare_pensions || 0), backgroundColor: 'rgba(239, 68, 68, 0.7)' },
+                        { label: 'Municipal Departments', data: years.map(y => y.expenditures.municipal_net || y.expenditures.municipal_departments || 0), backgroundColor: 'rgba(20, 184, 166, 0.7)' },
+                        { label: 'Capital & Debt', data: years.map(y => y.expenditures.capital_debt || 0), backgroundColor: 'rgba(217, 119, 6, 0.7)' },
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => '$' + (v/1e6).toFixed(0) + 'M' } } }
+                }
+            });
+        }
+
+        function createSpendingDoughnut() {
+            const latest = state.withExp[state.withExp.length - 1];
+            const e = latest.expenditures;
+            const total = e.total_expenditures || 1;
+            const ctx = document.getElementById('spendingDoughnut').getContext('2d');
+            state.charts.spendDoughnut = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Schools (APS)', 'Minuteman', 'Healthcare & Pensions', 'Municipal Depts', 'Capital & Debt', 'Other'],
+                    datasets: [{
+                        data: [
+                            e.school_department, e.minuteman_school, e.healthcare_pensions,
+                            e.municipal_net || e.municipal_departments,
+                            e.capital_debt,
+                            (e.non_appropriated || 0) + (total - (e.school_department||0) - (e.minuteman_school||0) - (e.healthcare_pensions||0) - (e.municipal_net||e.municipal_departments||0) - (e.capital_debt||0) - (e.non_appropriated||0))
+                        ],
+                        backgroundColor: ['#3b82f6', '#60a5fa', '#ef4444', '#14b8a6', '#d97706', '#6b7280'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'right' },
+                        title: { display: true, text: 'FY' + latest.fiscal_year },
+                        tooltip: { callbacks: { label: ctx => { const pct = ((ctx.parsed / total) * 100).toFixed(1); return ctx.label + ': ' + fmt(ctx.parsed) + ' (' + pct + '%)'; } } }
+                    }
+                }
+            });
+        }
+
+        function createMajorChart() {
+            const years = state.withExp;
+            const ctx = document.getElementById('majorChart').getContext('2d');
+            state.charts.major = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years.map(y => 'FY' + y.fiscal_year),
+                    datasets: [
+                        {
+                            label: 'Schools (APS + Minuteman)',
+                            data: years.map(y => (y.expenditures.school_department || 0) + (y.expenditures.minuteman_school || 0)),
+                            borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 2, pointRadius: 3, fill: true,
+                        },
+                        {
+                            label: 'Healthcare & Pensions',
+                            data: years.map(y => y.expenditures.healthcare_pensions || 0),
+                            borderColor: '#ef4444', backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            borderWidth: 2, pointRadius: 3, fill: true,
+                        },
+                        {
+                            label: 'Municipal Departments',
+                            data: years.map(y => y.expenditures.municipal_net || y.expenditures.municipal_departments || 0),
+                            borderColor: '#14b8a6', backgroundColor: 'rgba(20, 184, 166, 0.1)',
+                            borderWidth: 2, pointRadius: 3, fill: true,
+                        },
+                        {
+                            label: 'Capital & Debt Service',
+                            data: years.map(y => y.expenditures.capital_debt || 0),
+                            borderColor: '#d97706', backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                            borderWidth: 2, pointRadius: 3, fill: true,
+                        },
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { y: { ticks: { callback: v => '$' + (v/1e6).toFixed(0) + 'M' } } }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

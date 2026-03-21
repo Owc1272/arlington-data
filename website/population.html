@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arlington Population — Open Data Explorer</title>
+    <style>
+        :root {
+            --primary-dark: #1e3a5f;
+            --primary-blue: #3b82f6;
+            --accent-teal: #14b8a6;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --white: #ffffff;
+            --amber: #d97706;
+            --amber-dark: #92400e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .nav-brand:hover { color: var(--primary-blue); }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.nav-active {
+            color: var(--primary-blue);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--amber-dark) 0%, var(--amber) 100%);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        .loading-spinner.active { display: flex; }
+
+        /* Stats bar */
+        .stats-bar {
+            max-width: 1200px;
+            margin: -2rem auto 2rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--amber-dark);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        /* Charts */
+        .charts-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .charts-section h2 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .chart-grid-2col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 1.5rem;
+        }
+
+        .chart-card h3 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .chart-card canvas {
+            max-height: 400px;
+        }
+
+        .source-note {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.75rem;
+            font-style: italic;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-brand">Arlington Data Explorer</a>
+        <ul class="nav-links">
+            <li><a href="gis.html">GIS</a></li>
+            <li><a href="finances.html">Finances</a></li>
+            <li><a href="schools.html">Schools</a></li>
+            <li><a href="population.html" class="nav-active">Population</a></li>
+            <li><a href="crime.html">Crime</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <h1>Arlington Population</h1>
+        <p>Census demographics, housing, and income trends for Arlington, MA</p>
+    </div>
+
+    <div class="loading-spinner" id="loadingSpinner">Loading Census data...</div>
+
+    <div class="stats-bar" id="statsBar"></div>
+
+    <div class="charts-section">
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Population Over Time (1900 &ndash; 2020)</h3>
+                <canvas id="populationChart"></canvas>
+                <div class="source-note">Source: US Census Bureau, Decennial Census</div>
+            </div>
+        </div>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Age Distribution</h3>
+                <canvas id="ageChart"></canvas>
+                <div class="source-note">Source: ACS 5-Year Estimates</div>
+            </div>
+            <div class="chart-card">
+                <h3>Racial &amp; Ethnic Composition</h3>
+                <canvas id="raceChart"></canvas>
+                <div class="source-note">Source: ACS 5-Year Estimates</div>
+            </div>
+        </div>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Housing Tenure</h3>
+                <canvas id="housingChart"></canvas>
+                <div class="source-note">Source: ACS 5-Year Estimates</div>
+            </div>
+            <div class="chart-card">
+                <h3>Median Household Income</h3>
+                <canvas id="incomeChart"></canvas>
+                <div class="source-note">Source: ACS 5-Year Estimates</div>
+            </div>
+        </div>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Educational Attainment (25+)</h3>
+                <canvas id="educationChart"></canvas>
+                <div class="source-note">Source: ACS Data Profile DP02</div>
+            </div>
+            <div class="chart-card">
+                <h3>Employment &amp; Unemployment</h3>
+                <canvas id="employmentChart"></canvas>
+                <div class="source-note">Source: ACS Data Profile DP03</div>
+            </div>
+        </div>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Occupation Distribution</h3>
+                <canvas id="occupationChart"></canvas>
+                <div class="source-note">Source: ACS Data Profile DP03</div>
+            </div>
+            <div class="chart-card">
+                <h3>Commute to Work</h3>
+                <canvas id="commuteChart"></canvas>
+                <div class="source-note">Source: ACS Subject Table S0801</div>
+            </div>
+        </div>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Home Value &amp; Rent</h3>
+                <canvas id="homeValueChart"></canvas>
+                <div class="source-note">Source: ACS Data Profile DP04</div>
+            </div>
+            <div class="chart-card">
+                <h3>Housing Structure Types</h3>
+                <canvas id="structureChart"></canvas>
+                <div class="source-note">Source: ACS Data Profile DP04</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>Data Source:</strong> <a href="https://data.census.gov/" target="_blank">US Census Bureau</a></p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: March 2026</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        const state = { data: null, charts: {} };
+
+        function formatNumber(n) {
+            if (n == null) return 'N/A';
+            if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
+            if (n >= 1000) return n.toLocaleString();
+            return n.toString();
+        }
+
+        function formatMoney(n) {
+            if (n == null) return 'N/A';
+            if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
+            if (n >= 1000) return '$' + (n / 1000).toFixed(0) + 'K';
+            return '$' + n;
+        }
+
+        function setLoading(on) {
+            document.getElementById('loadingSpinner').classList.toggle('active', on);
+        }
+
+        document.addEventListener('DOMContentLoaded', async function loadData() {
+            setLoading(true);
+            try {
+                const resp = await fetch('data/population.json');
+                state.data = await resp.json();
+                renderStats();
+                createPopulationChart();
+                createAgeChart();
+                createRaceChart();
+                createHousingChart();
+                createIncomeChart();
+                createEducationChart();
+                createEmploymentChart();
+                createOccupationChart();
+                createCommuteChart();
+                createHomeValueChart();
+                createStructureChart();
+            } catch (e) {
+                console.error('Error loading data:', e);
+            }
+            setLoading(false);
+        });
+
+        function renderStats() {
+            const s = state.data.summary;
+            const bar = document.getElementById('statsBar');
+            const items = [
+                { value: formatNumber(s.current_population), label: `Population (${s.data_year})` },
+                { value: (s.growth_rate_10yr > 0 ? '+' : '') + s.growth_rate_10yr + '%', label: '10-Year Growth' },
+                { value: s.median_age, label: 'Median Age' },
+                { value: formatMoney(s.median_income), label: 'Median Income' },
+                { value: formatNumber(s.total_housing_units), label: 'Housing Units' },
+                { value: s.owner_occupied_pct + '%', label: 'Owner-Occupied' },
+            ];
+            bar.innerHTML = items.map(i => `
+                <div class="stat-card">
+                    <div class="stat-value">${i.value}</div>
+                    <div class="stat-label">${i.label}</div>
+                </div>
+            `).join('');
+        }
+
+        function createPopulationChart() {
+            const dec = state.data.decennial;
+            const ctx = document.getElementById('populationChart').getContext('2d');
+            state.charts.population = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dec.map(d => d.year),
+                    datasets: [{
+                        label: 'Population',
+                        data: dec.map(d => d.population),
+                        borderColor: '#d97706',
+                        backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                        borderWidth: 3,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#d97706',
+                        fill: true,
+                        tension: 0.3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => ctx.parsed.y.toLocaleString() + ' residents'
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: { callback: v => (v / 1000).toFixed(0) + 'K' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createAgeChart() {
+            const acs = state.data.acs_annual;
+            // Show first, middle, and latest years
+            const years = [acs[0], acs[Math.floor(acs.length / 2)], acs[acs.length - 1]];
+            const labels = ['Under 5', '5-9', '10-14', '15-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75+'];
+            const keys = ['under_5', '5_to_9', '10_to_14', '15_to_17', '18_to_24', '25_to_34', '35_to_44', '45_to_54', '55_to_64', '65_to_74', '75_plus'];
+            const colors = ['rgba(217, 119, 6, 0.7)', 'rgba(59, 130, 246, 0.7)', 'rgba(20, 184, 166, 0.7)'];
+
+            const ctx = document.getElementById('ageChart').getContext('2d');
+            state.charts.age = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: years.map((y, i) => ({
+                        label: y.year.toString(),
+                        data: keys.map(k => y.age_distribution[k] || 0),
+                        backgroundColor: colors[i],
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top' },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { callback: v => (v / 1000).toFixed(1) + 'K' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createRaceChart() {
+            const latest = state.data.acs_annual[state.data.acs_annual.length - 1];
+            const race = latest.race;
+            const total = latest.total_population;
+            // Calculate "other" as remainder
+            const known = (race.white || 0) + (race.black || 0) + (race.asian || 0) + (race.two_or_more || 0) + (race.hispanic_latino || 0);
+            const other = Math.max(0, total - (race.white || 0) - (race.black || 0) - (race.asian || 0) - (race.two_or_more || 0));
+
+            const ctx = document.getElementById('raceChart').getContext('2d');
+            state.charts.race = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['White', 'Asian', 'Hispanic/Latino', 'Black', 'Two or More', 'Other'],
+                    datasets: [{
+                        data: [race.white, race.asian, race.hispanic_latino, race.black, race.two_or_more, other],
+                        backgroundColor: [
+                            '#3b82f6', '#d97706', '#14b8a6', '#ef4444', '#8b5cf6', '#6b7280'
+                        ],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'right' },
+                        title: { display: true, text: latest.year + ' Data' },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => {
+                                    const pct = ((ctx.parsed / total) * 100).toFixed(1);
+                                    return ctx.label + ': ' + ctx.parsed.toLocaleString() + ' (' + pct + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createHousingChart() {
+            const acs = state.data.acs_annual;
+            const ctx = document.getElementById('housingChart').getContext('2d');
+            state.charts.housing = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: acs.map(d => d.year),
+                    datasets: [
+                        {
+                            label: 'Owner-Occupied',
+                            data: acs.map(d => d.housing.owner_occupied),
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        },
+                        {
+                            label: 'Renter-Occupied',
+                            data: acs.map(d => d.housing.renter_occupied),
+                            backgroundColor: 'rgba(20, 184, 166, 0.7)',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top' } },
+                    scales: {
+                        x: { stacked: true },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            ticks: { callback: v => (v / 1000).toFixed(0) + 'K' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createIncomeChart() {
+            const acs = state.data.acs_annual;
+            const ctx = document.getElementById('incomeChart').getContext('2d');
+            state.charts.income = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: acs.map(d => d.year),
+                    datasets: [
+                        {
+                            label: 'Median Household Income',
+                            data: acs.map(d => d.income.median_household),
+                            borderColor: '#d97706',
+                            backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            fill: true,
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: 'Below Poverty Level',
+                            data: acs.map(d => d.income.below_poverty),
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            fill: true,
+                            yAxisID: 'y1',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { legend: { position: 'top' } },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: { display: true, text: 'Income ($)' },
+                            ticks: { callback: v => '$' + (v / 1000).toFixed(0) + 'K' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: { display: true, text: 'Below Poverty' },
+                            grid: { drawOnChartArea: false },
+                            ticks: { callback: v => v.toLocaleString() }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createEducationChart() {
+            const add = state.data.additional;
+            // Show first, middle, latest
+            const picks = [add[0], add[Math.floor(add.length / 2)], add[add.length - 1]];
+            const labels = ['< 9th Grade', 'No Diploma', 'High School', 'Some College', "Associate's", "Bachelor's", 'Graduate'];
+            const keys = ['less_than_9th', 'no_diploma', 'high_school', 'some_college', 'associates', 'bachelors', 'graduate'];
+            const colors = ['rgba(217, 119, 6, 0.7)', 'rgba(59, 130, 246, 0.7)', 'rgba(20, 184, 166, 0.7)'];
+
+            const ctx = document.getElementById('educationChart').getContext('2d');
+            state.charts.education = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: picks.map((p, i) => ({
+                        label: p.year.toString(),
+                        data: keys.map(k => (p.education && p.education[k]) || 0),
+                        backgroundColor: colors[i],
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { y: { beginAtZero: true, ticks: { callback: v => (v/1000).toFixed(1) + 'K' } } }
+                }
+            });
+        }
+
+        function createEmploymentChart() {
+            const add = state.data.additional;
+            const ctx = document.getElementById('employmentChart').getContext('2d');
+            state.charts.employment = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: add.map(d => d.year),
+                    datasets: [
+                        {
+                            label: 'Employed',
+                            data: add.map(d => d.employment ? d.employment.employed : null),
+                            borderColor: '#14b8a6',
+                            backgroundColor: 'rgba(20, 184, 166, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            fill: true,
+                        },
+                        {
+                            label: 'Unemployed',
+                            data: add.map(d => d.employment ? d.employment.unemployed : null),
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            fill: true,
+                            yAxisID: 'y1',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { legend: { position: 'top' } },
+                    scales: {
+                        y: {
+                            title: { display: true, text: 'Employed' },
+                            ticks: { callback: v => (v/1000).toFixed(0) + 'K' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: { display: true, text: 'Unemployed' },
+                            grid: { drawOnChartArea: false },
+                        }
+                    }
+                }
+            });
+        }
+
+        function createOccupationChart() {
+            const add = state.data.additional;
+            const latest = add[add.length - 1];
+            const occ = latest.occupation || {};
+            const ctx = document.getElementById('occupationChart').getContext('2d');
+            state.charts.occupation = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Mgmt/Business/Science/Arts', 'Service', 'Sales & Office', 'Construction/Maintenance', 'Production/Transport'],
+                    datasets: [{
+                        data: [
+                            occ.mgmt_business_science_arts,
+                            occ.service,
+                            occ.sales_office,
+                            occ.construction_maintenance,
+                            occ.production_transportation,
+                        ],
+                        backgroundColor: ['#3b82f6', '#d97706', '#14b8a6', '#8b5cf6', '#ef4444'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'right' },
+                        title: { display: true, text: latest.year + ' Data' },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => {
+                                    const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                                    const pct = ((ctx.parsed / total) * 100).toFixed(1);
+                                    return ctx.label + ': ' + ctx.parsed.toLocaleString() + ' (' + pct + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createCommuteChart() {
+            const add = state.data.additional.filter(d => d.commute);
+            const ctx = document.getElementById('commuteChart').getContext('2d');
+            state.charts.commute = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: add.map(d => d.year),
+                    datasets: [
+                        {
+                            label: 'Drove Alone',
+                            data: add.map(d => d.commute.drove_alone_pct),
+                            borderColor: '#3b82f6',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                        },
+                        {
+                            label: 'Public Transit',
+                            data: add.map(d => d.commute.public_transit_pct),
+                            borderColor: '#14b8a6',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                        },
+                        {
+                            label: 'Work from Home',
+                            data: add.map(d => d.commute.wfh_pct),
+                            borderColor: '#d97706',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                        },
+                        {
+                            label: 'Walk/Bike',
+                            data: add.map(d => (d.commute.walked_pct || 0) + (d.commute.bicycle_pct || 0)),
+                            borderColor: '#8b5cf6',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                        },
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'top' } },
+                    scales: {
+                        y: {
+                            title: { display: true, text: '% of Workers' },
+                            beginAtZero: true,
+                            ticks: { callback: v => v + '%' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createHomeValueChart() {
+            const add = state.data.additional;
+            const ctx = document.getElementById('homeValueChart').getContext('2d');
+            state.charts.homeValue = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: add.map(d => d.year),
+                    datasets: [
+                        {
+                            label: 'Median Home Value',
+                            data: add.map(d => d.housing_detail ? d.housing_detail.median_home_value : null),
+                            borderColor: '#d97706',
+                            backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            fill: true,
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: 'Median Rent',
+                            data: add.map(d => d.housing_detail ? d.housing_detail.median_rent : null),
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            fill: true,
+                            yAxisID: 'y1',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { legend: { position: 'top' } },
+                    scales: {
+                        y: {
+                            title: { display: true, text: 'Home Value' },
+                            ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: { display: true, text: 'Monthly Rent' },
+                            grid: { drawOnChartArea: false },
+                            ticks: { callback: v => '$' + v.toLocaleString() }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createStructureChart() {
+            const add = state.data.additional;
+            const latest = add[add.length - 1];
+            const s = latest.housing_structure || {};
+            const ctx = document.getElementById('structureChart').getContext('2d');
+            state.charts.structure = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Single Detached', 'Single Attached', '2 Units', '3-4 Units', '5-9 Units', '10-19 Units', '20+ Units'],
+                    datasets: [{
+                        data: [
+                            s.single_detached, s.single_attached, s.two_units,
+                            s.three_four, s.five_nine, s.ten_nineteen, s.twenty_plus,
+                        ],
+                        backgroundColor: ['#3b82f6', '#60a5fa', '#14b8a6', '#d97706', '#f59e0b', '#8b5cf6', '#ef4444'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'right' },
+                        title: { display: true, text: latest.year + ' Data' },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => {
+                                    const total = ctx.dataset.data.reduce((a, b) => (a||0) + (b||0), 0);
+                                    const pct = ((ctx.parsed / total) * 100).toFixed(1);
+                                    return ctx.label + ': ' + ctx.parsed.toLocaleString() + ' (' + pct + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

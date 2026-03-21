@@ -1,0 +1,391 @@
+{
+  "generated": "2026-03-21T13:07:28.665631",
+  "source": "Arlington Town Manager Annual Budget & Financial Plan",
+  "years": [
+    {
+      "fiscal_year": 2006,
+      "revenue": {
+        "property_tax": 73525801,
+        "local_receipts": 8448336,
+        "state_aid": 14790887,
+        "free_cash": 1614155,
+        "total_revenue": 101111734
+      },
+      "expenditures": {}
+    },
+    {
+      "fiscal_year": 2007,
+      "revenue": {
+        "property_tax": 76464202,
+        "local_receipts": 8768336,
+        "state_aid": 15841023,
+        "free_cash": 1939695,
+        "total_revenue": 105518045
+      },
+      "expenditures": {}
+    },
+    {
+      "fiscal_year": 2008,
+      "revenue": {
+        "property_tax": 78511864,
+        "local_receipts": 8818336,
+        "state_aid": 16441023,
+        "free_cash": 1000000,
+        "total_revenue": 107246730
+      },
+      "expenditures": {}
+    },
+    {
+      "fiscal_year": 2009,
+      "revenue": {
+        "property_tax": 80526701,
+        "local_receipts": 8518336,
+        "state_aid": 17041023,
+        "free_cash": 1000000,
+        "total_revenue": 110982776
+      },
+      "expenditures": {}
+    },
+    {
+      "fiscal_year": 2010,
+      "revenue": {
+        "property_tax": 83471036,
+        "local_receipts": 8026872,
+        "state_aid": 14240565,
+        "free_cash": 1497907,
+        "other_funds": 3242376,
+        "total_revenue": 113759168
+      },
+      "expenditures": {
+        "school_department": 38455380,
+        "minuteman_school": 3090368,
+        "healthcare_pensions": 24615007,
+        "capital_debt": 8107764,
+        "total_expenditures": 108432966,
+        "non_appropriated": 5326202
+      }
+    },
+    {
+      "fiscal_year": 2011,
+      "revenue": {
+        "property_tax": 85826180,
+        "local_receipts": 8860000,
+        "state_aid": 13701410,
+        "free_cash": 582050,
+        "other_funds": 2080000,
+        "total_revenue": 114300653
+      },
+      "expenditures": {
+        "school_department": 39306114,
+        "minuteman_school": 2739795,
+        "healthcare_pensions": 26320673,
+        "capital_debt": 7967673,
+        "total_expenditures": 110277329,
+        "non_appropriated": 4023324
+      }
+    },
+    {
+      "fiscal_year": 2012,
+      "revenue": {
+        "property_tax": 88587262,
+        "local_receipts": 8910000,
+        "state_aid": 13341134,
+        "free_cash": 385249,
+        "other_funds": 200000,
+        "total_revenue": 113954730
+      },
+      "expenditures": {
+        "school_department": 38516006,
+        "minuteman_school": 2352988,
+        "healthcare_pensions": 27351086,
+        "capital_debt": 8448540,
+        "total_expenditures": 109793986,
+        "non_appropriated": 4160744
+      }
+    },
+    {
+      "fiscal_year": 2013,
+      "revenue": {
+        "property_tax": 97746811,
+        "local_receipts": 8590000,
+        "state_aid": 14574468,
+        "free_cash": 600000,
+        "other_funds": 200000,
+        "total_revenue": 124186075
+      },
+      "expenditures": {
+        "school_department": 44642598,
+        "minuteman_school": 3087595,
+        "healthcare_pensions": 23439736,
+        "capital_debt": 9156250,
+        "total_expenditures": 119654668,
+        "non_appropriated": 4531407
+      }
+    },
+    {
+      "fiscal_year": 2014,
+      "revenue": {
+        "property_tax": 101039058,
+        "local_receipts": 8505000,
+        "state_aid": 16505918,
+        "free_cash": 3411528,
+        "other_funds": 100000,
+        "total_revenue": 132036277
+      },
+      "expenditures": {
+        "school_department": 47675113,
+        "minuteman_school": 3336935,
+        "healthcare_pensions": 22899397,
+        "capital_debt": 9831310,
+        "total_expenditures": 127602868,
+        "non_appropriated": 4433409
+      }
+    },
+    {
+      "fiscal_year": 2015,
+      "revenue": {
+        "property_tax": 104560424,
+        "local_receipts": 8821000,
+        "state_aid": 17472050,
+        "free_cash": 3042925,
+        "other_funds": 350000,
+        "total_revenue": 136721171
+      },
+      "expenditures": {
+        "school_department": 50729968,
+        "minuteman_school": 3788615,
+        "healthcare_pensions": 24070099,
+        "capital_debt": 9918750,
+        "total_expenditures": 131721185,
+        "non_appropriated": 4999986
+      }
+    },
+    {
+      "fiscal_year": 2016,
+      "revenue": {
+        "property_tax": 108145113,
+        "local_receipts": 8896000,
+        "state_aid": 18230770,
+        "free_cash": 3435846,
+        "other_funds": 200000,
+        "total_revenue": 141382502
+      },
+      "expenditures": {
+        "school_department": 53574114,
+        "minuteman_school": 4010950,
+        "healthcare_pensions": 25499823,
+        "capital_debt": 10231100,
+        "total_expenditures": 136115452,
+        "non_appropriated": 5267050
+      }
+    },
+    {
+      "fiscal_year": 2017,
+      "revenue": {
+        "property_tax": 111926606,
+        "local_receipts": 8971000,
+        "state_aid": 18639576,
+        "free_cash": 4537299,
+        "other_funds": 200000,
+        "total_revenue": 146749254
+      },
+      "expenditures": {
+        "school_department": 57001333,
+        "minuteman_school": 3649349,
+        "healthcare_pensions": 26562327,
+        "capital_debt": 11192534,
+        "total_expenditures": 142212220,
+        "non_appropriated": 4537034
+      }
+    },
+    {
+      "fiscal_year": 2018,
+      "revenue": {
+        "property_tax": 117255201,
+        "local_receipts": 9071000,
+        "state_aid": 19207063,
+        "free_cash": 4850566,
+        "other_funds": 500000,
+        "total_revenue": 154936535
+      },
+      "expenditures": {
+        "municipal_departments": 37036557,
+        "municipal_net": 34599766,
+        "school_department": 60928485,
+        "minuteman_school": 4291333,
+        "healthcare_pensions": 27381296,
+        "capital_debt": 11523825,
+        "total_expenditures": 147354748,
+        "non_appropriated": 5144996
+      }
+    },
+    {
+      "fiscal_year": 2019,
+      "revenue": {
+        "property_tax": 123722451,
+        "local_receipts": 9171000,
+        "state_aid": 19958018,
+        "free_cash": 4593375,
+        "other_funds": 200000,
+        "total_revenue": 163398260
+      },
+      "expenditures": {
+        "municipal_departments": 38214820,
+        "municipal_net": 35724258,
+        "school_department": 66253022,
+        "minuteman_school": 4936724,
+        "healthcare_pensions": 27924645,
+        "capital_debt": 12857157,
+        "total_expenditures": 155995342,
+        "non_appropriated": 4912356
+      }
+    },
+    {
+      "fiscal_year": 2020,
+      "revenue": {
+        "property_tax": 133239908,
+        "local_receipts": 9871000,
+        "state_aid": 22439702,
+        "free_cash": 5559782,
+        "other_funds": 200000,
+        "total_revenue": 174367148
+      },
+      "expenditures": {
+        "municipal_departments": 39715529,
+        "municipal_net": 37135296,
+        "school_department": 71427139,
+        "minuteman_school": 5384690,
+        "healthcare_pensions": 29247782,
+        "capital_debt": 13196044,
+        "total_expenditures": 166952549,
+        "non_appropriated": 4834366
+      }
+    },
+    {
+      "fiscal_year": 2021,
+      "revenue": {
+        "property_tax": 138039612,
+        "local_receipts": 9871000,
+        "state_aid": 21043298,
+        "free_cash": 5901388,
+        "other_funds": 400000,
+        "total_revenue": 180398215
+      },
+      "expenditures": {
+        "municipal_departments": 40516044,
+        "municipal_net": 37873847,
+        "school_department": 75570531,
+        "minuteman_school": 6113371,
+        "healthcare_pensions": 30780027,
+        "capital_debt": 16280134,
+        "total_expenditures": 172882087,
+        "non_appropriated": 4873931
+      }
+    },
+    {
+      "fiscal_year": 2022,
+      "revenue": {
+        "property_tax": 142742625,
+        "local_receipts": 8873350,
+        "state_aid": 23532421,
+        "free_cash": 5659184,
+        "other_funds": 400000,
+        "total_revenue": 190372207
+      },
+      "expenditures": {
+        "municipal_departments": 41755150,
+        "municipal_net": 38839104,
+        "school_department": 80104634,
+        "minuteman_school": 6795456,
+        "healthcare_pensions": 32848298,
+        "capital_debt": 18073998,
+        "total_expenditures": 182375728,
+        "non_appropriated": 5080433
+      }
+    },
+    {
+      "fiscal_year": 2023,
+      "revenue": {
+        "property_tax": 148700283,
+        "local_receipts": 9225900,
+        "state_aid": 24923804,
+        "free_cash": 5539215,
+        "other_funds": 400000,
+        "total_revenue": 200363474
+      },
+      "expenditures": {
+        "municipal_departments": 43177153,
+        "municipal_net": 39976735,
+        "school_department": 84447869,
+        "minuteman_school": 7947938,
+        "healthcare_pensions": 35140146,
+        "capital_debt": 21949893,
+        "total_expenditures": 192603765,
+        "non_appropriated": 4559291
+      }
+    },
+    {
+      "fiscal_year": 2024,
+      "revenue": {
+        "property_tax": 153571408,
+        "local_receipts": 9855994,
+        "state_aid": 28125135,
+        "free_cash": 7956044,
+        "other_funds": 600000,
+        "total_revenue": 208957992
+      },
+      "expenditures": {
+        "municipal_departments": 44627453,
+        "municipal_net": 41369998,
+        "school_department": 88947334,
+        "minuteman_school": 8940897,
+        "healthcare_pensions": 36211557,
+        "capital_debt": 22380767,
+        "total_expenditures": 201013570,
+        "non_appropriated": 4686967
+      }
+    },
+    {
+      "fiscal_year": 2025,
+      "revenue": {
+        "property_tax": 165708017,
+        "local_receipts": 10255994,
+        "state_aid": 28603013,
+        "free_cash": 8941936,
+        "other_funds": 750000,
+        "total_revenue": 221852436
+      },
+      "expenditures": {
+        "municipal_departments": 46176033,
+        "municipal_net": 42957347,
+        "school_department": 96521248,
+        "minuteman_school": 8562229,
+        "healthcare_pensions": 38236626,
+        "capital_debt": 23969034,
+        "total_expenditures": 213882204,
+        "non_appropriated": 4751546
+      }
+    },
+    {
+      "fiscal_year": 2026,
+      "revenue": {
+        "property_tax": 171221353,
+        "local_receipts": 10443994,
+        "state_aid": 29836872,
+        "free_cash": 10298997,
+        "other_funds": 750000,
+        "total_revenue": 234818011
+      },
+      "expenditures": {
+        "municipal_departments": 47628844,
+        "municipal_net": 44346094,
+        "school_department": 103630672,
+        "minuteman_school": 8347090,
+        "healthcare_pensions": 42076404,
+        "capital_debt": 24582154,
+        "total_expenditures": 226568955,
+        "non_appropriated": 4966306
+      }
+    }
+  ]
+}

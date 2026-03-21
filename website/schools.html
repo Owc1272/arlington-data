@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arlington Schools — Open Data Explorer</title>
+    <style>
+        :root { --primary-dark: #1e3a5f; --primary-blue: #3b82f6; --accent-teal: #14b8a6; --light-bg: #f8fafc; --border-color: #e2e8f0; --text-dark: #1f2937; --text-light: #6b7280; --white: #ffffff; --purple-dark: #4a1942; --purple: #7b2d6e; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: var(--light-bg); color: var(--text-dark); line-height: 1.6; }
+        nav { position: sticky; top: 0; background: var(--white); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .nav-brand { font-size: 1.25rem; font-weight: 700; color: var(--primary-dark); text-decoration: none; }
+        .nav-brand:hover { color: var(--primary-blue); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.nav-active { color: var(--primary-blue); }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+        .hero { background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple) 100%); color: var(--white); padding: 4rem 2rem; text-align: center; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; }
+        .loading-spinner { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 1000; justify-content: center; align-items: center; font-size: 1.2rem; color: var(--text-light); }
+        .loading-spinner.active { display: flex; }
+        .stats-bar { max-width: 1200px; margin: -2rem auto 2rem; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; position: relative; z-index: 10; }
+        .stat-card { background: var(--white); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1.25rem; text-align: center; }
+        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--purple-dark); }
+        .stat-label { font-size: 0.85rem; color: var(--text-light); margin-top: 0.25rem; }
+        .charts-section { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+        .chart-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .chart-grid-2col { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        @media (max-width: 768px) { .chart-grid-2col { grid-template-columns: 1fr; } }
+        .chart-card { background: var(--white); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 1.5rem; }
+        .chart-card h3 { font-size: 1.1rem; color: var(--primary-dark); margin-bottom: 1rem; }
+        .chart-card canvas { max-height: 400px; }
+        .source-note { font-size: 0.8rem; color: var(--text-light); margin-top: 0.75rem; font-style: italic; }
+        footer { text-align: center; padding: 2rem; color: var(--text-light); border-top: 1px solid var(--border-color); margin-top: 3rem; }
+        footer a { color: var(--primary-blue); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-brand">Arlington Data Explorer</a>
+        <ul class="nav-links">
+            <li><a href="gis.html">GIS</a></li>
+            <li><a href="finances.html">Finances</a></li>
+            <li><a href="schools.html" class="nav-active">Schools</a></li>
+            <li><a href="population.html">Population</a></li>
+            <li><a href="crime.html">Crime</a></li>
+        </ul>
+    </nav>
+    <div class="hero">
+        <h1>Arlington Schools</h1>
+        <p>Enrollment, performance, staffing, and spending data for Arlington Public Schools</p>
+    </div>
+    <div class="loading-spinner" id="loadingSpinner">Loading school data...</div>
+    <div class="stats-bar" id="statsBar"></div>
+    <div class="charts-section">
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Enrollment Over Time</h3>
+                <canvas id="enrollmentChart"></canvas>
+                <div class="source-note">Source: MA DESE Enrollment Data</div>
+            </div>
+        </div>
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Enrollment by Grade Level (Latest Year)</h3>
+                <canvas id="gradeChart"></canvas>
+                <div class="source-note">Source: MA DESE</div>
+            </div>
+            <div class="chart-card">
+                <h3>Student Demographics</h3>
+                <canvas id="demoChart"></canvas>
+                <div class="source-note">Source: MA DESE</div>
+            </div>
+        </div>
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>MCAS Proficiency (% Meeting/Exceeding Expectations)</h3>
+                <canvas id="mcasChart"></canvas>
+                <div class="source-note">Source: MA DESE MCAS Legacy Results</div>
+            </div>
+            <div class="chart-card">
+                <h3>Graduation &amp; Dropout Rates</h3>
+                <canvas id="gradChart"></canvas>
+                <div class="source-note">Source: MA DESE</div>
+            </div>
+        </div>
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Teachers &amp; Student-Teacher Ratio</h3>
+                <canvas id="teacherChart"></canvas>
+                <div class="source-note">Source: MA DESE Teacher Data</div>
+            </div>
+            <div class="chart-card">
+                <h3>Average Class Size</h3>
+                <canvas id="classSizeChart"></canvas>
+                <div class="source-note">Source: MA DESE</div>
+            </div>
+        </div>
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Per-Pupil Spending &amp; Net School Spending</h3>
+                <canvas id="spendingChart"></canvas>
+                <div class="source-note">Source: MA DESE Finance Data</div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p><strong>Data Source:</strong> <a href="https://profiles.doe.mass.edu/profiles/student.aspx?orgcode=00100000&orgtypecode=5" target="_blank">MA DESE Arlington District Profile</a></p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: March 2026</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        const state = { data: null, charts: {} };
+
+        function fmt(n) {
+            if (n == null) return 'N/A';
+            if (Math.abs(n) >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+            if (Math.abs(n) >= 1e3) return n.toLocaleString();
+            return n.toString();
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            document.getElementById('loadingSpinner').classList.add('active');
+            try {
+                const resp = await fetch('data/schools.json');
+                state.data = await resp.json();
+                renderStats();
+                createEnrollmentChart();
+                createGradeChart();
+                createDemoChart();
+                createMcasChart();
+                createGradChart();
+                createTeacherChart();
+                createClassSizeChart();
+                createSpendingChart();
+            } catch(e) { console.error('Error:', e); }
+            document.getElementById('loadingSpinner').classList.remove('active');
+        });
+
+        function renderStats() {
+            const s = state.data.summary;
+            const items = [
+                { value: fmt(s.enrollment), label: 'Students (' + s.enrollment_year + ')' },
+                { value: s.student_teacher_ratio + ':1', label: 'Student-Teacher Ratio' },
+                { value: s.graduation_rate + '%', label: 'Graduation Rate' },
+                { value: fmt(s.teacher_fte), label: 'Teachers (FTE)' },
+                { value: fmt(s.staff_fte), label: 'Total Staff (FTE)' },
+                { value: s.high_needs_pct + '%', label: 'High Needs' },
+            ];
+            document.getElementById('statsBar').innerHTML = items.map(i => `
+                <div class="stat-card"><div class="stat-value">${i.value}</div><div class="stat-label">${i.label}</div></div>
+            `).join('');
+        }
+
+        function createEnrollmentChart() {
+            const d = state.data.enrollment;
+            new Chart(document.getElementById('enrollmentChart'), {
+                type: 'line',
+                data: {
+                    labels: d.map(r => r.year),
+                    datasets: [{
+                        label: 'Total Enrollment',
+                        data: d.map(r => r.total),
+                        borderColor: '#7b2d6e', backgroundColor: 'rgba(123,45,110,0.1)',
+                        borderWidth: 2, pointRadius: 3, fill: true,
+                    }]
+                },
+                options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false } } }
+            });
+        }
+
+        function createGradeChart() {
+            const latest = state.data.enrollment[state.data.enrollment.length - 1];
+            const g = latest.by_grade;
+            const labels = ['PK','K','1','2','3','4','5','6','7','8','9','10','11','12'];
+            const keys = ['pk','k','g1','g2','g3','g4','g5','g6','g7','g8','g9','g10','g11','g12'];
+            new Chart(document.getElementById('gradeChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Students',
+                        data: keys.map(k => g[k] || 0),
+                        backgroundColor: 'rgba(123,45,110,0.7)',
+                    }]
+                },
+                options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: latest.year + ' Data' } }, scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+        function createDemoChart() {
+            const latest = state.data.enrollment[state.data.enrollment.length - 1];
+            const r = latest.race_pct;
+            new Chart(document.getElementById('demoChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['White', 'Asian', 'Multiracial', 'Hispanic', 'Black'],
+                    datasets: [{ data: [r.white, r.asian, r.multiracial, r.hispanic, r.black], backgroundColor: ['#3b82f6','#d97706','#8b5cf6','#14b8a6','#ef4444'] }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'right' }, title: { display: true, text: latest.year + ' Data' },
+                        tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed.toFixed(1) + '%' } }
+                    }
+                }
+            });
+        }
+
+        function createMcasChart() {
+            const d = state.data.mcas;
+            const ela = d.filter(r => r.subject === 'ELA').sort((a,b) => a.year - b.year);
+            const math = d.filter(r => r.subject === 'MTH').sort((a,b) => a.year - b.year);
+            const allYears = [...new Set([...ela.map(r=>r.year), ...math.map(r=>r.year)])].sort();
+            new Chart(document.getElementById('mcasChart'), {
+                type: 'line',
+                data: {
+                    labels: allYears,
+                    datasets: [
+                        { label: 'ELA', data: allYears.map(y => { const r = ela.find(e => e.year === y); return r ? r.proficient_advanced_pct : null; }), borderColor: '#3b82f6', borderWidth: 2, pointRadius: 3, spanGaps: true },
+                        { label: 'Math', data: allYears.map(y => { const r = math.find(e => e.year === y); return r ? r.proficient_advanced_pct : null; }), borderColor: '#d97706', borderWidth: 2, pointRadius: 3, spanGaps: true },
+                    ]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { min: 0, max: 100, ticks: { callback: v => v + '%' } } } }
+            });
+        }
+
+        function createGradChart() {
+            const grad = state.data.graduation;
+            const drop = state.data.dropout;
+            const allYears = [...new Set([...grad.map(r=>r.year), ...drop.map(r=>r.year)])].sort();
+            new Chart(document.getElementById('gradChart'), {
+                type: 'line',
+                data: {
+                    labels: allYears,
+                    datasets: [
+                        { label: 'Graduation Rate', data: allYears.map(y => { const r = grad.find(e => e.year === y); return r ? r.graduation_rate_4yr : null; }), borderColor: '#14b8a6', borderWidth: 2, pointRadius: 3, yAxisID: 'y', spanGaps: true },
+                        { label: 'Dropout Rate', data: allYears.map(y => { const r = drop.find(e => e.year === y); return r ? r.dropout_rate : null; }), borderColor: '#ef4444', borderWidth: 2, pointRadius: 3, yAxisID: 'y1', spanGaps: true },
+                    ]
+                },
+                options: {
+                    responsive: true, plugins: { legend: { position: 'top' } },
+                    scales: {
+                        y: { title: { display: true, text: 'Graduation %' }, min: 85, max: 100, ticks: { callback: v => v + '%' } },
+                        y1: { type: 'linear', display: true, position: 'right', title: { display: true, text: 'Dropout %' }, min: 0, max: 5, grid: { drawOnChartArea: false }, ticks: { callback: v => v + '%' } }
+                    }
+                }
+            });
+        }
+
+        function createTeacherChart() {
+            const t = state.data.teachers;
+            new Chart(document.getElementById('teacherChart'), {
+                type: 'line',
+                data: {
+                    labels: t.map(r => r.year),
+                    datasets: [
+                        { label: 'Teacher FTE', data: t.map(r => r.teacher_fte), borderColor: '#7b2d6e', borderWidth: 2, pointRadius: 3, yAxisID: 'y' },
+                        { label: 'Student-Teacher Ratio', data: t.map(r => r.student_teacher_ratio), borderColor: '#d97706', borderWidth: 2, pointRadius: 3, yAxisID: 'y1' },
+                    ]
+                },
+                options: {
+                    responsive: true, plugins: { legend: { position: 'top' } },
+                    scales: {
+                        y: { title: { display: true, text: 'Teachers (FTE)' } },
+                        y1: { type: 'linear', display: true, position: 'right', title: { display: true, text: 'Ratio' }, grid: { drawOnChartArea: false } }
+                    }
+                }
+            });
+        }
+
+        function createClassSizeChart() {
+            const c = state.data.class_size;
+            new Chart(document.getElementById('classSizeChart'), {
+                type: 'line',
+                data: {
+                    labels: c.map(r => r.year),
+                    datasets: [{ label: 'Avg Class Size', data: c.map(r => r.avg_class_size), borderColor: '#14b8a6', backgroundColor: 'rgba(20,184,166,0.1)', borderWidth: 2, pointRadius: 3, fill: true }]
+                },
+                options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false, title: { display: true, text: 'Students per Class' } } } }
+            });
+        }
+
+        function createSpendingChart() {
+            const nss = state.data.nss;
+            if (!nss.length) return;
+            new Chart(document.getElementById('spendingChart'), {
+                type: 'line',
+                data: {
+                    labels: nss.map(r => 'FY' + r.year),
+                    datasets: [
+                        { label: 'Actual Net School Spending', data: nss.map(r => r.actual_nss), borderColor: '#7b2d6e', backgroundColor: 'rgba(123,45,110,0.1)', borderWidth: 2, pointRadius: 3, fill: true },
+                        { label: 'Required NSS', data: nss.map(r => r.required_nss), borderColor: '#ef4444', borderWidth: 2, pointRadius: 3, borderDash: [5,5] },
+                        { label: 'Foundation Budget', data: nss.map(r => r.foundation_budget), borderColor: '#6b7280', borderWidth: 2, pointRadius: 3, borderDash: [3,3] },
+                    ]
+                },
+                options: {
+                    responsive: true, plugins: { legend: { position: 'top' } },
+                    scales: { y: { ticks: { callback: v => '$' + (v/1e6).toFixed(0) + 'M' } } }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

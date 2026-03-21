@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arlington Crime — Open Data Explorer</title>
+    <style>
+        :root { --primary-dark: #1e3a5f; --primary-blue: #3b82f6; --accent-teal: #14b8a6; --light-bg: #f8fafc; --border-color: #e2e8f0; --text-dark: #1f2937; --text-light: #6b7280; --white: #ffffff; --red-dark: #7f1d1d; --red: #b91c1c; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: var(--light-bg); color: var(--text-dark); line-height: 1.6; }
+        nav { position: sticky; top: 0; background: var(--white); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .nav-brand { font-size: 1.25rem; font-weight: 700; color: var(--primary-dark); text-decoration: none; }
+        .nav-brand:hover { color: var(--primary-blue); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-dark); font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.nav-active { color: var(--primary-blue); }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+        .hero { background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 100%); color: var(--white); padding: 4rem 2rem; text-align: center; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; }
+        .stats-bar { max-width: 1200px; margin: -2rem auto 2rem; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; position: relative; z-index: 10; }
+        .stat-card { background: var(--white); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1.25rem; text-align: center; }
+        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--red-dark); }
+        .stat-label { font-size: 0.85rem; color: var(--text-light); margin-top: 0.25rem; }
+        .charts-section { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+        .chart-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2rem; }
+        .chart-grid-2col { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        @media (max-width: 768px) { .chart-grid-2col { grid-template-columns: 1fr; } }
+        .chart-card { background: var(--white); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 1.5rem; }
+        .chart-card h3 { font-size: 1.1rem; color: var(--primary-dark); margin-bottom: 1rem; }
+        .chart-card canvas { max-height: 400px; }
+        .source-note { font-size: 0.8rem; color: var(--text-light); margin-top: 0.75rem; font-style: italic; }
+        footer { text-align: center; padding: 2rem; color: var(--text-light); border-top: 1px solid var(--border-color); margin-top: 3rem; }
+        footer a { color: var(--primary-blue); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-brand">Arlington Data Explorer</a>
+        <ul class="nav-links">
+            <li><a href="gis.html">GIS</a></li>
+            <li><a href="finances.html">Finances</a></li>
+            <li><a href="schools.html">Schools</a></li>
+            <li><a href="population.html">Population</a></li>
+            <li><a href="crime.html" class="nav-active">Crime</a></li>
+        </ul>
+    </nav>
+    <div class="hero">
+        <h1>Arlington Crime</h1>
+        <p>FBI Uniform Crime Reporting data for Arlington Police Department</p>
+    </div>
+    <div class="stats-bar" id="statsBar"></div>
+    <div class="charts-section">
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Total Crime Trends (2002 &ndash; 2023)</h3>
+                <canvas id="totalChart"></canvas>
+                <div class="source-note">Source: FBI Crime Data Explorer — Summarized (SRS) Data</div>
+            </div>
+        </div>
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Violent Crime by Type</h3>
+                <canvas id="violentChart"></canvas>
+                <div class="source-note">Source: FBI CDE</div>
+            </div>
+            <div class="chart-card">
+                <h3>Property Crime by Type</h3>
+                <canvas id="propertyChart"></canvas>
+                <div class="source-note">Source: FBI CDE</div>
+            </div>
+        </div>
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Crime Breakdown (Latest Year)</h3>
+                <canvas id="breakdownChart"></canvas>
+                <div class="source-note">Source: FBI CDE</div>
+            </div>
+            <div class="chart-card">
+                <h3>NIBRS Offenses (2021&ndash;2023)</h3>
+                <canvas id="nibrsChart"></canvas>
+                <div class="source-note">Source: FBI CDE — NIBRS Data</div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p><strong>Data Source:</strong> <a href="https://cde.ucr.cjis.gov/LATEST/webapp/#/pages/home" target="_blank">FBI Crime Data Explorer</a></p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Agency: Arlington Police Department (ORI: MA0090200)</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        const state = { data: null };
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const resp = await fetch('data/crime.json');
+                state.data = await resp.json();
+                renderStats();
+                createTotalChart();
+                createViolentChart();
+                createPropertyChart();
+                createBreakdownChart();
+                createNibrsChart();
+            } catch(e) { console.error('Error:', e); }
+        });
+
+        function renderStats() {
+            const s = state.data.summary;
+            const annual = state.data.annual;
+            const prev = annual.length >= 2 ? annual[annual.length - 2] : null;
+            const change = prev ? ((s.total_crimes - prev.total) / prev.total * 100).toFixed(1) : '?';
+            const items = [
+                { value: s.total_crimes, label: s.latest_year + ' Total Crimes' },
+                { value: s.violent_crimes, label: 'Violent Crimes' },
+                { value: s.property_crimes, label: 'Property Crimes' },
+                { value: (change > 0 ? '+' : '') + change + '%', label: 'YoY Change' },
+            ];
+            document.getElementById('statsBar').innerHTML = items.map(i => `
+                <div class="stat-card"><div class="stat-value">${i.value}</div><div class="stat-label">${i.label}</div></div>
+            `).join('');
+        }
+
+        function createTotalChart() {
+            const d = state.data.annual;
+            new Chart(document.getElementById('totalChart'), {
+                type: 'line',
+                data: {
+                    labels: d.map(r => r.year),
+                    datasets: [
+                        { label: 'Total', data: d.map(r => r.total), borderColor: '#1e3a5f', borderWidth: 2, pointRadius: 3 },
+                        { label: 'Property', data: d.map(r => r.property), borderColor: '#d97706', backgroundColor: 'rgba(217,119,6,0.1)', borderWidth: 2, pointRadius: 3, fill: true },
+                        { label: 'Violent', data: d.map(r => r.violent), borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', borderWidth: 2, pointRadius: 3, fill: true },
+                    ]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: true } } }
+            });
+        }
+
+        function createViolentChart() {
+            const d = state.data.annual;
+            new Chart(document.getElementById('violentChart'), {
+                type: 'bar',
+                data: {
+                    labels: d.map(r => r.year),
+                    datasets: [
+                        { label: 'Aggravated Assault', data: d.map(r => r.ass), backgroundColor: 'rgba(239,68,68,0.7)' },
+                        { label: 'Robbery', data: d.map(r => r.rob), backgroundColor: 'rgba(217,119,6,0.7)' },
+                        { label: 'Rape', data: d.map(r => r.rpe), backgroundColor: 'rgba(139,92,246,0.7)' },
+                        { label: 'Homicide', data: d.map(r => r.hom), backgroundColor: 'rgba(30,58,95,0.7)' },
+                    ]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } }
+            });
+        }
+
+        function createPropertyChart() {
+            const d = state.data.annual;
+            new Chart(document.getElementById('propertyChart'), {
+                type: 'bar',
+                data: {
+                    labels: d.map(r => r.year),
+                    datasets: [
+                        { label: 'Larceny-theft', data: d.map(r => r.lar), backgroundColor: 'rgba(59,130,246,0.7)' },
+                        { label: 'Burglary', data: d.map(r => r.bur), backgroundColor: 'rgba(20,184,166,0.7)' },
+                        { label: 'Motor Vehicle Theft', data: d.map(r => r.mvt), backgroundColor: 'rgba(217,119,6,0.7)' },
+                        { label: 'Arson', data: d.map(r => r.ars), backgroundColor: 'rgba(239,68,68,0.7)' },
+                    ]
+                },
+                options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } } }
+            });
+        }
+
+        function createBreakdownChart() {
+            const latest = state.data.annual[state.data.annual.length - 1];
+            const labels = Object.keys(state.data.offense_labels).map(k => state.data.offense_labels[k]);
+            const values = Object.keys(state.data.offense_labels).map(k => latest[k.toLowerCase()] || 0);
+            new Chart(document.getElementById('breakdownChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{ data: values, backgroundColor: ['#ef4444','#1e3a5f','#8b5cf6','#d97706','#f59e0b','#14b8a6','#3b82f6','#6b7280'] }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { position: 'right' }, title: { display: true, text: latest.year + ' Data' },
+                        tooltip: { callbacks: { label: ctx => { const t = values.reduce((a,b)=>a+b,0); return ctx.label + ': ' + ctx.parsed + ' (' + ((ctx.parsed/t)*100).toFixed(1) + '%)'; } } }
+                    }
+                }
+            });
+        }
+
+        function createNibrsChart() {
+            const nibrs = state.data.nibrs_details;
+            const entries = Object.entries(nibrs).filter(([k,v]) => v.count > 0).sort((a,b) => b[1].count - a[1].count);
+            new Chart(document.getElementById('nibrsChart'), {
+                type: 'bar',
+                data: {
+                    labels: entries.map(([k,v]) => v.label),
+                    datasets: [{ label: 'Incidents', data: entries.map(([k,v]) => v.count), backgroundColor: 'rgba(185,28,28,0.7)' }]
+                },
+                options: {
+                    responsive: true, indexAxis: 'y', plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true } }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

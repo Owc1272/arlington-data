@@ -1,0 +1,3089 @@
+{
+  "objectIdFieldName": "FID",
+  "uniqueIdField": {
+    "name": "FID",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "",
+  "fields": [
+    {
+      "name": "GEO_id",
+      "type": "esriFieldTypeString",
+      "alias": "GEO.id",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "GEO_id2",
+      "type": "esriFieldTypeDouble",
+      "alias": "GEO.id2",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "GEO_display_label",
+      "type": "esriFieldTypeString",
+      "alias": "GEO.display-label",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC03",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC03",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC03",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC03",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC03",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC03",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC03",
+      "type": "esriFieldTypeString",
+      "alias": "HC04_VC03",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC04",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC04",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC04",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC04",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC04",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC04",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC04",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC04",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC05",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC05",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC05",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC05",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC05",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC05",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC05",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC05",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC08",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC08",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC08",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC08",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC08",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC08",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC08",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC08",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC09",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC09",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC09",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC09",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC09",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC09",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC09",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC09",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC10",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC10",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC10",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC10",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC10",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC10",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC10",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC10",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC11",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC11",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC11",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC11",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC11",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC11",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC11",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC11",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC12",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC12",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC12",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC12",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC12",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC12",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC12",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC12",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC13",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC13",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC13",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC13",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC13",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC13",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC13",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC13",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC14",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC14",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC14",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC14",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC14",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC14",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC14",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC14",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC15",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC15",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC15",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC15",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC15",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC15",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC15",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC15",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC16",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC16",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC16",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC16",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC16",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC16",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC16",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC16",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC17",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC17",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC17",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC17",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC17",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC17",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC17",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC17",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC18",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC18",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC18",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC18",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC18",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC18",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC18",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC18",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC19",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC19",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC19",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC19",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC19",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC19",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC19",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC19",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC20",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC20",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC20",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC20",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC20",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC20",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC20",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC20",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC23",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC23",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC23",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC23",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC23",
+      "type": "esriFieldTypeString",
+      "alias": "HC03_VC23",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC23",
+      "type": "esriFieldTypeString",
+      "alias": "HC04_VC23",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC26",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC26",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC26",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC26",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC26",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC26",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC26",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC26",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC27",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC27",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC27",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC27",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC27",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC27",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC27",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC27",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC28",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC28",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC28",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC28",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC28",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC28",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC28",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC28",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC29",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC29",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC29",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC29",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC29",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC29",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC29",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC29",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC32",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC32",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC32",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC32",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC32",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC32",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC32",
+      "type": "esriFieldTypeString",
+      "alias": "HC04_VC32",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC33",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC33",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC33",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC33",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC33",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC33",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC33",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC33",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC34",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC34",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC34",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC34",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC34",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC34",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC34",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC34",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC37",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC37",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC37",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC37",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC37",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC37",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC37",
+      "type": "esriFieldTypeString",
+      "alias": "HC04_VC37",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC38",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC38",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC38",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC38",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC38",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC38",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC38",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC38",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC39",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC39",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC39",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC39",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC39",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC39",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC39",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC39",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC43",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC43",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC43",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC43",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC43",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC43",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC43",
+      "type": "esriFieldTypeString",
+      "alias": "HC04_VC43",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC44",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC44",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC44",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC44",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC44",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC44",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC44",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC44",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC45",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC45",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC45",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC45",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC45",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC45",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC45",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC45",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC48",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC48",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC48",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC48",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC48",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC48",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC48",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC48",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC49",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC49",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC49",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC49",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC49",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC49",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC49",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC49",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC50",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC50",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC50",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC50",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC50",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC50",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC50",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC50",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC51",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC51",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC51",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC51",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC51",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC51",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC51",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC51",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC52",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC52",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC52",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC52",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC52",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC52",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC52",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC52",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC53",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC53",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC53",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC53",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC53",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC53",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC53",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC53",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC54",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC54",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC54",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC54",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC54",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC54",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC54",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC54",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC55",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC55",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC55",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC55",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC55",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC55",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC55",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC55",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC56",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC56",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC56",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC56",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC56",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC56",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC56",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC56",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC57",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC57",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC57",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC57",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC57",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC57",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC57",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC57",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC58",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC58",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC58",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC58",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC58",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC58",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC58",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC58",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC59",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC59",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC59",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC59",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC59",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC59",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC59",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC59",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC60",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC60",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC60",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC60",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC60",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC60",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC60",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC60",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC61",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC61",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC61",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC61",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC61",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC61",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC61",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC61",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC62",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC62",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC62",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC62",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC62",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC62",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC62",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC62",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC63",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC63",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC63",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC63",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC63",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC63",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC63",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC63",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC64",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC64",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC64",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC64",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC64",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC64",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC64",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC64",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC65",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC65",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC65",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC65",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC65",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC65",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC65",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC65",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC66",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC66",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC66",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC66",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC66",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC66",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC66",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC66",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC67",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC67",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC67",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC67",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC67",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC67",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC67",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC67",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC68",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC68",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC68",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC68",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC68",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC68",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC68",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC68",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC69",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC69",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC69",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC69",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC69",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC69",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC69",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC69",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC70",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC70",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC70",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC70",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC70",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC70",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC70",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC70",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC71",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC71",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC71",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC71",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC71",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC71",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC71",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC71",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC72",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC72",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC72",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC72",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC72",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC72",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC72",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC72",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC73",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC73",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC73",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC73",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC73",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC73",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC73",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC73",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC74",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC74",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC74",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC74",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC74",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC74",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC74",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC74",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC77",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC77",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC77",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC77",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC77",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC77",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC77",
+      "type": "esriFieldTypeString",
+      "alias": "HC04_VC77",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC78",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC78",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC78",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC78",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC78",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC78",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC78",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC78",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC79",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC79",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC79",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC79",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC79",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC79",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC79",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC79",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC80",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC80",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC80",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC80",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC80",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC80",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC80",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC80",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC81",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC81",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC81",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC81",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC81",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC81",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC81",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC81",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC82",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC82",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC82",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC82",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC82",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC82",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC82",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC82",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC83",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC83",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC83",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC83",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC83",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC83",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC83",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC83",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC87",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC87",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC87",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC87",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC87",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC87",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC87",
+      "type": "esriFieldTypeString",
+      "alias": "HC04_VC87",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC88",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC88",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC88",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC88",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC88",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC88",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC88",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC88",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC89",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC89",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC89",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC89",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC89",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC89",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC89",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC89",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC90",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC90",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC90",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC90",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC90",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC90",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC90",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC90",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC91",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC91",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC91",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC91",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC91",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC91",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC91",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC91",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC92",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC92",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC92",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC92",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC92",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC92",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC92",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC92",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC93",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC93",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC93",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC93",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC93",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC93",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC93",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC93",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC94",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC94",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC94",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC94",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC94",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC94",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC94",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC94",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC95",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC95",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC95",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC95",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC95",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC95",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC95",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC95",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC96",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC96",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC96",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC96",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC96",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC96",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC96",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC96",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC97",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC97",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC97",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC97",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC97",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC97",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC97",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC97",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC98",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC98",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC98",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC98",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC98",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC98",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC98",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC98",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC99",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC99",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC99",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC99",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC99",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC99",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC99",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC99",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC100",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC100",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC100",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC100",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC100",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC100",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC100",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC100",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC101",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC101",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC101",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC101",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC101",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC101",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC101",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC101",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC102",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC102",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC102",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC102",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC102",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC102",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC102",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC102",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC104",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC104",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC104",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC104",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC104",
+      "type": "esriFieldTypeString",
+      "alias": "HC03_VC104",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC104",
+      "type": "esriFieldTypeString",
+      "alias": "HC04_VC104",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC108",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC108",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC108",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC108",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC108",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC108",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC108",
+      "type": "esriFieldTypeString",
+      "alias": "HC04_VC108",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC109",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC109",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC109",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC109",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC109",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC109",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC109",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC109",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC01_VC110",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC01_VC110",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC02_VC110",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC02_VC110",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC03_VC110",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC03_VC110",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "HC04_VC110",
+      "type": "esriFieldTypeDouble",
+      "alias": "HC04_VC110",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "FID",
+      "type": "esriFieldTypeOID",
+      "alias": "FID",
+      "sqlType": "sqlTypeInteger",
+      "domain": null,
+      "defaultValue": null
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "GEO_id": "0600000US2501701605",
+        "GEO_id2": 2501701605,
+        "GEO_display_label": "Arlington town, Middlesex County, Massachusetts",
+        "HC01_VC03": 44408,
+        "HC02_VC03": 30,
+        "HC03_VC03": 44408,
+        "HC04_VC03": "(X)",
+        "HC01_VC04": 20755,
+        "HC02_VC04": 520,
+        "HC03_VC04": 46.7,
+        "HC04_VC04": 1.2,
+        "HC01_VC05": 23653,
+        "HC02_VC05": 518,
+        "HC03_VC05": 53.3,
+        "HC04_VC05": 1.2,
+        "HC01_VC08": 3181,
+        "HC02_VC08": 312,
+        "HC03_VC08": 7.2,
+        "HC04_VC08": 0.7,
+        "HC01_VC09": 2685,
+        "HC02_VC09": 304,
+        "HC03_VC09": 6,
+        "HC04_VC09": 0.7,
+        "HC01_VC10": 2017,
+        "HC02_VC10": 244,
+        "HC03_VC10": 4.5,
+        "HC04_VC10": 0.5,
+        "HC01_VC11": 2055,
+        "HC02_VC11": 300,
+        "HC03_VC11": 4.6,
+        "HC04_VC11": 0.7,
+        "HC01_VC12": 1540,
+        "HC02_VC12": 293,
+        "HC03_VC12": 3.5,
+        "HC04_VC12": 0.7,
+        "HC01_VC13": 6127,
+        "HC02_VC13": 474,
+        "HC03_VC13": 13.8,
+        "HC04_VC13": 1.1,
+        "HC01_VC14": 6791,
+        "HC02_VC14": 486,
+        "HC03_VC14": 15.3,
+        "HC04_VC14": 1.1,
+        "HC01_VC15": 7141,
+        "HC02_VC15": 536,
+        "HC03_VC15": 16.1,
+        "HC04_VC15": 1.2,
+        "HC01_VC16": 3196,
+        "HC02_VC16": 348,
+        "HC03_VC16": 7.2,
+        "HC04_VC16": 0.8,
+        "HC01_VC17": 2611,
+        "HC02_VC17": 338,
+        "HC03_VC17": 5.9,
+        "HC04_VC17": 0.8,
+        "HC01_VC18": 3467,
+        "HC02_VC18": 290,
+        "HC03_VC18": 7.8,
+        "HC04_VC18": 0.7,
+        "HC01_VC19": 2146,
+        "HC02_VC19": 277,
+        "HC03_VC19": 4.8,
+        "HC04_VC19": 0.6,
+        "HC01_VC20": 1451,
+        "HC02_VC20": 281,
+        "HC03_VC20": 3.3,
+        "HC04_VC20": 0.6,
+        "HC01_VC23": 41.6,
+        "HC02_VC23": 0.9,
+        "HC03_VC23": "(X)",
+        "HC04_VC23": "(X)",
+        "HC01_VC26": 34944,
+        "HC02_VC26": 324,
+        "HC03_VC26": 78.7,
+        "HC04_VC26": 0.7,
+        "HC01_VC27": 34303,
+        "HC02_VC27": 345,
+        "HC03_VC27": 77.2,
+        "HC04_VC27": 0.8,
+        "HC01_VC28": 8536,
+        "HC02_VC28": 432,
+        "HC03_VC28": 19.2,
+        "HC04_VC28": 1,
+        "HC01_VC29": 7064,
+        "HC02_VC29": 342,
+        "HC03_VC29": 15.9,
+        "HC04_VC29": 0.8,
+        "HC01_VC32": 34944,
+        "HC02_VC32": 324,
+        "HC03_VC32": 34944,
+        "HC04_VC32": "(X)",
+        "HC01_VC33": 15804,
+        "HC02_VC33": 399,
+        "HC03_VC33": 45.2,
+        "HC04_VC33": 1.1,
+        "HC01_VC34": 19140,
+        "HC02_VC34": 442,
+        "HC03_VC34": 54.8,
+        "HC04_VC34": 1.1,
+        "HC01_VC37": 7064,
+        "HC02_VC37": 342,
+        "HC03_VC37": 7064,
+        "HC04_VC37": "(X)",
+        "HC01_VC38": 2790,
+        "HC02_VC38": 234,
+        "HC03_VC38": 39.5,
+        "HC04_VC38": 2.9,
+        "HC01_VC39": 4274,
+        "HC02_VC39": 302,
+        "HC03_VC39": 60.5,
+        "HC04_VC39": 2.9,
+        "HC01_VC43": 44408,
+        "HC02_VC43": 30,
+        "HC03_VC43": 44408,
+        "HC04_VC43": "(X)",
+        "HC01_VC44": 42958,
+        "HC02_VC44": 372,
+        "HC03_VC44": 96.7,
+        "HC04_VC44": 0.8,
+        "HC01_VC45": 1450,
+        "HC02_VC45": 370,
+        "HC03_VC45": 3.3,
+        "HC04_VC45": 0.8,
+        "HC01_VC48": 42958,
+        "HC02_VC48": 372,
+        "HC03_VC48": 96.7,
+        "HC04_VC48": 0.8,
+        "HC01_VC49": 36823,
+        "HC02_VC49": 675,
+        "HC03_VC49": 82.9,
+        "HC04_VC49": 1.5,
+        "HC01_VC50": 870,
+        "HC02_VC50": 344,
+        "HC03_VC50": 2,
+        "HC04_VC50": 0.8,
+        "HC01_VC51": 128,
+        "HC02_VC51": 90,
+        "HC03_VC51": 0.3,
+        "HC04_VC51": 0.2,
+        "HC01_VC52": 0,
+        "HC02_VC52": 25,
+        "HC03_VC52": 0,
+        "HC04_VC52": 0.1,
+        "HC01_VC53": 0,
+        "HC02_VC53": 25,
+        "HC03_VC53": 0,
+        "HC04_VC53": 0.1,
+        "HC01_VC54": 0,
+        "HC02_VC54": 25,
+        "HC03_VC54": 0,
+        "HC04_VC54": 0.1,
+        "HC01_VC55": 0,
+        "HC02_VC55": 25,
+        "HC03_VC55": 0,
+        "HC04_VC55": 0.1,
+        "HC01_VC56": 4751,
+        "HC02_VC56": 475,
+        "HC03_VC56": 10.7,
+        "HC04_VC56": 1.1,
+        "HC01_VC57": 1103,
+        "HC02_VC57": 333,
+        "HC03_VC57": 2.5,
+        "HC04_VC57": 0.8,
+        "HC01_VC58": 1640,
+        "HC02_VC58": 384,
+        "HC03_VC58": 3.7,
+        "HC04_VC58": 0.9,
+        "HC01_VC59": 359,
+        "HC02_VC59": 275,
+        "HC03_VC59": 0.8,
+        "HC04_VC59": 0.6,
+        "HC01_VC60": 320,
+        "HC02_VC60": 148,
+        "HC03_VC60": 0.7,
+        "HC04_VC60": 0.3,
+        "HC01_VC61": 615,
+        "HC02_VC61": 284,
+        "HC03_VC61": 1.4,
+        "HC04_VC61": 0.6,
+        "HC01_VC62": 117,
+        "HC02_VC62": 92,
+        "HC03_VC62": 0.3,
+        "HC04_VC62": 0.2,
+        "HC01_VC63": 597,
+        "HC02_VC63": 246,
+        "HC03_VC63": 1.3,
+        "HC04_VC63": 0.6,
+        "HC01_VC64": 0,
+        "HC02_VC64": 25,
+        "HC03_VC64": 0,
+        "HC04_VC64": 0.1,
+        "HC01_VC65": 0,
+        "HC02_VC65": 25,
+        "HC03_VC65": 0,
+        "HC04_VC65": 0.1,
+        "HC01_VC66": 0,
+        "HC02_VC66": 25,
+        "HC03_VC66": 0,
+        "HC04_VC66": 0.1,
+        "HC01_VC67": 0,
+        "HC02_VC67": 25,
+        "HC03_VC67": 0,
+        "HC04_VC67": 0.1,
+        "HC01_VC68": 0,
+        "HC02_VC68": 25,
+        "HC03_VC68": 0,
+        "HC04_VC68": 0.1,
+        "HC01_VC69": 386,
+        "HC02_VC69": 291,
+        "HC03_VC69": 0.9,
+        "HC04_VC69": 0.7,
+        "HC01_VC70": 1450,
+        "HC02_VC70": 370,
+        "HC03_VC70": 3.3,
+        "HC04_VC70": 0.8,
+        "HC01_VC71": 178,
+        "HC02_VC71": 113,
+        "HC03_VC71": 0.4,
+        "HC04_VC71": 0.3,
+        "HC01_VC72": 31,
+        "HC02_VC72": 37,
+        "HC03_VC72": 0.1,
+        "HC04_VC72": 0.1,
+        "HC01_VC73": 1004,
+        "HC02_VC73": 322,
+        "HC03_VC73": 2.3,
+        "HC04_VC73": 0.7,
+        "HC01_VC74": 10,
+        "HC02_VC74": 14,
+        "HC03_VC74": 0,
+        "HC04_VC74": 0.1,
+        "HC01_VC77": 44408,
+        "HC02_VC77": 30,
+        "HC03_VC77": 44408,
+        "HC04_VC77": "(X)",
+        "HC01_VC78": 38197,
+        "HC02_VC78": 641,
+        "HC03_VC78": 86,
+        "HC04_VC78": 1.4,
+        "HC01_VC79": 1138,
+        "HC02_VC79": 381,
+        "HC03_VC79": 2.6,
+        "HC04_VC79": 0.9,
+        "HC01_VC80": 266,
+        "HC02_VC80": 135,
+        "HC03_VC80": 0.6,
+        "HC04_VC80": 0.3,
+        "HC01_VC81": 5818,
+        "HC02_VC81": 546,
+        "HC03_VC81": 13.1,
+        "HC04_VC81": 1.2,
+        "HC01_VC82": 10,
+        "HC02_VC82": 15,
+        "HC03_VC82": 0,
+        "HC04_VC82": 0.1,
+        "HC01_VC83": 506,
+        "HC02_VC83": 306,
+        "HC03_VC83": 1.1,
+        "HC04_VC83": 0.7,
+        "HC01_VC87": 44408,
+        "HC02_VC87": 30,
+        "HC03_VC87": 44408,
+        "HC04_VC87": "(X)",
+        "HC01_VC88": 1637,
+        "HC02_VC88": 372,
+        "HC03_VC88": 3.7,
+        "HC04_VC88": 0.8,
+        "HC01_VC89": 162,
+        "HC02_VC89": 99,
+        "HC03_VC89": 0.4,
+        "HC04_VC89": 0.2,
+        "HC01_VC90": 328,
+        "HC02_VC90": 135,
+        "HC03_VC90": 0.7,
+        "HC04_VC90": 0.3,
+        "HC01_VC91": 132,
+        "HC02_VC91": 175,
+        "HC03_VC91": 0.3,
+        "HC04_VC91": 0.4,
+        "HC01_VC92": 1015,
+        "HC02_VC92": 349,
+        "HC03_VC92": 2.3,
+        "HC04_VC92": 0.8,
+        "HC01_VC93": 42771,
+        "HC02_VC93": 373,
+        "HC03_VC93": 96.3,
+        "HC04_VC93": 0.8,
+        "HC01_VC94": 35635,
+        "HC02_VC94": 690,
+        "HC03_VC94": 80.2,
+        "HC04_VC94": 1.5,
+        "HC01_VC95": 861,
+        "HC02_VC95": 341,
+        "HC03_VC95": 1.9,
+        "HC04_VC95": 0.8,
+        "HC01_VC96": 128,
+        "HC02_VC96": 90,
+        "HC03_VC96": 0.3,
+        "HC04_VC96": 0.2,
+        "HC01_VC97": 4739,
+        "HC02_VC97": 472,
+        "HC03_VC97": 10.7,
+        "HC04_VC97": 1.1,
+        "HC01_VC98": 0,
+        "HC02_VC98": 25,
+        "HC03_VC98": 0,
+        "HC04_VC98": 0.1,
+        "HC01_VC99": 65,
+        "HC02_VC99": 58,
+        "HC03_VC99": 0.1,
+        "HC04_VC99": 0.1,
+        "HC01_VC100": 1343,
+        "HC02_VC100": 363,
+        "HC03_VC100": 3,
+        "HC04_VC100": 0.8,
+        "HC01_VC101": 99,
+        "HC02_VC101": 88,
+        "HC03_VC101": 0.2,
+        "HC04_VC101": 0.2,
+        "HC01_VC102": 1244,
+        "HC02_VC102": 334,
+        "HC03_VC102": 2.8,
+        "HC04_VC102": 0.8,
+        "HC01_VC104": 19618,
+        "HC02_VC104": 508,
+        "HC03_VC104": "(X)",
+        "HC04_VC104": "(X)",
+        "HC01_VC108": 31355,
+        "HC02_VC108": 606,
+        "HC03_VC108": 31355,
+        "HC04_VC108": "(X)",
+        "HC01_VC109": 14144,
+        "HC02_VC109": 467,
+        "HC03_VC109": 45.1,
+        "HC04_VC109": 1.2,
+        "HC01_VC110": 17211,
+        "HC02_VC110": 478,
+        "HC03_VC110": 54.9,
+        "HC04_VC110": 1.2,
+        "FID": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arlington, MA — Open Data Explorer</title>
+    <style>
+        :root {
+            --primary-dark: #1e3a5f;
+            --primary-blue: #3b82f6;
+            --accent-teal: #14b8a6;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .nav-brand {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .nav-brand:hover { color: var(--primary-blue); }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.nav-active {
+            color: var(--primary-blue);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #2d5a8c 100%);
+            color: var(--white);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .sections {
+            max-width: 1100px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .section-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 2.5rem 2rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .section-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .section-card p {
+            color: var(--text-light);
+            flex-grow: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-link {
+            color: var(--primary-blue);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-brand">Arlington Data Explorer</a>
+        <ul class="nav-links">
+            <li><a href="gis.html">GIS</a></li>
+            <li><a href="finances.html">Finances</a></li>
+            <li><a href="schools.html">Schools</a></li>
+            <li><a href="population.html">Population</a></li>
+            <li><a href="crime.html">Crime</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero">
+        <h1>Arlington, MA</h1>
+        <p>Open Data Explorer — interactive dashboards for property, financial, and school data</p>
+    </div>
+
+    <div class="sections">
+        <a href="gis.html" class="section-card">
+            <div class="section-icon">&#x1F5FA;</div>
+            <h2>Arlington GIS</h2>
+            <p>Interactive maps, property assessments, public tree inventory, and neighborhood analysis powered by Arlington GIS Open Data.</p>
+            <span class="section-link">Explore GIS &#x2192;</span>
+        </a>
+
+        <a href="finances.html" class="section-card">
+            <div class="section-icon">&#x1F4B0;</div>
+            <h2>Arlington Finances</h2>
+            <p>Town budget, revenue sources, expenditure breakdowns, and financial trends across departments and fiscal years.</p>
+            <span class="section-link">Explore Finances &#x2192;</span>
+        </a>
+
+        <a href="schools.html" class="section-card">
+            <div class="section-icon">&#x1F3EB;</div>
+            <h2>Arlington Schools</h2>
+            <p>School enrollment, performance metrics, staffing data, and demographic trends across Arlington public schools.</p>
+            <span class="section-link">Explore Schools &#x2192;</span>
+        </a>
+
+        <a href="population.html" class="section-card">
+            <div class="section-icon">&#x1F4CA;</div>
+            <h2>Arlington Population</h2>
+            <p>Census population history, demographics, housing tenure, and income trends from 1900 to present.</p>
+            <span class="section-link">Explore Population &#x2192;</span>
+        </a>
+
+        <a href="crime.html" class="section-card">
+            <div class="section-icon">&#x1F6A8;</div>
+            <h2>Arlington Crime</h2>
+            <p>FBI Uniform Crime Reporting data — violent and property crime trends, offense breakdowns, and NIBRS details.</p>
+            <span class="section-link">Explore Crime &#x2192;</span>
+        </a>
+    </div>
+
+    <footer>
+        <p>Arlington, MA — Open Data Explorer</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: March 2026</p>
+    </footer>
+</body>
+</html>

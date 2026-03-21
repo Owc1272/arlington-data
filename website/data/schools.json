@@ -1,0 +1,1879 @@
+{
+  "generated": "2026-03-21T13:48:21.466173",
+  "source": "Massachusetts Department of Elementary and Secondary Education (DESE)",
+  "district": "Arlington",
+  "district_code": "00100000",
+  "enrollment": [
+    {
+      "year": 1994,
+      "total": 3852,
+      "by_grade": {
+        "pk": 0,
+        "k": 358,
+        "g1": 369,
+        "g2": 334,
+        "g3": 328,
+        "g4": 335,
+        "g5": 293,
+        "g6": 283,
+        "g7": 290,
+        "g8": 272,
+        "g9": 205,
+        "g10": 257,
+        "g11": 252,
+        "g12": 225
+      },
+      "race_pct": {
+        "white": 87.7,
+        "asian": 4.5,
+        "hispanic": 2.3,
+        "black": 5.4,
+        "multiracial": null
+      },
+      "gender_pct": {
+        "female": 48.4,
+        "male": 51.6
+      },
+      "el_pct": 2.2,
+      "low_income_pct": 12.3,
+      "swd_pct": 21.4,
+      "high_needs_pct": null
+    },
+    {
+      "year": 1999,
+      "total": 4222,
+      "by_grade": {
+        "pk": 0,
+        "k": 376,
+        "g1": 351,
+        "g2": 373,
+        "g3": 372,
+        "g4": 366,
+        "g5": 364,
+        "g6": 341,
+        "g7": 326,
+        "g8": 299,
+        "g9": 259,
+        "g10": 260,
+        "g11": 253,
+        "g12": 265
+      },
+      "race_pct": {
+        "white": 86.2,
+        "asian": 5.3,
+        "hispanic": 2.6,
+        "black": 5.8,
+        "multiracial": null
+      },
+      "gender_pct": {
+        "female": 49.5,
+        "male": 50.5
+      },
+      "el_pct": 2.7,
+      "low_income_pct": 9.6,
+      "swd_pct": 21.0,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2002,
+      "total": 4265,
+      "by_grade": {
+        "pk": 7,
+        "k": 385,
+        "g1": 407,
+        "g2": 344,
+        "g3": 372,
+        "g4": 312,
+        "g5": 329,
+        "g6": 347,
+        "g7": 324,
+        "g8": 332,
+        "g9": 289,
+        "g10": 291,
+        "g11": 270,
+        "g12": 256
+      },
+      "race_pct": {
+        "white": 86.6,
+        "asian": 6.0,
+        "hispanic": 2.5,
+        "black": 4.9,
+        "multiracial": null
+      },
+      "gender_pct": {
+        "female": 50.7,
+        "male": 49.3
+      },
+      "el_pct": 1.4,
+      "low_income_pct": 7.4,
+      "swd_pct": 15.0,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2003,
+      "total": 4481,
+      "by_grade": {
+        "pk": 97,
+        "k": 434,
+        "g1": 392,
+        "g2": 394,
+        "g3": 366,
+        "g4": 357,
+        "g5": 310,
+        "g6": 335,
+        "g7": 346,
+        "g8": 331,
+        "g9": 291,
+        "g10": 275,
+        "g11": 283,
+        "g12": 270
+      },
+      "race_pct": {
+        "white": 86.4,
+        "asian": 6.5,
+        "hispanic": 2.5,
+        "black": 4.5,
+        "multiracial": null
+      },
+      "gender_pct": {
+        "female": 49.7,
+        "male": 50.3
+      },
+      "el_pct": 5.3,
+      "low_income_pct": 7.4,
+      "swd_pct": 13.7,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2004,
+      "total": 4425,
+      "by_grade": {
+        "pk": 87,
+        "k": 393,
+        "g1": 411,
+        "g2": 379,
+        "g3": 374,
+        "g4": 354,
+        "g5": 353,
+        "g6": 294,
+        "g7": 338,
+        "g8": 344,
+        "g9": 275,
+        "g10": 287,
+        "g11": 263,
+        "g12": 273
+      },
+      "race_pct": {
+        "white": 85.2,
+        "asian": 7.3,
+        "hispanic": 2.5,
+        "black": 4.9,
+        "multiracial": null
+      },
+      "gender_pct": {
+        "female": 49.6,
+        "male": 50.4
+      },
+      "el_pct": 5.2,
+      "low_income_pct": 8.4,
+      "swd_pct": 12.0,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2005,
+      "total": 4486,
+      "by_grade": {
+        "pk": 78,
+        "k": 406,
+        "g1": 405,
+        "g2": 406,
+        "g3": 374,
+        "g4": 364,
+        "g5": 362,
+        "g6": 346,
+        "g7": 292,
+        "g8": 334,
+        "g9": 287,
+        "g10": 280,
+        "g11": 300,
+        "g12": 252
+      },
+      "race_pct": {
+        "white": 84.2,
+        "asian": 8.0,
+        "hispanic": 3.0,
+        "black": 4.6,
+        "multiracial": null
+      },
+      "gender_pct": {
+        "female": 49.4,
+        "male": 50.6
+      },
+      "el_pct": 6.1,
+      "low_income_pct": 8.7,
+      "swd_pct": 13.6,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2006,
+      "total": 4522,
+      "by_grade": {
+        "pk": 74,
+        "k": 381,
+        "g1": 411,
+        "g2": 399,
+        "g3": 399,
+        "g4": 368,
+        "g5": 353,
+        "g6": 338,
+        "g7": 342,
+        "g8": 292,
+        "g9": 293,
+        "g10": 285,
+        "g11": 294,
+        "g12": 293
+      },
+      "race_pct": {
+        "white": 82.0,
+        "asian": 7.7,
+        "hispanic": 4.0,
+        "black": 4.3,
+        "multiracial": 1.9
+      },
+      "gender_pct": {
+        "female": 49.3,
+        "male": 50.7
+      },
+      "el_pct": 5.5,
+      "low_income_pct": 10.8,
+      "swd_pct": 15.5,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2007,
+      "total": 4548,
+      "by_grade": {
+        "pk": 77,
+        "k": 446,
+        "g1": 382,
+        "g2": 379,
+        "g3": 388,
+        "g4": 379,
+        "g5": 348,
+        "g6": 346,
+        "g7": 329,
+        "g8": 333,
+        "g9": 250,
+        "g10": 304,
+        "g11": 287,
+        "g12": 300
+      },
+      "race_pct": {
+        "white": 81.0,
+        "asian": 8.4,
+        "hispanic": 4.1,
+        "black": 3.9,
+        "multiracial": 2.3
+      },
+      "gender_pct": {
+        "female": 49.3,
+        "male": 50.7
+      },
+      "el_pct": 4.2,
+      "low_income_pct": 9.7,
+      "swd_pct": 15.9,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2008,
+      "total": 4532,
+      "by_grade": {
+        "pk": 62,
+        "k": 411,
+        "g1": 432,
+        "g2": 388,
+        "g3": 376,
+        "g4": 375,
+        "g5": 378,
+        "g6": 328,
+        "g7": 347,
+        "g8": 309,
+        "g9": 296,
+        "g10": 255,
+        "g11": 293,
+        "g12": 282
+      },
+      "race_pct": {
+        "white": 80.5,
+        "asian": 9.1,
+        "hispanic": 4.2,
+        "black": 3.6,
+        "multiracial": 2.4
+      },
+      "gender_pct": {
+        "female": 49.5,
+        "male": 50.5
+      },
+      "el_pct": 3.8,
+      "low_income_pct": 9.7,
+      "swd_pct": 16.1,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2009,
+      "total": 4654,
+      "by_grade": {
+        "pk": 67,
+        "k": 451,
+        "g1": 401,
+        "g2": 433,
+        "g3": 377,
+        "g4": 372,
+        "g5": 373,
+        "g6": 365,
+        "g7": 336,
+        "g8": 347,
+        "g9": 285,
+        "g10": 293,
+        "g11": 257,
+        "g12": 297
+      },
+      "race_pct": {
+        "white": 79.4,
+        "asian": 9.5,
+        "hispanic": 4.6,
+        "black": 3.6,
+        "multiracial": 2.7
+      },
+      "gender_pct": {
+        "female": 49.5,
+        "male": 50.5
+      },
+      "el_pct": 4.8,
+      "low_income_pct": 10.8,
+      "swd_pct": 15.4,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2010,
+      "total": 4713,
+      "by_grade": {
+        "pk": 59,
+        "k": 434,
+        "g1": 446,
+        "g2": 403,
+        "g3": 418,
+        "g4": 372,
+        "g5": 359,
+        "g6": 359,
+        "g7": 367,
+        "g8": 334,
+        "g9": 312,
+        "g10": 280,
+        "g11": 304,
+        "g12": 266
+      },
+      "race_pct": {
+        "white": 78.5,
+        "asian": 9.5,
+        "hispanic": 5.2,
+        "black": 3.7,
+        "multiracial": 2.9
+      },
+      "gender_pct": {
+        "female": 50.1,
+        "male": 49.9
+      },
+      "el_pct": 4.1,
+      "low_income_pct": 10.8,
+      "swd_pct": 15.4,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2011,
+      "total": 4808,
+      "by_grade": {
+        "pk": 57,
+        "k": 448,
+        "g1": 441,
+        "g2": 433,
+        "g3": 395,
+        "g4": 427,
+        "g5": 360,
+        "g6": 344,
+        "g7": 347,
+        "g8": 360,
+        "g9": 297,
+        "g10": 318,
+        "g11": 286,
+        "g12": 295
+      },
+      "race_pct": {
+        "white": 78.3,
+        "asian": 9.7,
+        "hispanic": 5.0,
+        "black": 3.6,
+        "multiracial": 3.3
+      },
+      "gender_pct": {
+        "female": 49.9,
+        "male": 50.1
+      },
+      "el_pct": 5.0,
+      "low_income_pct": 11.1,
+      "swd_pct": 14.4,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2012,
+      "total": 4858,
+      "by_grade": {
+        "pk": 48,
+        "k": 450,
+        "g1": 455,
+        "g2": 427,
+        "g3": 429,
+        "g4": 390,
+        "g5": 415,
+        "g6": 349,
+        "g7": 331,
+        "g8": 346,
+        "g9": 300,
+        "g10": 297,
+        "g11": 331,
+        "g12": 290
+      },
+      "race_pct": {
+        "white": 77.3,
+        "asian": 10.3,
+        "hispanic": 5.0,
+        "black": 3.6,
+        "multiracial": 3.6
+      },
+      "gender_pct": {
+        "female": 50.4,
+        "male": 49.6
+      },
+      "el_pct": 5.3,
+      "low_income_pct": 11.5,
+      "swd_pct": 14.2,
+      "high_needs_pct": null
+    },
+    {
+      "year": 2013,
+      "total": 4903,
+      "by_grade": {
+        "pk": 54,
+        "k": 454,
+        "g1": 460,
+        "g2": 446,
+        "g3": 418,
+        "g4": 424,
+        "g5": 386,
+        "g6": 374,
+        "g7": 328,
+        "g8": 326,
+        "g9": 313,
+        "g10": 298,
+        "g11": 296,
+        "g12": 326
+      },
+      "race_pct": {
+        "white": 77.0,
+        "asian": 10.7,
+        "hispanic": 5.1,
+        "black": 3.2,
+        "multiracial": 3.8
+      },
+      "gender_pct": {
+        "female": 50.2,
+        "male": 49.8
+      },
+      "el_pct": 5.0,
+      "low_income_pct": 11.3,
+      "swd_pct": 14.3,
+      "high_needs_pct": 25.9
+    },
+    {
+      "year": 2014,
+      "total": 5020,
+      "by_grade": {
+        "pk": 55,
+        "k": 471,
+        "g1": 472,
+        "g2": 474,
+        "g3": 458,
+        "g4": 428,
+        "g5": 423,
+        "g6": 352,
+        "g7": 385,
+        "g8": 317,
+        "g9": 280,
+        "g10": 313,
+        "g11": 303,
+        "g12": 289
+      },
+      "race_pct": {
+        "white": 76.4,
+        "asian": 10.8,
+        "hispanic": 5.1,
+        "black": 3.5,
+        "multiracial": 4.0
+      },
+      "gender_pct": {
+        "female": 50.6,
+        "male": 49.4
+      },
+      "el_pct": 4.4,
+      "low_income_pct": 11.5,
+      "swd_pct": 13.9,
+      "high_needs_pct": 25.8
+    },
+    {
+      "year": 2015,
+      "total": 5208,
+      "by_grade": {
+        "pk": 57,
+        "k": 516,
+        "g1": 482,
+        "g2": 465,
+        "g3": 477,
+        "g4": 459,
+        "g5": 428,
+        "g6": 397,
+        "g7": 341,
+        "g8": 369,
+        "g9": 306,
+        "g10": 289,
+        "g11": 310,
+        "g12": 312
+      },
+      "race_pct": {
+        "white": 74.5,
+        "asian": 11.3,
+        "hispanic": 5.6,
+        "black": 3.7,
+        "multiracial": 4.6
+      },
+      "gender_pct": {
+        "female": 50.4,
+        "male": 49.6
+      },
+      "el_pct": 4.3,
+      "low_income_pct": null,
+      "swd_pct": 14.2,
+      "high_needs_pct": 24.5
+    },
+    {
+      "year": 2016,
+      "total": 5304,
+      "by_grade": {
+        "pk": 56,
+        "k": 483,
+        "g1": 520,
+        "g2": 479,
+        "g3": 456,
+        "g4": 471,
+        "g5": 459,
+        "g6": 409,
+        "g7": 382,
+        "g8": 336,
+        "g9": 344,
+        "g10": 313,
+        "g11": 278,
+        "g12": 318
+      },
+      "race_pct": {
+        "white": 74.6,
+        "asian": 11.4,
+        "hispanic": 5.4,
+        "black": 3.6,
+        "multiracial": 4.7
+      },
+      "gender_pct": {
+        "female": 50.8,
+        "male": 49.2
+      },
+      "el_pct": 4.1,
+      "low_income_pct": null,
+      "swd_pct": 14.0,
+      "high_needs_pct": 24.1
+    },
+    {
+      "year": 2017,
+      "total": 5524,
+      "by_grade": {
+        "pk": 70,
+        "k": 551,
+        "g1": 489,
+        "g2": 505,
+        "g3": 478,
+        "g4": 462,
+        "g5": 471,
+        "g6": 421,
+        "g7": 409,
+        "g8": 378,
+        "g9": 332,
+        "g10": 350,
+        "g11": 312,
+        "g12": 295
+      },
+      "race_pct": {
+        "white": 73.3,
+        "asian": 12.5,
+        "hispanic": 6.0,
+        "black": 3.7,
+        "multiracial": 4.3
+      },
+      "gender_pct": {
+        "female": 49.9,
+        "male": 50.1
+      },
+      "el_pct": 4.6,
+      "low_income_pct": null,
+      "swd_pct": 14.6,
+      "high_needs_pct": 25.5
+    },
+    {
+      "year": 2018,
+      "total": 5711,
+      "by_grade": {
+        "pk": 85,
+        "k": 522,
+        "g1": 555,
+        "g2": 486,
+        "g3": 507,
+        "g4": 499,
+        "g5": 474,
+        "g6": 442,
+        "g7": 415,
+        "g8": 401,
+        "g9": 350,
+        "g10": 321,
+        "g11": 339,
+        "g12": 315
+      },
+      "race_pct": {
+        "white": 72.0,
+        "asian": 12.5,
+        "hispanic": 6.4,
+        "black": 3.7,
+        "multiracial": 5.2
+      },
+      "gender_pct": {
+        "female": 49.5,
+        "male": 50.4
+      },
+      "el_pct": 4.8,
+      "low_income_pct": null,
+      "swd_pct": 15.3,
+      "high_needs_pct": 25.6
+    },
+    {
+      "year": 2019,
+      "total": 5939,
+      "by_grade": {
+        "pk": 96,
+        "k": 587,
+        "g1": 520,
+        "g2": 551,
+        "g3": 490,
+        "g4": 508,
+        "g5": 489,
+        "g6": 463,
+        "g7": 441,
+        "g8": 414,
+        "g9": 364,
+        "g10": 344,
+        "g11": 328,
+        "g12": 344
+      },
+      "race_pct": {
+        "white": 71.0,
+        "asian": 12.9,
+        "hispanic": 6.2,
+        "black": 3.5,
+        "multiracial": 6.2
+      },
+      "gender_pct": {
+        "female": 49.1,
+        "male": 50.9
+      },
+      "el_pct": 4.3,
+      "low_income_pct": null,
+      "swd_pct": 15.5,
+      "high_needs_pct": 25.9
+    },
+    {
+      "year": 2020,
+      "total": 6047,
+      "by_grade": {
+        "pk": 89,
+        "k": 524,
+        "g1": 594,
+        "g2": 517,
+        "g3": 533,
+        "g4": 487,
+        "g5": 507,
+        "g6": 486,
+        "g7": 455,
+        "g8": 444,
+        "g9": 368,
+        "g10": 364,
+        "g11": 342,
+        "g12": 337
+      },
+      "race_pct": {
+        "white": 70.5,
+        "asian": 13.0,
+        "hispanic": 6.1,
+        "black": 3.4,
+        "multiracial": 6.8
+      },
+      "gender_pct": {
+        "female": 49.0,
+        "male": 50.8
+      },
+      "el_pct": 4.8,
+      "low_income_pct": null,
+      "swd_pct": 15.9,
+      "high_needs_pct": 26.5
+    },
+    {
+      "year": 2021,
+      "total": 5755,
+      "by_grade": {
+        "pk": 65,
+        "k": 453,
+        "g1": 484,
+        "g2": 533,
+        "g3": 467,
+        "g4": 508,
+        "g5": 461,
+        "g6": 483,
+        "g7": 456,
+        "g8": 436,
+        "g9": 363,
+        "g10": 352,
+        "g11": 359,
+        "g12": 335
+      },
+      "race_pct": {
+        "white": 69.9,
+        "asian": 13.1,
+        "hispanic": 6.2,
+        "black": 3.4,
+        "multiracial": 7.3
+      },
+      "gender_pct": {
+        "female": 49.5,
+        "male": 50.3
+      },
+      "el_pct": 4.1,
+      "low_income_pct": null,
+      "swd_pct": 15.7,
+      "high_needs_pct": 26.4
+    },
+    {
+      "year": 2022,
+      "total": 5866,
+      "by_grade": {
+        "pk": 73,
+        "k": 486,
+        "g1": 474,
+        "g2": 471,
+        "g3": 543,
+        "g4": 469,
+        "g5": 509,
+        "g6": 452,
+        "g7": 473,
+        "g8": 433,
+        "g9": 364,
+        "g10": 372,
+        "g11": 362,
+        "g12": 385
+      },
+      "race_pct": {
+        "white": 69.6,
+        "asian": 12.9,
+        "hispanic": 6.5,
+        "black": 3.4,
+        "multiracial": 7.6
+      },
+      "gender_pct": {
+        "female": 49.5,
+        "male": 50.1
+      },
+      "el_pct": 4.2,
+      "low_income_pct": 11.5,
+      "swd_pct": 15.9,
+      "high_needs_pct": 27.9
+    },
+    {
+      "year": 2023,
+      "total": 5987,
+      "by_grade": {
+        "pk": 88,
+        "k": 486,
+        "g1": 492,
+        "g2": 479,
+        "g3": 488,
+        "g4": 530,
+        "g5": 464,
+        "g6": 511,
+        "g7": 451,
+        "g8": 471,
+        "g9": 382,
+        "g10": 385,
+        "g11": 381,
+        "g12": 379
+      },
+      "race_pct": {
+        "white": 68.1,
+        "asian": 12.6,
+        "hispanic": 7.3,
+        "black": 3.3,
+        "multiracial": 8.5
+      },
+      "gender_pct": {
+        "female": 49.4,
+        "male": 49.9
+      },
+      "el_pct": 5.0,
+      "low_income_pct": 10.5,
+      "swd_pct": 16.5,
+      "high_needs_pct": 28.2
+    },
+    {
+      "year": 2024,
+      "total": 5997,
+      "by_grade": {
+        "pk": 79,
+        "k": 434,
+        "g1": 497,
+        "g2": 487,
+        "g3": 482,
+        "g4": 476,
+        "g5": 524,
+        "g6": 468,
+        "g7": 493,
+        "g8": 448,
+        "g9": 432,
+        "g10": 391,
+        "g11": 388,
+        "g12": 398
+      },
+      "race_pct": {
+        "white": 66.6,
+        "asian": 12.9,
+        "hispanic": 8.0,
+        "black": 3.2,
+        "multiracial": 9.1
+      },
+      "gender_pct": {
+        "female": 49.0,
+        "male": 50.2
+      },
+      "el_pct": 5.1,
+      "low_income_pct": 10.6,
+      "swd_pct": 17.1,
+      "high_needs_pct": 28.9
+    },
+    {
+      "year": 2025,
+      "total": 6113,
+      "by_grade": {
+        "pk": 100,
+        "k": 446,
+        "g1": 434,
+        "g2": 497,
+        "g3": 496,
+        "g4": 487,
+        "g5": 484,
+        "g6": 529,
+        "g7": 466,
+        "g8": 497,
+        "g9": 420,
+        "g10": 444,
+        "g11": 405,
+        "g12": 408
+      },
+      "race_pct": {
+        "white": 65.2,
+        "asian": 13.1,
+        "hispanic": 8.6,
+        "black": 3.2,
+        "multiracial": 9.7
+      },
+      "gender_pct": {
+        "female": 48.4,
+        "male": 50.8
+      },
+      "el_pct": 4.6,
+      "low_income_pct": 10.9,
+      "swd_pct": 17.7,
+      "high_needs_pct": 29.6
+    },
+    {
+      "year": 2026,
+      "total": 6098,
+      "by_grade": {
+        "pk": 79,
+        "k": 429,
+        "g1": 455,
+        "g2": 443,
+        "g3": 494,
+        "g4": 498,
+        "g5": 486,
+        "g6": 480,
+        "g7": 522,
+        "g8": 455,
+        "g9": 466,
+        "g10": 434,
+        "g11": 443,
+        "g12": 414
+      },
+      "race_pct": {
+        "white": 64.5,
+        "asian": 13.3,
+        "hispanic": 8.5,
+        "black": 3.2,
+        "multiracial": 10.4
+      },
+      "gender_pct": {
+        "female": 48.8,
+        "male": 50.7
+      },
+      "el_pct": 4.6,
+      "low_income_pct": 11.1,
+      "swd_pct": 18.0,
+      "high_needs_pct": 29.5
+    }
+  ],
+  "mcas": [
+    {
+      "year": 2007,
+      "subject": "ELA",
+      "proficient_advanced_pct": 83.4,
+      "tested": 2433
+    },
+    {
+      "year": 2007,
+      "subject": "MTH",
+      "proficient_advanced_pct": 71.7,
+      "tested": 2427
+    },
+    {
+      "year": 2008,
+      "subject": "ELA",
+      "proficient_advanced_pct": 84.4,
+      "tested": 4777
+    },
+    {
+      "year": 2008,
+      "subject": "MTH",
+      "proficient_advanced_pct": 75.4,
+      "tested": 4798
+    },
+    {
+      "year": 2009,
+      "subject": "ELA",
+      "proficient_advanced_pct": 85.5,
+      "tested": 4942
+    },
+    {
+      "year": 2009,
+      "subject": "MTH",
+      "proficient_advanced_pct": 75.8,
+      "tested": 4944
+    },
+    {
+      "year": 2010,
+      "subject": "ELA",
+      "proficient_advanced_pct": 85.0,
+      "tested": 5020
+    },
+    {
+      "year": 2010,
+      "subject": "MTH",
+      "proficient_advanced_pct": 75.6,
+      "tested": 5036
+    },
+    {
+      "year": 2011,
+      "subject": "ELA",
+      "proficient_advanced_pct": 87.1,
+      "tested": 5080
+    },
+    {
+      "year": 2011,
+      "subject": "MTH",
+      "proficient_advanced_pct": 74.6,
+      "tested": 5100
+    },
+    {
+      "year": 2012,
+      "subject": "ELA",
+      "proficient_advanced_pct": 85.6,
+      "tested": 5046
+    },
+    {
+      "year": 2012,
+      "subject": "MTH",
+      "proficient_advanced_pct": 75.1,
+      "tested": 5058
+    },
+    {
+      "year": 2013,
+      "subject": "ELA",
+      "proficient_advanced_pct": 86.5,
+      "tested": 5062
+    },
+    {
+      "year": 2013,
+      "subject": "MTH",
+      "proficient_advanced_pct": 77.8,
+      "tested": 5072
+    },
+    {
+      "year": 2014,
+      "subject": "ELA",
+      "proficient_advanced_pct": 85.6,
+      "tested": 5322
+    },
+    {
+      "year": 2014,
+      "subject": "MTH",
+      "proficient_advanced_pct": 78.4,
+      "tested": 5320
+    },
+    {
+      "year": 2015,
+      "subject": "ELA",
+      "proficient_advanced_pct": 86.5,
+      "tested": 5476
+    },
+    {
+      "year": 2015,
+      "subject": "MTH",
+      "proficient_advanced_pct": 79.5,
+      "tested": 5466
+    },
+    {
+      "year": 2016,
+      "subject": "ELA",
+      "proficient_advanced_pct": 95.0,
+      "tested": 311
+    },
+    {
+      "year": 2016,
+      "subject": "MTH",
+      "proficient_advanced_pct": 90.0,
+      "tested": 311
+    },
+    {
+      "year": 2017,
+      "subject": "ELA",
+      "proficient_advanced_pct": 97.0,
+      "tested": 349
+    },
+    {
+      "year": 2017,
+      "subject": "MTH",
+      "proficient_advanced_pct": 92.0,
+      "tested": 342
+    },
+    {
+      "year": 2018,
+      "subject": "ELA",
+      "proficient_advanced_pct": 94.0,
+      "tested": 322
+    },
+    {
+      "year": 2018,
+      "subject": "MTH",
+      "proficient_advanced_pct": 89.0,
+      "tested": 322
+    }
+  ],
+  "graduation": [
+    {
+      "year": 2006,
+      "graduation_rate_4yr": 89.7,
+      "dropout_pct": 4.2
+    },
+    {
+      "year": 2007,
+      "graduation_rate_4yr": 90.3,
+      "dropout_pct": 3.1
+    },
+    {
+      "year": 2008,
+      "graduation_rate_4yr": 90.7,
+      "dropout_pct": 3.3
+    },
+    {
+      "year": 2009,
+      "graduation_rate_4yr": 92.8,
+      "dropout_pct": 3.6
+    },
+    {
+      "year": 2010,
+      "graduation_rate_4yr": 93.3,
+      "dropout_pct": 2.8
+    },
+    {
+      "year": 2011,
+      "graduation_rate_4yr": 92.2,
+      "dropout_pct": 2.5
+    },
+    {
+      "year": 2012,
+      "graduation_rate_4yr": 88.5,
+      "dropout_pct": 4.9
+    },
+    {
+      "year": 2013,
+      "graduation_rate_4yr": 91.0,
+      "dropout_pct": 4.6
+    },
+    {
+      "year": 2014,
+      "graduation_rate_4yr": 92.2,
+      "dropout_pct": 3.3
+    },
+    {
+      "year": 2015,
+      "graduation_rate_4yr": 92.3,
+      "dropout_pct": 3.4
+    },
+    {
+      "year": 2016,
+      "graduation_rate_4yr": 95.4,
+      "dropout_pct": 1.5
+    },
+    {
+      "year": 2017,
+      "graduation_rate_4yr": 95.4,
+      "dropout_pct": 1.0
+    },
+    {
+      "year": 2018,
+      "graduation_rate_4yr": 93.0,
+      "dropout_pct": 2.1
+    },
+    {
+      "year": 2019,
+      "graduation_rate_4yr": 95.8,
+      "dropout_pct": 1.4
+    },
+    {
+      "year": 2020,
+      "graduation_rate_4yr": 94.9,
+      "dropout_pct": 1.7
+    },
+    {
+      "year": 2021,
+      "graduation_rate_4yr": 95.1,
+      "dropout_pct": 0.3
+    },
+    {
+      "year": 2022,
+      "graduation_rate_4yr": 95.1,
+      "dropout_pct": 1.0
+    },
+    {
+      "year": 2023,
+      "graduation_rate_4yr": 95.6,
+      "dropout_pct": 1.0
+    },
+    {
+      "year": 2024,
+      "graduation_rate_4yr": 95.0,
+      "dropout_pct": 1.2
+    },
+    {
+      "year": 2025,
+      "graduation_rate_4yr": 96.8,
+      "dropout_pct": 0.5
+    }
+  ],
+  "dropout": [
+    {
+      "year": 2008,
+      "dropout_rate": 1.6
+    },
+    {
+      "year": 2009,
+      "dropout_rate": 1.5
+    },
+    {
+      "year": 2010,
+      "dropout_rate": 1.5
+    },
+    {
+      "year": 2011,
+      "dropout_rate": 1.0
+    },
+    {
+      "year": 2012,
+      "dropout_rate": 1.9
+    },
+    {
+      "year": 2013,
+      "dropout_rate": 0.7
+    },
+    {
+      "year": 2014,
+      "dropout_rate": 1.3
+    },
+    {
+      "year": 2015,
+      "dropout_rate": 0.6
+    },
+    {
+      "year": 2016,
+      "dropout_rate": 0.0
+    },
+    {
+      "year": 2017,
+      "dropout_rate": 0.7
+    },
+    {
+      "year": 2018,
+      "dropout_rate": 0.5
+    },
+    {
+      "year": 2019,
+      "dropout_rate": 0.5
+    },
+    {
+      "year": 2020,
+      "dropout_rate": 0.4
+    },
+    {
+      "year": 2021,
+      "dropout_rate": 0.2
+    },
+    {
+      "year": 2022,
+      "dropout_rate": 0.4
+    },
+    {
+      "year": 2023,
+      "dropout_rate": 0.3
+    },
+    {
+      "year": 2024,
+      "dropout_rate": 0.3
+    },
+    {
+      "year": 2025,
+      "dropout_rate": 0.4
+    }
+  ],
+  "staff": [
+    {
+      "year": 2008,
+      "fte_total": 554.0,
+      "age_under_26": 45.0,
+      "age_26_32": 111.0,
+      "age_33_40": 90.7,
+      "age_41_48": 94.2,
+      "age_49_56": 101.7,
+      "age_57_64": 96.6,
+      "age_over_64": 14.8
+    },
+    {
+      "year": 2009,
+      "fte_total": 564.6,
+      "age_under_26": 47.6,
+      "age_26_32": 119.1,
+      "age_33_40": 98.8,
+      "age_41_48": 99.8,
+      "age_49_56": 91.7,
+      "age_57_64": 89.0,
+      "age_over_64": 18.6
+    },
+    {
+      "year": 2010,
+      "fte_total": 604.8,
+      "age_under_26": 52.8,
+      "age_26_32": 137.9,
+      "age_33_40": 104.6,
+      "age_41_48": 104.4,
+      "age_49_56": 91.4,
+      "age_57_64": 94.2,
+      "age_over_64": 19.5
+    },
+    {
+      "year": 2011,
+      "fte_total": 563.6,
+      "age_under_26": 45.4,
+      "age_26_32": 124.1,
+      "age_33_40": 99.1,
+      "age_41_48": 102.8,
+      "age_49_56": 85.2,
+      "age_57_64": 86.2,
+      "age_over_64": 20.8
+    },
+    {
+      "year": 2012,
+      "fte_total": 602.2,
+      "age_under_26": 56.8,
+      "age_26_32": 140.8,
+      "age_33_40": 101.9,
+      "age_41_48": 108.2,
+      "age_49_56": 92.8,
+      "age_57_64": 81.8,
+      "age_over_64": 19.8
+    },
+    {
+      "year": 2013,
+      "fte_total": 633.5,
+      "age_under_26": 59.0,
+      "age_26_32": 146.4,
+      "age_33_40": 111.6,
+      "age_41_48": 113.9,
+      "age_49_56": 87.7,
+      "age_57_64": 86.6,
+      "age_over_64": 28.2
+    },
+    {
+      "year": 2014,
+      "fte_total": 600.1,
+      "age_under_26": 44.2,
+      "age_26_32": 132.3,
+      "age_33_40": 123.8,
+      "age_41_48": 116.5,
+      "age_49_56": 87.0,
+      "age_57_64": 75.0,
+      "age_over_64": 21.4
+    },
+    {
+      "year": 2015,
+      "fte_total": 646.1,
+      "age_under_26": 44.2,
+      "age_26_32": 127.3,
+      "age_33_40": 138.8,
+      "age_41_48": 136.7,
+      "age_49_56": 97.7,
+      "age_57_64": 75.9,
+      "age_over_64": 25.5
+    },
+    {
+      "year": 2016,
+      "fte_total": 676.4,
+      "age_under_26": 50.0,
+      "age_26_32": 132.5,
+      "age_33_40": 142.9,
+      "age_41_48": 142.3,
+      "age_49_56": 109.6,
+      "age_57_64": 74.9,
+      "age_over_64": 24.3
+    },
+    {
+      "year": 2017,
+      "fte_total": 711.1,
+      "age_under_26": 57.6,
+      "age_26_32": 133.6,
+      "age_33_40": 146.8,
+      "age_41_48": 156.0,
+      "age_49_56": 115.6,
+      "age_57_64": 68.2,
+      "age_over_64": 33.3
+    },
+    {
+      "year": 2018,
+      "fte_total": 736.2,
+      "age_under_26": 60.8,
+      "age_26_32": 130.1,
+      "age_33_40": 141.5,
+      "age_41_48": 166.2,
+      "age_49_56": 126.5,
+      "age_57_64": 76.2,
+      "age_over_64": 34.9
+    },
+    {
+      "year": 2019,
+      "fte_total": 769.1,
+      "age_under_26": 73.7,
+      "age_26_32": 134.3,
+      "age_33_40": 157.7,
+      "age_41_48": 151.7,
+      "age_49_56": 141.5,
+      "age_57_64": 75.2,
+      "age_over_64": 35.1
+    },
+    {
+      "year": 2020,
+      "fte_total": 798.9,
+      "age_under_26": 74.8,
+      "age_26_32": 141.4,
+      "age_33_40": 174.0,
+      "age_41_48": 151.5,
+      "age_49_56": 149.8,
+      "age_57_64": 77.2,
+      "age_over_64": 30.2
+    },
+    {
+      "year": 2021,
+      "fte_total": 844.9,
+      "age_under_26": 59.8,
+      "age_26_32": 168.9,
+      "age_33_40": 178.6,
+      "age_41_48": 167.0,
+      "age_49_56": 152.9,
+      "age_57_64": 80.1,
+      "age_over_64": 37.6
+    },
+    {
+      "year": 2022,
+      "fte_total": 890.7,
+      "age_under_26": 66.7,
+      "age_26_32": 177.5,
+      "age_33_40": 174.4,
+      "age_41_48": 191.0,
+      "age_49_56": 168.3,
+      "age_57_64": 82.4,
+      "age_over_64": 30.4
+    },
+    {
+      "year": 2023,
+      "fte_total": 902.0,
+      "age_under_26": 56.0,
+      "age_26_32": 182.1,
+      "age_33_40": 173.3,
+      "age_41_48": 205.3,
+      "age_49_56": 170.5,
+      "age_57_64": 82.1,
+      "age_over_64": 32.8
+    },
+    {
+      "year": 2024,
+      "fte_total": 936.3,
+      "age_under_26": 58.0,
+      "age_26_32": 203.5,
+      "age_33_40": 160.7,
+      "age_41_48": 192.5,
+      "age_49_56": 188.0,
+      "age_57_64": 100.6,
+      "age_over_64": 33.1
+    },
+    {
+      "year": 2025,
+      "fte_total": 953.1,
+      "age_under_26": 62.7,
+      "age_26_32": 202.9,
+      "age_33_40": 164.7,
+      "age_41_48": 189.8,
+      "age_49_56": 199.3,
+      "age_57_64": 103.3,
+      "age_over_64": 30.4
+    },
+    {
+      "year": 2026,
+      "fte_total": 938.8,
+      "age_under_26": 42.8,
+      "age_26_32": 195.7,
+      "age_33_40": 162.9,
+      "age_41_48": 192.3,
+      "age_49_56": 208.8,
+      "age_57_64": 106.9,
+      "age_over_64": 29.6
+    }
+  ],
+  "teachers": [
+    {
+      "year": 2008,
+      "teacher_fte": 333.9,
+      "licensed_pct": 98.4,
+      "student_teacher_ratio": 13.6
+    },
+    {
+      "year": 2009,
+      "teacher_fte": 336.7,
+      "licensed_pct": 97.8,
+      "student_teacher_ratio": 13.8
+    },
+    {
+      "year": 2010,
+      "teacher_fte": 345.1,
+      "licensed_pct": 99.1,
+      "student_teacher_ratio": 13.7
+    },
+    {
+      "year": 2011,
+      "teacher_fte": 316.7,
+      "licensed_pct": 98.1,
+      "student_teacher_ratio": 15.2
+    },
+    {
+      "year": 2012,
+      "teacher_fte": 329.0,
+      "licensed_pct": 99.0,
+      "student_teacher_ratio": 14.8
+    },
+    {
+      "year": 2013,
+      "teacher_fte": 336.6,
+      "licensed_pct": 99.3,
+      "student_teacher_ratio": 14.6
+    },
+    {
+      "year": 2014,
+      "teacher_fte": 317.8,
+      "licensed_pct": 98.4,
+      "student_teacher_ratio": 15.8
+    },
+    {
+      "year": 2015,
+      "teacher_fte": 359.7,
+      "licensed_pct": 98.7,
+      "student_teacher_ratio": 14.5
+    },
+    {
+      "year": 2016,
+      "teacher_fte": 381.4,
+      "licensed_pct": 99.1,
+      "student_teacher_ratio": 13.9
+    },
+    {
+      "year": 2017,
+      "teacher_fte": 398.2,
+      "licensed_pct": 99.4,
+      "student_teacher_ratio": 13.9
+    },
+    {
+      "year": 2018,
+      "teacher_fte": 399.7,
+      "licensed_pct": 99.5,
+      "student_teacher_ratio": 14.3
+    },
+    {
+      "year": 2019,
+      "teacher_fte": 421.0,
+      "licensed_pct": 99.8,
+      "student_teacher_ratio": 14.1
+    },
+    {
+      "year": 2020,
+      "teacher_fte": 438.6,
+      "licensed_pct": 99.4,
+      "student_teacher_ratio": 13.8
+    },
+    {
+      "year": 2021,
+      "teacher_fte": 465.8,
+      "licensed_pct": 99.4,
+      "student_teacher_ratio": 12.4
+    },
+    {
+      "year": 2022,
+      "teacher_fte": 469.7,
+      "licensed_pct": 99.3,
+      "student_teacher_ratio": 12.5
+    },
+    {
+      "year": 2023,
+      "teacher_fte": 486.3,
+      "licensed_pct": 99.2,
+      "student_teacher_ratio": 12.3
+    },
+    {
+      "year": 2024,
+      "teacher_fte": 491.4,
+      "licensed_pct": 99.6,
+      "student_teacher_ratio": 12.2
+    },
+    {
+      "year": 2025,
+      "teacher_fte": 484.3,
+      "licensed_pct": 98.9,
+      "student_teacher_ratio": 12.6
+    },
+    {
+      "year": 2026,
+      "teacher_fte": 503.6,
+      "licensed_pct": 98.2,
+      "student_teacher_ratio": 12.1
+    }
+  ],
+  "class_size": [
+    {
+      "year": 2011,
+      "avg_class_size": 19.7,
+      "total_students": 4790,
+      "total_classes": 1605
+    },
+    {
+      "year": 2012,
+      "avg_class_size": 18.5,
+      "total_students": 4820,
+      "total_classes": 1457
+    },
+    {
+      "year": 2013,
+      "avg_class_size": 18.6,
+      "total_students": 4907,
+      "total_classes": 1671
+    },
+    {
+      "year": 2014,
+      "avg_class_size": 17.6,
+      "total_students": 5021,
+      "total_classes": 1813
+    },
+    {
+      "year": 2015,
+      "avg_class_size": 18.0,
+      "total_students": 5197,
+      "total_classes": 1791
+    },
+    {
+      "year": 2016,
+      "avg_class_size": 18.0,
+      "total_students": 5355,
+      "total_classes": 2340
+    },
+    {
+      "year": 2017,
+      "avg_class_size": 18.6,
+      "total_students": 5554,
+      "total_classes": 2326
+    },
+    {
+      "year": 2018,
+      "avg_class_size": 18.1,
+      "total_students": 5743,
+      "total_classes": 2562
+    },
+    {
+      "year": 2019,
+      "avg_class_size": 18.2,
+      "total_students": 5993,
+      "total_classes": 2664
+    },
+    {
+      "year": 2020,
+      "avg_class_size": 17.7,
+      "total_students": 6086,
+      "total_classes": 2800
+    },
+    {
+      "year": 2021,
+      "avg_class_size": 15.7,
+      "total_students": 5765,
+      "total_classes": 3172
+    },
+    {
+      "year": 2022,
+      "avg_class_size": 17.2,
+      "total_students": 5968,
+      "total_classes": 2886
+    },
+    {
+      "year": 2023,
+      "avg_class_size": 17.4,
+      "total_students": 6031,
+      "total_classes": 2962
+    },
+    {
+      "year": 2024,
+      "avg_class_size": 17.7,
+      "total_students": 6034,
+      "total_classes": 2912
+    },
+    {
+      "year": 2025,
+      "avg_class_size": 18.2,
+      "total_students": 6150,
+      "total_classes": 2856
+    }
+  ],
+  "expenditures": [
+    {
+      "year": 2009,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2010,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2011,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2012,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2013,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2014,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2015,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2016,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2017,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2018,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2019,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2020,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2021,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2022,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2023,
+      "categories": {},
+      "per_pupil": {}
+    },
+    {
+      "year": 2024,
+      "categories": {},
+      "per_pupil": {}
+    }
+  ],
+  "nss": [
+    {
+      "year": 2008,
+      "foundation_budget": 35888203.0,
+      "required_nss": 36427560.8,
+      "actual_nss": 47213452.0
+    },
+    {
+      "year": 2009,
+      "foundation_budget": 38070505.06,
+      "required_nss": 37415406.0,
+      "actual_nss": 47421632.16
+    },
+    {
+      "year": 2010,
+      "foundation_budget": 40248798.11,
+      "required_nss": 39309966.0,
+      "actual_nss": 50771109.64
+    },
+    {
+      "year": 2011,
+      "foundation_budget": 39642105.95,
+      "required_nss": 40123628.0,
+      "actual_nss": 48997460.8
+    },
+    {
+      "year": 2012,
+      "foundation_budget": 41361535.89,
+      "required_nss": 41361536.0,
+      "actual_nss": 54695253.0
+    },
+    {
+      "year": 2013,
+      "foundation_budget": 43488849.25,
+      "required_nss": 43488849.0,
+      "actual_nss": 55339649.62
+    },
+    {
+      "year": 2014,
+      "foundation_budget": 46406615.11,
+      "required_nss": 46406615.0,
+      "actual_nss": 57753879.67
+    },
+    {
+      "year": 2015,
+      "foundation_budget": 47819420.0,
+      "required_nss": 47819420.0,
+      "actual_nss": 61289587.0
+    },
+    {
+      "year": 2016,
+      "foundation_budget": 50290292.0,
+      "required_nss": 50290292.0,
+      "actual_nss": 65578452.0
+    },
+    {
+      "year": 2017,
+      "foundation_budget": 51156059.77,
+      "required_nss": 52773808.0,
+      "actual_nss": 69989280.73
+    },
+    {
+      "year": 2018,
+      "foundation_budget": 54501493.56,
+      "required_nss": 54985998.0,
+      "actual_nss": 74002253.03
+    },
+    {
+      "year": 2019,
+      "foundation_budget": 58002941.0,
+      "required_nss": 58002941.0,
+      "actual_nss": 77130474.0
+    },
+    {
+      "year": 2020,
+      "foundation_budget": 62294073.0,
+      "required_nss": 62309464.0,
+      "actual_nss": 84387812.0
+    },
+    {
+      "year": 2021,
+      "foundation_budget": 62294073.0,
+      "required_nss": 64909477.0,
+      "actual_nss": 92758913.0
+    },
+    {
+      "year": 2022,
+      "foundation_budget": 64412506.0,
+      "required_nss": 65961393.0,
+      "actual_nss": 96979638.0
+    }
+  ],
+  "summary": {
+    "enrollment": 6098,
+    "enrollment_year": 2026,
+    "graduation_rate": 96.8,
+    "graduation_year": 2025,
+    "staff_fte": 938.8,
+    "teacher_fte": 503.6,
+    "student_teacher_ratio": 12.1,
+    "high_needs_pct": 29.5,
+    "low_income_pct": 11.1
+  }
+}

@@ -1,0 +1,1455 @@
+{
+  "generated": "2026-03-21T12:25:33.944473",
+  "source": "US Census Bureau",
+  "geography": "Arlington town, Middlesex County, Massachusetts",
+  "decennial": [
+    {
+      "year": 1900,
+      "population": 8603
+    },
+    {
+      "year": 1910,
+      "population": 11187
+    },
+    {
+      "year": 1920,
+      "population": 18665
+    },
+    {
+      "year": 1930,
+      "population": 36094
+    },
+    {
+      "year": 1940,
+      "population": 40013
+    },
+    {
+      "year": 1950,
+      "population": 44353
+    },
+    {
+      "year": 1960,
+      "population": 49953
+    },
+    {
+      "year": 1970,
+      "population": 53524
+    },
+    {
+      "year": 1980,
+      "population": 48219
+    },
+    {
+      "year": 1990,
+      "population": 44630
+    },
+    {
+      "year": 2000,
+      "population": 42389
+    },
+    {
+      "year": 2010,
+      "population": 42844
+    },
+    {
+      "year": 2020,
+      "population": 46308
+    }
+  ],
+  "acs_annual": [
+    {
+      "year": 2009,
+      "total_population": 41244,
+      "male": 19191,
+      "female": 22053,
+      "median_age": 41.5,
+      "age_distribution": {
+        "under_5": 2547,
+        "5_to_9": 2662,
+        "10_to_14": 2072,
+        "15_to_17": 1184,
+        "18_to_24": 2055,
+        "25_to_34": 5385,
+        "35_to_44": 7234,
+        "45_to_54": 7107,
+        "55_to_64": 4437,
+        "65_to_74": 3265,
+        "75_plus": 3296
+      },
+      "race": {
+        "white": 35685,
+        "black": 1004,
+        "asian": 3290,
+        "two_or_more": 1050,
+        "hispanic_latino": 959
+      },
+      "housing": {
+        "total_units": 19268,
+        "owner_occupied": 11245,
+        "renter_occupied": 6873
+      },
+      "income": {
+        "median_household": 83740,
+        "below_poverty": 1869
+      }
+    },
+    {
+      "year": 2010,
+      "total_population": 42240,
+      "male": 19751,
+      "female": 22489,
+      "median_age": 41.8,
+      "age_distribution": {
+        "under_5": 2448,
+        "5_to_9": 2678,
+        "10_to_14": 2081,
+        "15_to_17": 1132,
+        "18_to_24": 2074,
+        "25_to_34": 5919,
+        "35_to_44": 6934,
+        "45_to_54": 7169,
+        "55_to_64": 4909,
+        "65_to_74": 3610,
+        "75_plus": 3286
+      },
+      "race": {
+        "white": 36328,
+        "black": 925,
+        "asian": 3655,
+        "two_or_more": 1159,
+        "hispanic_latino": 1276
+      },
+      "housing": {
+        "total_units": 19956,
+        "owner_occupied": 11547,
+        "renter_occupied": 7447
+      },
+      "income": {
+        "median_household": 82771,
+        "below_poverty": 2052
+      }
+    },
+    {
+      "year": 2011,
+      "total_population": 42570,
+      "male": 20369,
+      "female": 22201,
+      "median_age": 41.7,
+      "age_distribution": {
+        "under_5": 2435,
+        "5_to_9": 2824,
+        "10_to_14": 2236,
+        "15_to_17": 1348,
+        "18_to_24": 2091,
+        "25_to_34": 5759,
+        "35_to_44": 7016,
+        "45_to_54": 7232,
+        "55_to_64": 4978,
+        "65_to_74": 3310,
+        "75_plus": 3341
+      },
+      "race": {
+        "white": 36980,
+        "black": 1169,
+        "asian": 3151,
+        "two_or_more": 1085,
+        "hispanic_latino": 1507
+      },
+      "housing": {
+        "total_units": 20017,
+        "owner_occupied": 11325,
+        "renter_occupied": 7682
+      },
+      "income": {
+        "median_household": 85059,
+        "below_poverty": 1861
+      }
+    },
+    {
+      "year": 2012,
+      "total_population": 42952,
+      "male": 20626,
+      "female": 22326,
+      "median_age": 41.9,
+      "age_distribution": {
+        "under_5": 2581,
+        "5_to_9": 2650,
+        "10_to_14": 2270,
+        "15_to_17": 1452,
+        "18_to_24": 1813,
+        "25_to_34": 5925,
+        "35_to_44": 6952,
+        "45_to_54": 6923,
+        "55_to_64": 5660,
+        "65_to_74": 3429,
+        "75_plus": 3297
+      },
+      "race": {
+        "white": 37117,
+        "black": 1279,
+        "asian": 3410,
+        "two_or_more": 969,
+        "hispanic_latino": 1499
+      },
+      "housing": {
+        "total_units": 19929,
+        "owner_occupied": 11505,
+        "renter_occupied": 7582
+      },
+      "income": {
+        "median_household": 87525,
+        "below_poverty": 1929
+      }
+    },
+    {
+      "year": 2013,
+      "total_population": 43308,
+      "male": 20998,
+      "female": 22310,
+      "median_age": 41.6,
+      "age_distribution": {
+        "under_5": 2929,
+        "5_to_9": 2436,
+        "10_to_14": 2277,
+        "15_to_17": 1524,
+        "18_to_24": 2015,
+        "25_to_34": 6129,
+        "35_to_44": 6730,
+        "45_to_54": 7039,
+        "55_to_64": 5715,
+        "65_to_74": 3260,
+        "75_plus": 3254
+      },
+      "race": {
+        "white": 37052,
+        "black": 901,
+        "asian": 3849,
+        "two_or_more": 1136,
+        "hispanic_latino": 1428
+      },
+      "housing": {
+        "total_units": 19552,
+        "owner_occupied": 11514,
+        "renter_occupied": 7174
+      },
+      "income": {
+        "median_household": 89841,
+        "below_poverty": 1666
+      }
+    },
+    {
+      "year": 2014,
+      "total_population": 43728,
+      "male": 21093,
+      "female": 22635,
+      "median_age": 41.9,
+      "age_distribution": {
+        "under_5": 3001,
+        "5_to_9": 2584,
+        "10_to_14": 2308,
+        "15_to_17": 1508,
+        "18_to_24": 1813,
+        "25_to_34": 6018,
+        "35_to_44": 6939,
+        "45_to_54": 7109,
+        "55_to_64": 5814,
+        "65_to_74": 3150,
+        "75_plus": 3484
+      },
+      "race": {
+        "white": 37258,
+        "black": 929,
+        "asian": 3931,
+        "two_or_more": 1197,
+        "hispanic_latino": 1681
+      },
+      "housing": {
+        "total_units": 19556,
+        "owner_occupied": 11457,
+        "renter_occupied": 7269
+      },
+      "income": {
+        "median_household": 92338,
+        "below_poverty": 1928
+      }
+    },
+    {
+      "year": 2015,
+      "total_population": 44128,
+      "male": 20771,
+      "female": 23357,
+      "median_age": 42.3,
+      "age_distribution": {
+        "under_5": 3122,
+        "5_to_9": 2652,
+        "10_to_14": 2108,
+        "15_to_17": 1634,
+        "18_to_24": 1780,
+        "25_to_34": 5941,
+        "35_to_44": 6822,
+        "45_to_54": 7089,
+        "55_to_64": 5928,
+        "65_to_74": 3217,
+        "75_plus": 3835
+      },
+      "race": {
+        "white": 37160,
+        "black": 972,
+        "asian": 4200,
+        "two_or_more": 1341,
+        "hispanic_latino": 1485
+      },
+      "housing": {
+        "total_units": 19618,
+        "owner_occupied": 11372,
+        "renter_occupied": 7271
+      },
+      "income": {
+        "median_household": 93787,
+        "below_poverty": 2189
+      }
+    },
+    {
+      "year": 2016,
+      "total_population": 44408,
+      "male": 20755,
+      "female": 23653,
+      "median_age": 41.6,
+      "age_distribution": {
+        "under_5": 3181,
+        "5_to_9": 2685,
+        "10_to_14": 2017,
+        "15_to_17": 1581,
+        "18_to_24": 2014,
+        "25_to_34": 6127,
+        "35_to_44": 6791,
+        "45_to_54": 7141,
+        "55_to_64": 5807,
+        "65_to_74": 3467,
+        "75_plus": 3597
+      },
+      "race": {
+        "white": 36823,
+        "black": 870,
+        "asian": 4751,
+        "two_or_more": 1450,
+        "hispanic_latino": 1637
+      },
+      "housing": {
+        "total_units": 19618,
+        "owner_occupied": 11296,
+        "renter_occupied": 7356
+      },
+      "income": {
+        "median_household": 98103,
+        "below_poverty": 2252
+      }
+    },
+    {
+      "year": 2017,
+      "total_population": 44992,
+      "male": 21209,
+      "female": 23783,
+      "median_age": 41.4,
+      "age_distribution": {
+        "under_5": 3143,
+        "5_to_9": 2817,
+        "10_to_14": 2130,
+        "15_to_17": 1575,
+        "18_to_24": 2128,
+        "25_to_34": 6324,
+        "35_to_44": 6764,
+        "45_to_54": 7103,
+        "55_to_64": 5641,
+        "65_to_74": 3788,
+        "75_plus": 3579
+      },
+      "race": {
+        "white": 36748,
+        "black": 851,
+        "asian": 5195,
+        "two_or_more": 1643,
+        "hispanic_latino": 1941
+      },
+      "housing": {
+        "total_units": 19615,
+        "owner_occupied": 11349,
+        "renter_occupied": 7283
+      },
+      "income": {
+        "median_household": 103594,
+        "below_poverty": 2313
+      }
+    },
+    {
+      "year": 2018,
+      "total_population": 45147,
+      "male": 21008,
+      "female": 24139,
+      "median_age": 41.0,
+      "age_distribution": {
+        "under_5": 3128,
+        "5_to_9": 2944,
+        "10_to_14": 2142,
+        "15_to_17": 1675,
+        "18_to_24": 2081,
+        "25_to_34": 6254,
+        "35_to_44": 7137,
+        "45_to_54": 6610,
+        "55_to_64": 5838,
+        "65_to_74": 3982,
+        "75_plus": 3356
+      },
+      "race": {
+        "white": 36371,
+        "black": 1200,
+        "asian": 5321,
+        "two_or_more": 1757,
+        "hispanic_latino": 2286
+      },
+      "housing": {
+        "total_units": 19925,
+        "owner_occupied": 11140,
+        "renter_occupied": 7670
+      },
+      "income": {
+        "median_household": 107085,
+        "below_poverty": 2405
+      }
+    },
+    {
+      "year": 2019,
+      "total_population": 45304,
+      "male": 21022,
+      "female": 24282,
+      "median_age": 40.7,
+      "age_distribution": {
+        "under_5": 3068,
+        "5_to_9": 2747,
+        "10_to_14": 2222,
+        "15_to_17": 1617,
+        "18_to_24": 2290,
+        "25_to_34": 6568,
+        "35_to_44": 6894,
+        "45_to_54": 6134,
+        "55_to_64": 6184,
+        "65_to_74": 4285,
+        "75_plus": 3295
+      },
+      "race": {
+        "white": 36090,
+        "black": 1403,
+        "asian": 5567,
+        "two_or_more": 1715,
+        "hispanic_latino": 2226
+      },
+      "housing": {
+        "total_units": 20207,
+        "owner_occupied": 11056,
+        "renter_occupied": 8009
+      },
+      "income": {
+        "median_household": 108389,
+        "below_poverty": 2365
+      }
+    },
+    {
+      "year": 2020,
+      "total_population": 45379,
+      "male": 21229,
+      "female": 24150,
+      "median_age": 39.8,
+      "age_distribution": {
+        "under_5": 2962,
+        "5_to_9": 2458,
+        "10_to_14": 2698,
+        "15_to_17": 1555,
+        "18_to_24": 2460,
+        "25_to_34": 7136,
+        "35_to_44": 6814,
+        "45_to_54": 6104,
+        "55_to_64": 5876,
+        "65_to_74": 4140,
+        "75_plus": 3176
+      },
+      "race": {
+        "white": 35601,
+        "black": 1362,
+        "asian": 5872,
+        "two_or_more": 2058,
+        "hispanic_latino": 2342
+      },
+      "housing": {
+        "total_units": 20012,
+        "owner_occupied": 11063,
+        "renter_occupied": 8055
+      },
+      "income": {
+        "median_household": 114576,
+        "below_poverty": 2486
+      }
+    },
+    {
+      "year": 2021,
+      "total_population": 46045,
+      "male": 21517,
+      "female": 24528,
+      "median_age": 39.7,
+      "age_distribution": {
+        "under_5": 2979,
+        "5_to_9": 2566,
+        "10_to_14": 2825,
+        "15_to_17": 1475,
+        "18_to_24": 2319,
+        "25_to_34": 7351,
+        "35_to_44": 6943,
+        "45_to_54": 6222,
+        "55_to_64": 5980,
+        "65_to_74": 4391,
+        "75_plus": 2994
+      },
+      "race": {
+        "white": 34801,
+        "black": 1541,
+        "asian": 6301,
+        "two_or_more": 2813,
+        "hispanic_latino": 2312
+      },
+      "housing": {
+        "total_units": 20182,
+        "owner_occupied": 11513,
+        "renter_occupied": 7795
+      },
+      "income": {
+        "median_household": 125701,
+        "below_poverty": 2110
+      }
+    },
+    {
+      "year": 2022,
+      "total_population": 45906,
+      "male": 21710,
+      "female": 24196,
+      "median_age": 40.7,
+      "age_distribution": {
+        "under_5": 2479,
+        "5_to_9": 2499,
+        "10_to_14": 3092,
+        "15_to_17": 1718,
+        "18_to_24": 2409,
+        "25_to_34": 6597,
+        "35_to_44": 6841,
+        "45_to_54": 6936,
+        "55_to_64": 5712,
+        "65_to_74": 4389,
+        "75_plus": 3234
+      },
+      "race": {
+        "white": 34836,
+        "black": 1292,
+        "asian": 6105,
+        "two_or_more": 2848,
+        "hispanic_latino": 2361
+      },
+      "housing": {
+        "total_units": 20381,
+        "owner_occupied": 11812,
+        "renter_occupied": 7639
+      },
+      "income": {
+        "median_household": 136312,
+        "below_poverty": 2472
+      }
+    },
+    {
+      "year": 2023,
+      "total_population": 46015,
+      "male": 21904,
+      "female": 24111,
+      "median_age": 41.3,
+      "age_distribution": {
+        "under_5": 2203,
+        "5_to_9": 2368,
+        "10_to_14": 3102,
+        "15_to_17": 1742,
+        "18_to_24": 2244,
+        "25_to_34": 7139,
+        "35_to_44": 6595,
+        "45_to_54": 7200,
+        "55_to_64": 5650,
+        "65_to_74": 4528,
+        "75_plus": 3244
+      },
+      "race": {
+        "white": 35186,
+        "black": 1163,
+        "asian": 5570,
+        "two_or_more": 3250,
+        "hispanic_latino": 2299
+      },
+      "housing": {
+        "total_units": 20599,
+        "owner_occupied": 12034,
+        "renter_occupied": 7819
+      },
+      "income": {
+        "median_household": 141440,
+        "below_poverty": 2469
+      }
+    }
+  ],
+  "additional": [
+    {
+      "year": 2009,
+      "education": {
+        "pop_25_plus": 30724,
+        "less_than_9th": 668,
+        "no_diploma": 749,
+        "high_school": 5774,
+        "some_college": 3052,
+        "associates": 1669,
+        "bachelors": 8718,
+        "graduate": 10094
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 19076,
+        "service": 1330,
+        "sales_office": 4338,
+        "construction_maintenance": 602,
+        "production_transportation": 196
+      },
+      "housing_detail": {
+        "total_units": 19268,
+        "occupied": 18118,
+        "vacant": 1150,
+        "median_home_value": 490600,
+        "median_rent": 1235
+      },
+      "housing_structure": {
+        "single_detached": 8226,
+        "single_attached": 1025,
+        "two_units": 5018,
+        "three_four": 1119,
+        "five_nine": 586,
+        "ten_nineteen": 1089,
+        "twenty_plus": 2205,
+        "mobile": 0
+      },
+      "commute": {
+        "total_workers": 22589,
+        "drove_alone": 14968,
+        "carpooled": 1242,
+        "public_transit": 4040,
+        "bicycle": 422,
+        "walked": 585,
+        "wfh": 1218,
+        "drove_alone_pct": 66.3,
+        "public_transit_pct": 17.9,
+        "walked_pct": 2.6,
+        "bicycle_pct": 1.9,
+        "wfh_pct": 5.4
+      }
+    },
+    {
+      "year": 2010,
+      "education": {
+        "pop_25_plus": 31827,
+        "less_than_9th": 635,
+        "no_diploma": 751,
+        "high_school": 5641,
+        "some_college": 3305,
+        "associates": 1666,
+        "bachelors": 8847,
+        "graduate": 10982
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 15081,
+        "service": 2068,
+        "sales_office": 5076,
+        "construction_maintenance": 462,
+        "production_transportation": 51
+      },
+      "housing_detail": {
+        "total_units": 19956,
+        "occupied": 18994,
+        "vacant": 962,
+        "median_home_value": 491700,
+        "median_rent": 1268
+      },
+      "housing_structure": {
+        "single_detached": 8388,
+        "single_attached": 1066,
+        "two_units": 5326,
+        "three_four": 1216,
+        "five_nine": 526,
+        "ten_nineteen": 1027,
+        "twenty_plus": 2407,
+        "mobile": 0
+      },
+      "commute": {
+        "total_workers": 23227,
+        "drove_alone": 15437,
+        "carpooled": 1409,
+        "public_transit": 3887,
+        "bicycle": 489,
+        "walked": 552,
+        "wfh": 1296,
+        "drove_alone_pct": 66.5,
+        "public_transit_pct": 16.7,
+        "walked_pct": 2.4,
+        "bicycle_pct": 2.1,
+        "wfh_pct": 5.6
+      }
+    },
+    {
+      "year": 2011,
+      "education": {
+        "pop_25_plus": 31636,
+        "less_than_9th": 620,
+        "no_diploma": 709,
+        "high_school": 5333,
+        "some_college": 3322,
+        "associates": 1510,
+        "bachelors": 9182,
+        "graduate": 10960
+      },
+      "employment": {
+        "pop_16_plus": 34571,
+        "in_labor_force": 24984,
+        "employed": 23747,
+        "unemployed": 1210
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 15213,
+        "service": 2103,
+        "sales_office": 4937,
+        "construction_maintenance": 490,
+        "production_transportation": 79
+      },
+      "housing_detail": {
+        "total_units": 20017,
+        "occupied": 19007,
+        "vacant": 1010,
+        "median_home_value": 496000,
+        "median_rent": 1318
+      },
+      "housing_structure": {
+        "single_detached": 8445,
+        "single_attached": 1140,
+        "two_units": 5156,
+        "three_four": 1268,
+        "five_nine": 625,
+        "ten_nineteen": 973,
+        "twenty_plus": 2403,
+        "mobile": 7
+      },
+      "commute": {
+        "total_workers": 23202,
+        "drove_alone": 15195,
+        "carpooled": 1628,
+        "public_transit": 3742,
+        "bicycle": 569,
+        "walked": 589,
+        "wfh": 1345,
+        "drove_alone_pct": 65.5,
+        "public_transit_pct": 16.1,
+        "walked_pct": 2.5,
+        "bicycle_pct": 2.5,
+        "wfh_pct": 5.8
+      }
+    },
+    {
+      "year": 2012,
+      "education": {
+        "pop_25_plus": 32186,
+        "less_than_9th": 725,
+        "no_diploma": 774,
+        "high_school": 5236,
+        "some_college": 3280,
+        "associates": 1483,
+        "bachelors": 9273,
+        "graduate": 11415
+      },
+      "employment": {
+        "pop_16_plus": 34976,
+        "in_labor_force": 25523,
+        "employed": 24067,
+        "unemployed": 1424
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 15832,
+        "service": 1937,
+        "sales_office": 4713,
+        "construction_maintenance": 515,
+        "production_transportation": 91
+      },
+      "housing_detail": {
+        "total_units": 19929,
+        "occupied": 19087,
+        "vacant": 842,
+        "median_home_value": 490200,
+        "median_rent": 1324
+      },
+      "housing_structure": {
+        "single_detached": 8573,
+        "single_attached": 929,
+        "two_units": 5102,
+        "three_four": 1107,
+        "five_nine": 697,
+        "ten_nineteen": 986,
+        "twenty_plus": 2525,
+        "mobile": 10
+      },
+      "commute": {
+        "total_workers": 23566,
+        "drove_alone": 15817,
+        "carpooled": 1514,
+        "public_transit": 3736,
+        "bicycle": 476,
+        "walked": 471,
+        "wfh": 1403,
+        "drove_alone_pct": 67.1,
+        "public_transit_pct": 15.9,
+        "walked_pct": 2.0,
+        "bicycle_pct": 2.0,
+        "wfh_pct": 6.0
+      }
+    },
+    {
+      "year": 2013,
+      "education": {
+        "pop_25_plus": 32127,
+        "less_than_9th": 732,
+        "no_diploma": 639,
+        "high_school": 4765,
+        "some_college": 3319,
+        "associates": 1406,
+        "bachelors": 9611,
+        "graduate": 11655
+      },
+      "employment": {
+        "pop_16_plus": 35191,
+        "in_labor_force": 25862,
+        "employed": 24288,
+        "unemployed": 1546
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 16492,
+        "service": 2143,
+        "sales_office": 4253,
+        "construction_maintenance": 478,
+        "production_transportation": 34
+      },
+      "housing_detail": {
+        "total_units": 19552,
+        "occupied": 18688,
+        "vacant": 864,
+        "median_home_value": 498700,
+        "median_rent": 1379
+      },
+      "housing_structure": {
+        "single_detached": 8385,
+        "single_attached": 1029,
+        "two_units": 4835,
+        "three_four": 1033,
+        "five_nine": 797,
+        "ten_nineteen": 891,
+        "twenty_plus": 2575,
+        "mobile": 7
+      },
+      "commute": {
+        "total_workers": 23961,
+        "drove_alone": 15858,
+        "carpooled": 1403,
+        "public_transit": 4052,
+        "bicycle": 681,
+        "walked": 476,
+        "wfh": 1364,
+        "drove_alone_pct": 66.2,
+        "public_transit_pct": 16.9,
+        "walked_pct": 2.0,
+        "bicycle_pct": 2.8,
+        "wfh_pct": 5.7
+      }
+    },
+    {
+      "year": 2014,
+      "education": {
+        "pop_25_plus": 32514,
+        "less_than_9th": 652,
+        "no_diploma": 681,
+        "high_school": 4565,
+        "some_college": 3223,
+        "associates": 1499,
+        "bachelors": 10034,
+        "graduate": 11860
+      },
+      "employment": {
+        "pop_16_plus": 35433,
+        "in_labor_force": 25801,
+        "employed": 24253,
+        "unemployed": 1524
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 16791,
+        "service": 2057,
+        "sales_office": 4020,
+        "construction_maintenance": 391,
+        "production_transportation": 79
+      },
+      "housing_detail": {
+        "total_units": 19556,
+        "occupied": 18726,
+        "vacant": 830,
+        "median_home_value": 507200,
+        "median_rent": 1419
+      },
+      "housing_structure": {
+        "single_detached": 8052,
+        "single_attached": 1061,
+        "two_units": 4794,
+        "three_four": 1356,
+        "five_nine": 744,
+        "ten_nineteen": 939,
+        "twenty_plus": 2601,
+        "mobile": 9
+      },
+      "commute": {
+        "total_workers": 23879,
+        "drove_alone": 15674,
+        "carpooled": 1419,
+        "public_transit": 4215,
+        "bicycle": 710,
+        "walked": 442,
+        "wfh": 1323,
+        "drove_alone_pct": 65.6,
+        "public_transit_pct": 17.7,
+        "walked_pct": 1.9,
+        "bicycle_pct": 3.0,
+        "wfh_pct": 5.5
+      }
+    },
+    {
+      "year": 2015,
+      "education": {
+        "pop_25_plus": 32832,
+        "less_than_9th": 763,
+        "no_diploma": 595,
+        "high_school": 4484,
+        "some_college": 3198,
+        "associates": 1604,
+        "bachelors": 10039,
+        "graduate": 12149
+      },
+      "employment": {
+        "pop_16_plus": 35857,
+        "in_labor_force": 25652,
+        "employed": 24436,
+        "unemployed": 1183
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 16647,
+        "service": 2240,
+        "sales_office": 4153,
+        "construction_maintenance": 319,
+        "production_transportation": 115
+      },
+      "housing_detail": {
+        "total_units": 19618,
+        "occupied": 18643,
+        "vacant": 975,
+        "median_home_value": 522900,
+        "median_rent": 1426
+      },
+      "housing_structure": {
+        "single_detached": 7983,
+        "single_attached": 1124,
+        "two_units": 4801,
+        "three_four": 1446,
+        "five_nine": 724,
+        "ten_nineteen": 891,
+        "twenty_plus": 2612,
+        "mobile": 37
+      },
+      "commute": {
+        "total_workers": 24084,
+        "drove_alone": 15523,
+        "carpooled": 1492,
+        "public_transit": 4310,
+        "bicycle": 803,
+        "walked": 505,
+        "wfh": 1353,
+        "drove_alone_pct": 64.5,
+        "public_transit_pct": 17.9,
+        "walked_pct": 2.1,
+        "bicycle_pct": 3.3,
+        "wfh_pct": 5.6
+      }
+    },
+    {
+      "year": 2016,
+      "education": {
+        "pop_25_plus": 32930,
+        "less_than_9th": 667,
+        "no_diploma": 474,
+        "high_school": 4302,
+        "some_college": 3252,
+        "associates": 1584,
+        "bachelors": 9922,
+        "graduate": 12729
+      },
+      "employment": {
+        "pop_16_plus": 35994,
+        "in_labor_force": 26047,
+        "employed": 24929,
+        "unemployed": 1080
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 17002,
+        "service": 2329,
+        "sales_office": 4141,
+        "construction_maintenance": 182,
+        "production_transportation": 136
+      },
+      "housing_detail": {
+        "total_units": 19618,
+        "occupied": 18652,
+        "vacant": 966,
+        "median_home_value": 546800,
+        "median_rent": 1463
+      },
+      "housing_structure": {
+        "single_detached": 7795,
+        "single_attached": 1181,
+        "two_units": 5003,
+        "three_four": 1274,
+        "five_nine": 728,
+        "ten_nineteen": 987,
+        "twenty_plus": 2621,
+        "mobile": 29
+      },
+      "commute": {
+        "total_workers": 24566,
+        "drove_alone": 15552,
+        "carpooled": 1428,
+        "public_transit": 4646,
+        "bicycle": 782,
+        "walked": 614,
+        "wfh": 1400,
+        "drove_alone_pct": 63.3,
+        "public_transit_pct": 18.9,
+        "walked_pct": 2.5,
+        "bicycle_pct": 3.2,
+        "wfh_pct": 5.7
+      }
+    },
+    {
+      "year": 2017,
+      "education": {
+        "pop_25_plus": 33199,
+        "less_than_9th": 563,
+        "no_diploma": 423,
+        "high_school": 4416,
+        "some_college": 3189,
+        "associates": 1380,
+        "bachelors": 10028,
+        "graduate": 13200
+      },
+      "employment": {
+        "pop_16_plus": 36347,
+        "in_labor_force": 26019,
+        "employed": 25052,
+        "unemployed": 940
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 17151,
+        "service": 2493,
+        "sales_office": 4040,
+        "construction_maintenance": 135,
+        "production_transportation": 145
+      },
+      "housing_detail": {
+        "total_units": 19615,
+        "occupied": 18632,
+        "vacant": 983,
+        "median_home_value": 577600,
+        "median_rent": 1593
+      },
+      "housing_structure": {
+        "single_detached": 7666,
+        "single_attached": 1151,
+        "two_units": 5033,
+        "three_four": 1404,
+        "five_nine": 661,
+        "ten_nineteen": 940,
+        "twenty_plus": 2725,
+        "mobile": 35
+      },
+      "commute": {
+        "total_workers": 24683,
+        "drove_alone": 14922,
+        "carpooled": 1484,
+        "public_transit": 5026,
+        "bicycle": 812,
+        "walked": 659,
+        "wfh": 1630,
+        "drove_alone_pct": 60.5,
+        "public_transit_pct": 20.4,
+        "walked_pct": 2.7,
+        "bicycle_pct": 3.3,
+        "wfh_pct": 6.6
+      }
+    },
+    {
+      "year": 2018,
+      "education": {
+        "pop_25_plus": 33177,
+        "less_than_9th": 570,
+        "no_diploma": 545,
+        "high_school": 4039,
+        "some_college": 3037,
+        "associates": 1405,
+        "bachelors": 10137,
+        "graduate": 13444
+      },
+      "employment": {
+        "pop_16_plus": 36372,
+        "in_labor_force": 26138,
+        "employed": 25144,
+        "unemployed": 963
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 17134,
+        "service": 2287,
+        "sales_office": 4071,
+        "construction_maintenance": 101,
+        "production_transportation": 274
+      },
+      "housing_detail": {
+        "total_units": 19925,
+        "occupied": 18810,
+        "vacant": 1115,
+        "median_home_value": 609800,
+        "median_rent": 1645
+      },
+      "housing_structure": {
+        "single_detached": 7660,
+        "single_attached": 1128,
+        "two_units": 5033,
+        "three_four": 1545,
+        "five_nine": 570,
+        "ten_nineteen": 1022,
+        "twenty_plus": 2935,
+        "mobile": 32
+      },
+      "commute": {
+        "total_workers": 24714,
+        "drove_alone": 14891,
+        "carpooled": 1629,
+        "public_transit": 4826,
+        "bicycle": 941,
+        "walked": 578,
+        "wfh": 1719,
+        "drove_alone_pct": 60.3,
+        "public_transit_pct": 19.5,
+        "walked_pct": 2.3,
+        "bicycle_pct": 3.8,
+        "wfh_pct": 7.0
+      }
+    },
+    {
+      "year": 2019,
+      "education": {
+        "pop_25_plus": 33360,
+        "less_than_9th": 594,
+        "no_diploma": 524,
+        "high_school": 4109,
+        "some_college": 3159,
+        "associates": 1335,
+        "bachelors": 9961,
+        "graduate": 13678
+      },
+      "employment": {
+        "pop_16_plus": 36696,
+        "in_labor_force": 26285,
+        "employed": 25393,
+        "unemployed": 862
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 17518,
+        "service": 2526,
+        "sales_office": 3947,
+        "construction_maintenance": 75,
+        "production_transportation": 222
+      },
+      "housing_detail": {
+        "total_units": 20207,
+        "occupied": 19065,
+        "vacant": 1142,
+        "median_home_value": 642200,
+        "median_rent": 1730
+      },
+      "housing_structure": {
+        "single_detached": 7766,
+        "single_attached": 1126,
+        "two_units": 5049,
+        "three_four": 1453,
+        "five_nine": 609,
+        "ten_nineteen": 974,
+        "twenty_plus": 3204,
+        "mobile": 26
+      },
+      "commute": {
+        "total_workers": 25116,
+        "drove_alone": 14607,
+        "carpooled": 1585,
+        "public_transit": 5336,
+        "bicycle": 939,
+        "walked": 702,
+        "wfh": 1791,
+        "drove_alone_pct": 58.2,
+        "public_transit_pct": 21.2,
+        "walked_pct": 2.8,
+        "bicycle_pct": 3.7,
+        "wfh_pct": 7.1
+      }
+    },
+    {
+      "year": 2020,
+      "education": {
+        "pop_25_plus": 33246,
+        "less_than_9th": 452,
+        "no_diploma": 541,
+        "high_school": 3852,
+        "some_college": 2961,
+        "associates": 1331,
+        "bachelors": 10101,
+        "graduate": 14008
+      },
+      "employment": {
+        "pop_16_plus": 36583,
+        "in_labor_force": 26591,
+        "employed": 25679,
+        "unemployed": 904
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 18421,
+        "service": 2423,
+        "sales_office": 3510,
+        "construction_maintenance": 49,
+        "production_transportation": 176
+      },
+      "housing_detail": {
+        "total_units": 20012,
+        "occupied": 19118,
+        "vacant": 894,
+        "median_home_value": 687600,
+        "median_rent": 1756
+      },
+      "housing_structure": {
+        "single_detached": 7861,
+        "single_attached": 925,
+        "two_units": 4773,
+        "three_four": 1297,
+        "five_nine": 639,
+        "ten_nineteen": 1454,
+        "twenty_plus": 3063,
+        "mobile": 0
+      },
+      "commute": {
+        "total_workers": 25363,
+        "drove_alone": 13873,
+        "carpooled": 1304,
+        "public_transit": 4563,
+        "bicycle": 937,
+        "walked": 672,
+        "wfh": 3792,
+        "drove_alone_pct": 54.7,
+        "public_transit_pct": 18.0,
+        "walked_pct": 2.6,
+        "bicycle_pct": 3.7,
+        "wfh_pct": 15.0
+      }
+    },
+    {
+      "year": 2021,
+      "education": {
+        "pop_25_plus": 33881,
+        "less_than_9th": 427,
+        "no_diploma": 473,
+        "high_school": 3614,
+        "some_college": 2879,
+        "associates": 1361,
+        "bachelors": 10619,
+        "graduate": 14508
+      },
+      "employment": {
+        "pop_16_plus": 37212,
+        "in_labor_force": 27245,
+        "employed": 26132,
+        "unemployed": 1106
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 19257,
+        "service": 2288,
+        "sales_office": 3385,
+        "construction_maintenance": 68,
+        "production_transportation": 162
+      },
+      "housing_detail": {
+        "total_units": 20182,
+        "occupied": 19308,
+        "vacant": 874,
+        "median_home_value": 733700,
+        "median_rent": 1797
+      },
+      "housing_structure": {
+        "single_detached": 7755,
+        "single_attached": 1059,
+        "two_units": 5032,
+        "three_four": 1426,
+        "five_nine": 577,
+        "ten_nineteen": 1445,
+        "twenty_plus": 2877,
+        "mobile": 0
+      },
+      "commute": {
+        "total_workers": 25910,
+        "drove_alone": 13260,
+        "carpooled": 1232,
+        "public_transit": 4073,
+        "bicycle": 925,
+        "walked": 505,
+        "wfh": 5732,
+        "drove_alone_pct": 51.2,
+        "public_transit_pct": 15.7,
+        "walked_pct": 1.9,
+        "bicycle_pct": 3.6,
+        "wfh_pct": 22.1
+      }
+    },
+    {
+      "year": 2022,
+      "education": {
+        "pop_25_plus": 33709,
+        "less_than_9th": 448,
+        "no_diploma": 531,
+        "high_school": 3484,
+        "some_college": 2704,
+        "associates": 1472,
+        "bachelors": 10535,
+        "graduate": 14535
+      },
+      "employment": {
+        "pop_16_plus": 37309,
+        "in_labor_force": 27349,
+        "employed": 26368,
+        "unemployed": 974
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 19723,
+        "service": 2163,
+        "sales_office": 3162,
+        "construction_maintenance": 115,
+        "production_transportation": 194
+      },
+      "housing_detail": {
+        "total_units": 20381,
+        "occupied": 19451,
+        "vacant": 930,
+        "median_home_value": 839200,
+        "median_rent": 1902
+      },
+      "housing_structure": {
+        "single_detached": 7940,
+        "single_attached": 1192,
+        "two_units": 5025,
+        "three_four": 1236,
+        "five_nine": 600,
+        "ten_nineteen": 1460,
+        "twenty_plus": 2866,
+        "mobile": 53
+      },
+      "commute": {
+        "total_workers": 26128,
+        "drove_alone": 12593,
+        "carpooled": 1169,
+        "public_transit": 3646,
+        "bicycle": 1036,
+        "walked": 555,
+        "wfh": 6868,
+        "drove_alone_pct": 48.2,
+        "public_transit_pct": 14.0,
+        "walked_pct": 2.1,
+        "bicycle_pct": 4.0,
+        "wfh_pct": 26.3
+      }
+    },
+    {
+      "year": 2023,
+      "education": {
+        "pop_25_plus": 34356,
+        "less_than_9th": 343,
+        "no_diploma": 483,
+        "high_school": 3706,
+        "some_college": 2701,
+        "associates": 1556,
+        "bachelors": 10526,
+        "graduate": 15041
+      },
+      "employment": {
+        "pop_16_plus": 37795,
+        "in_labor_force": 27939,
+        "employed": 27036,
+        "unemployed": 884
+      },
+      "occupation": {
+        "mgmt_business_science_arts": 20345,
+        "service": 2076,
+        "sales_office": 3232,
+        "construction_maintenance": 165,
+        "production_transportation": 171
+      },
+      "housing_detail": {
+        "total_units": 20599,
+        "occupied": 19853,
+        "vacant": 746,
+        "median_home_value": 885000,
+        "median_rent": 2043
+      },
+      "housing_structure": {
+        "single_detached": 7863,
+        "single_attached": 1402,
+        "two_units": 4929,
+        "three_four": 1303,
+        "five_nine": 692,
+        "ten_nineteen": 1472,
+        "twenty_plus": 2851,
+        "mobile": 75
+      },
+      "commute": {
+        "total_workers": 26776,
+        "drove_alone": 12253,
+        "carpooled": 915,
+        "public_transit": 3355,
+        "bicycle": 1251,
+        "walked": 529,
+        "wfh": 8161,
+        "drove_alone_pct": 45.8,
+        "public_transit_pct": 12.5,
+        "walked_pct": 2.0,
+        "bicycle_pct": 4.7,
+        "wfh_pct": 30.5
+      }
+    }
+  ],
+  "summary": {
+    "current_population": 46015,
+    "data_year": 2023,
+    "growth_rate_10yr": 8.1,
+    "median_age": 41.3,
+    "median_income": 141440,
+    "total_housing_units": 20599,
+    "owner_occupied_pct": 60.6
+  }
+}
