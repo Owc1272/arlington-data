@@ -324,6 +324,100 @@
             max-height: 300px;
         }
 
+        /* Estimator Section */
+        .estimator-section {
+            padding: 3rem 0;
+            background: var(--light-bg);
+        }
+
+        .estimator-grid {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .estimator-controls {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid var(--border-color);
+        }
+
+        .estimator-controls select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            background: var(--white);
+        }
+
+        .estimator-results {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .estimate-value-display {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin: 0.5rem 0;
+        }
+
+        .estimate-match-info {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .estimate-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .estimate-badge.strong { background: #10b981; }
+        .estimate-badge.good { background: #f59e0b; }
+        .estimate-badge.approximate { background: #f97316; }
+        .estimate-badge.limited { background: #ef4444; }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 0.25rem;
+        }
+
+        .reset-button {
+            width: 100%;
+            padding: 0.6rem;
+            margin-top: 1rem;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+
+        .reset-button:hover {
+            background: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .estimator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* Footer */
         footer {
             background: var(--primary-dark);
@@ -576,6 +670,93 @@
     </section>
 
 
+    <!-- Value Estimator Section -->
+    <section class="estimator-section" id="estimator-section">
+        <div class="container">
+            <h2 class="section-title">Build Your House Value Estimator</h2>
+            <p style="text-align:center; color:var(--text-light); max-width:600px; margin:0 auto 1rem;">
+                Configure home attributes and see what it would be assessed at in Arlington based on real property data.
+            </p>
+
+            <div class="estimator-grid">
+                <div class="estimator-controls">
+                    <div class="filter-group">
+                        <label class="filter-label">Bedrooms</label>
+                        <select id="estBedrooms">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6+</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Bathrooms</label>
+                        <select id="estBathrooms">
+                            <option value="1">1</option>
+                            <option value="2" selected>2</option>
+                            <option value="3">3</option>
+                            <option value="4">4+</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Finished Sq Ft: <span id="estSqftDisplay">1,800</span></label>
+                        <input type="range" id="estSqft" min="500" max="5000" value="1800" step="100">
+                        <div class="range-labels"><span>500</span><span>5,000</span></div>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Decade Built</label>
+                        <select id="estDecade">
+                            <option value="1850">1850s</option>
+                            <option value="1860">1860s</option>
+                            <option value="1870">1870s</option>
+                            <option value="1880">1880s</option>
+                            <option value="1890">1890s</option>
+                            <option value="1900">1900s</option>
+                            <option value="1910">1910s</option>
+                            <option value="1920">1920s</option>
+                            <option value="1930">1930s</option>
+                            <option value="1940">1940s</option>
+                            <option value="1950">1950s</option>
+                            <option value="1960" selected>1960s</option>
+                            <option value="1970">1970s</option>
+                            <option value="1980">1980s</option>
+                            <option value="1990">1990s</option>
+                            <option value="2000">2000s</option>
+                            <option value="2010">2010s</option>
+                            <option value="2020">2020s</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Zoning District</label>
+                        <select id="estZoning">
+                            <option value="any">Any District</option>
+                        </select>
+                    </div>
+                    <button class="reset-button" id="estReset">Reset to Defaults</button>
+                </div>
+
+                <div class="estimator-results">
+                    <div class="chart-container" style="text-align:center;">
+                        <h3 class="chart-title">Estimated Assessed Value</h3>
+                        <div class="estimate-value-display" id="estValueDisplay">--</div>
+                        <div class="estimate-match-info" id="estMatchInfo"></div>
+                        <span class="estimate-badge strong" id="estBadge"></span>
+                    </div>
+                    <div class="chart-container">
+                        <h3 class="chart-title">How Each Attribute Shifts Value</h3>
+                        <canvas id="estWaterfallChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3 class="chart-title">Value Distribution of Similar Homes</h3>
+                        <canvas id="estDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <p><strong>Data Source:</strong> <a href="https://gis-arlingtonma.opendata.arcgis.com/" target="_blank">Arlington MA GIS Open Data Hub</a></p>
@@ -661,6 +842,7 @@
             populateFilters();
             renderStatsCards();
             createCharts();
+            initEstimator();
             updateMap();
 
             // Update hero counts
@@ -1038,6 +1220,251 @@
                     }
                 }
             });
+        }
+
+        // ── Value Estimator ──
+
+        function medianOf(arr) {
+            if (!arr.length) return 0;
+            const s = arr.slice().sort((a, b) => a - b);
+            const mid = Math.floor(s.length / 2);
+            return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+        }
+
+        function initEstimator() {
+            // Pre-filter to residential with complete data
+            state.residentialProperties = state.allProperties.filter(p =>
+                p.LUC_Desc && /^(101|102|104|105)/.test(p.LUC_Desc) &&
+                p.CurrentTotal && p.FinishedArea && p.NumBedroom != null && p.FullBath != null
+            );
+
+            state.townMedian = medianOf(state.residentialProperties.map(p => p.CurrentTotal));
+
+            // Build per-attribute median lookups
+            function groupMedian(arr, keyFn) {
+                const groups = {};
+                arr.forEach(p => {
+                    const k = keyFn(p);
+                    if (k == null) return;
+                    if (!groups[k]) groups[k] = [];
+                    groups[k].push(p.CurrentTotal);
+                });
+                const result = {};
+                for (const k in groups) result[k] = medianOf(groups[k]);
+                return result;
+            }
+
+            state.medianByBedroom = groupMedian(state.residentialProperties, p => Math.min(p.NumBedroom, 6));
+            state.medianByBathroom = groupMedian(state.residentialProperties, p => Math.min(p.FullBath, 4));
+            state.medianByDecade = groupMedian(state.residentialProperties, p => p.YearBuilt ? Math.floor(p.YearBuilt / 10) * 10 : null);
+            state.medianByZone = groupMedian(state.residentialProperties, p => p.Z_Desc);
+            state.medianBySqftBucket = groupMedian(state.residentialProperties, p => {
+                return Math.floor(p.FinishedArea / 500) * 500;
+            });
+
+            // Populate zoning dropdown from residential data
+            const zoneCounts = {};
+            state.residentialProperties.forEach(p => {
+                zoneCounts[p.Z_Desc] = (zoneCounts[p.Z_Desc] || 0) + 1;
+            });
+            const zoningSelect = document.getElementById('estZoning');
+            Object.entries(zoneCounts)
+                .sort((a, b) => b[1] - a[1])
+                .forEach(([zone, count]) => {
+                    const opt = document.createElement('option');
+                    opt.value = zone;
+                    opt.textContent = `${zone} (${count})`;
+                    zoningSelect.appendChild(opt);
+                });
+
+            // Create charts
+            state.charts.estWaterfall = new Chart(
+                document.getElementById('estWaterfallChart').getContext('2d'), {
+                type: 'bar',
+                data: { labels: [], datasets: [{ data: [], backgroundColor: [] }] },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: ctx => {
+                                    const v = ctx.raw;
+                                    return (v >= 0 ? '+' : '') + '$' + Math.abs(v).toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: v => (v >= 0 ? '+$' : '-$') + Math.abs(v / 1000).toFixed(0) + 'k'
+                            }
+                        }
+                    }
+                }
+            });
+
+            state.charts.estDistribution = new Chart(
+                document.getElementById('estDistributionChart').getContext('2d'), {
+                type: 'bar',
+                data: { labels: [], datasets: [{ data: [], backgroundColor: [] }] },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { ticks: { maxRotation: 45 } },
+                        y: { beginAtZero: true, title: { display: true, text: 'Number of Properties' } }
+                    }
+                }
+            });
+
+            // Event listeners
+            let debounceTimer;
+            const inputs = ['estBedrooms', 'estBathrooms', 'estDecade', 'estZoning'];
+            inputs.forEach(id => document.getElementById(id).addEventListener('change', updateEstimate));
+            document.getElementById('estSqft').addEventListener('input', () => {
+                document.getElementById('estSqftDisplay').textContent = parseInt(document.getElementById('estSqft').value).toLocaleString();
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(updateEstimate, 150);
+            });
+            document.getElementById('estReset').addEventListener('click', resetEstimator);
+
+            updateEstimate();
+        }
+
+        function updateEstimate() {
+            const targetBeds = parseInt(document.getElementById('estBedrooms').value);
+            const targetBaths = parseInt(document.getElementById('estBathrooms').value);
+            const targetSqft = parseInt(document.getElementById('estSqft').value);
+            const targetDecade = parseInt(document.getElementById('estDecade').value);
+            const targetZone = document.getElementById('estZoning').value;
+
+            const pool = state.residentialProperties;
+
+            // Tiered filtering
+            function findMatches(bedRange, bathRange, sqftPct, decadeRange, useZone) {
+                return pool.filter(p => {
+                    const beds = Math.min(p.NumBedroom, 6);
+                    if (beds < targetBeds - bedRange || beds > targetBeds + bedRange) return false;
+                    const baths = Math.min(p.FullBath, 4);
+                    if (baths < targetBaths - bathRange || baths > targetBaths + bathRange) return false;
+                    if (p.FinishedArea < targetSqft * (1 - sqftPct) || p.FinishedArea > targetSqft * (1 + sqftPct)) return false;
+                    if (decadeRange >= 0 && p.YearBuilt) {
+                        const pDecade = Math.floor(p.YearBuilt / 10) * 10;
+                        if (Math.abs(pDecade - targetDecade) > decadeRange * 10) return false;
+                    }
+                    if (useZone && targetZone !== 'any' && p.Z_Desc !== targetZone) return false;
+                    return true;
+                });
+            }
+
+            let matches, tier;
+            matches = findMatches(0, 0, 0.2, 0, true);
+            tier = 'Strong';
+            if (matches.length < 10) {
+                matches = findMatches(1, 1, 0.35, 1, true);
+                tier = 'Good';
+            }
+            if (matches.length < 10) {
+                matches = findMatches(2, 2, 0.5, 2, false);
+                tier = 'Approximate';
+            }
+            if (matches.length < 5) {
+                matches = findMatches(3, 3, 0.75, -1, false);
+                tier = 'Limited';
+            }
+
+            const valueDisplay = document.getElementById('estValueDisplay');
+            const matchInfo = document.getElementById('estMatchInfo');
+            const badge = document.getElementById('estBadge');
+
+            if (matches.length === 0) {
+                valueDisplay.textContent = '--';
+                matchInfo.textContent = 'No comparable properties found';
+                badge.textContent = '';
+                badge.className = 'estimate-badge';
+                state.charts.estWaterfall.data.labels = [];
+                state.charts.estWaterfall.data.datasets[0].data = [];
+                state.charts.estWaterfall.update();
+                state.charts.estDistribution.data.labels = [];
+                state.charts.estDistribution.data.datasets[0].data = [];
+                state.charts.estDistribution.update();
+                return;
+            }
+
+            const values = matches.map(p => p.CurrentTotal).sort((a, b) => a - b);
+            const median = medianOf(values);
+            const matchedMedianSqft = medianOf(matches.map(p => p.FinishedArea));
+            const medianPSF = medianOf(matches.map(p => p.ValuePerSqFt));
+            let estimate = median + (targetSqft - matchedMedianSqft) * medianPSF;
+            estimate = Math.max(100000, Math.min(5000000, estimate));
+            estimate = Math.round(estimate / 100) * 100;
+
+            // Update display
+            valueDisplay.textContent = '$' + estimate.toLocaleString();
+            matchInfo.innerHTML = `Based on <strong>${matches.length}</strong> comparable properties`;
+            badge.textContent = tier;
+            badge.className = 'estimate-badge ' + tier.toLowerCase();
+
+            // Waterfall chart
+            const townMed = state.townMedian;
+            const sqftBucket = Math.floor(targetSqft / 500) * 500;
+            const impacts = [
+                { label: 'Bedrooms (' + targetBeds + ')', delta: (state.medianByBedroom[targetBeds] || townMed) - townMed },
+                { label: 'Bathrooms (' + targetBaths + ')', delta: (state.medianByBathroom[targetBaths] || townMed) - townMed },
+                { label: 'Sq Ft (' + targetSqft.toLocaleString() + ')', delta: (state.medianBySqftBucket[sqftBucket] || townMed) - townMed },
+                { label: 'Decade (' + targetDecade + 's)', delta: (state.medianByDecade[targetDecade] || townMed) - townMed },
+            ];
+            if (targetZone !== 'any') {
+                impacts.push({ label: targetZone, delta: (state.medianByZone[targetZone] || townMed) - townMed });
+            }
+
+            const wf = state.charts.estWaterfall;
+            wf.data.labels = impacts.map(i => i.label);
+            wf.data.datasets[0].data = impacts.map(i => i.delta);
+            wf.data.datasets[0].backgroundColor = impacts.map(i =>
+                i.delta >= 0 ? 'rgba(16, 185, 129, 0.7)' : 'rgba(239, 68, 68, 0.7)'
+            );
+            wf.data.datasets[0].borderColor = impacts.map(i =>
+                i.delta >= 0 ? 'rgba(16, 185, 129, 1)' : 'rgba(239, 68, 68, 1)'
+            );
+            wf.data.datasets[0].borderWidth = 1;
+            wf.update();
+
+            // Distribution histogram
+            const binCount = 12;
+            const minVal = values[0];
+            const maxVal = values[values.length - 1];
+            const range = maxVal - minVal || 1;
+            const binWidth = range / binCount;
+            const bins = Array(binCount).fill(0);
+            values.forEach(v => {
+                const idx = Math.min(Math.floor((v - minVal) / binWidth), binCount - 1);
+                bins[idx]++;
+            });
+            const estBinIdx = Math.min(Math.floor((estimate - minVal) / binWidth), binCount - 1);
+
+            const dist = state.charts.estDistribution;
+            dist.data.labels = bins.map((_, i) => '$' + Math.round((minVal + i * binWidth) / 1000) + 'k');
+            dist.data.datasets[0].data = bins;
+            dist.data.datasets[0].backgroundColor = bins.map((_, i) =>
+                i === estBinIdx ? 'rgba(59, 130, 246, 0.9)' : 'rgba(59, 130, 246, 0.3)'
+            );
+            dist.data.datasets[0].borderColor = 'rgba(59, 130, 246, 1)';
+            dist.data.datasets[0].borderWidth = 1;
+            dist.update();
+        }
+
+        function resetEstimator() {
+            document.getElementById('estBedrooms').value = '3';
+            document.getElementById('estBathrooms').value = '2';
+            document.getElementById('estSqft').value = '1800';
+            document.getElementById('estSqftDisplay').textContent = '1,800';
+            document.getElementById('estDecade').value = '1960';
+            document.getElementById('estZoning').value = 'any';
+            updateEstimate();
         }
 
         // Initialize on page load
