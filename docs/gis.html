@@ -600,6 +600,11 @@
                         <div class="range-labels"><span>600</span><span>5,000</span></div>
                     </div>
                     <div class="filter-group">
+                        <label class="filter-label">Lot Size: <span id="estLotDisplay">5,000 – 6,000</span> sqft</label>
+                        <input type="range" id="estLotSize" min="0" max="7" value="3" step="1">
+                        <div class="range-labels"><span>&lt;3k</span><span>15k+</span></div>
+                    </div>
+                    <div class="filter-group">
                         <label class="filter-label">Bedrooms</label>
                         <select id="estBedrooms">
                             <option value="1">1</option>
@@ -620,12 +625,6 @@
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label class="filter-label">Voting Precinct</label>
-                        <select id="estPrecinct">
-                            <option value="any">Any Precinct</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
                         <label class="filter-label">Half Baths</label>
                         <select id="estHalfBath">
                             <option value="any">Any</option>
@@ -635,17 +634,9 @@
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label class="filter-label">Lot Size</label>
-                        <select id="estLotSize">
-                            <option value="any">Any Size</option>
-                            <option value="2500">Under 2,500 sqft</option>
-                            <option value="5000" selected>2,500 – 5,000 sqft</option>
-                            <option value="7500">5,000 – 7,500 sqft</option>
-                            <option value="10000">7,500 – 10,000 sqft</option>
-                            <option value="15000">10,000 – 15,000 sqft</option>
-                            <option value="20000">15,000 – 20,000 sqft</option>
-                            <option value="50000">20,000 – 50,000 sqft</option>
-                            <option value="50001">50,000+ sqft</option>
+                        <label class="filter-label">Voting Precinct</label>
+                        <select id="estPrecinct">
+                            <option value="any">Any Precinct</option>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -715,9 +706,9 @@
                     </div>
                     <div class="estimator-charts-row">
                         <div class="chart-container">
-                            <h3 class="chart-title">How Each Attribute Shifts Value</h3>
+                            <h3 class="chart-title">Marginal Value of Adding One More</h3>
                             <p style="font-size:0.82rem; color:var(--text-light); margin:0 0 0.75rem;">
-                                Each bar shows how the median value of homes with that attribute compares to the overall town median ($933,900). A negative bar means homes with that attribute are typically assessed below the town median, not that the attribute hurts value.
+                                Each bar shows the estimated change in assessed value from adding one more unit of that attribute (e.g., one more bedroom, one more bath, or 200 more sq ft).
                             </p>
                             <canvas id="estWaterfallChart"></canvas>
                         </div>
@@ -1420,20 +1411,21 @@
             state.medianByPrecinct = groupMedian(state.residentialProperties, p => p.Precinct);
             state.medianByAC = groupMedian(state.residentialProperties, p => p.HasAC ? 'yes' : 'no');
             state.medianByHeatType = groupMedian(state.residentialProperties, p => p.HeatType);
+            // Lot bins: index 0-7 maps to these ranges
+            state.lotBinEdges = [0, 3000, 4000, 5000, 6000, 7500, 10000, 15000, Infinity];
+            state.lotBinLabels = ['<3k','3–4k','4–5k','5–6k','6–7.5k','7.5–10k','10–15k','15k+'];
+            function lotBinIndex(sqft) {
+                for (let i = 0; i < state.lotBinEdges.length - 1; i++) {
+                    if (sqft < state.lotBinEdges[i + 1]) return i;
+                }
+                return state.lotBinEdges.length - 2;
+            }
             state.medianByLotBucket = groupMedian(state.residentialProperties, p => {
                 if (!p.LotSqFt) return null;
-                const s = p.LotSqFt;
-                if (s < 2500) return '2500';
-                if (s < 5000) return '5000';
-                if (s < 7500) return '7500';
-                if (s < 10000) return '10000';
-                if (s < 15000) return '15000';
-                if (s < 20000) return '20000';
-                if (s < 50000) return '50000';
-                return '50001';
+                return lotBinIndex(p.LotSqFt);
             });
             state.medianBySqftBucket = groupMedian(state.residentialProperties, p => {
-                return Math.floor(p.FinishedArea / 500) * 500;
+                return Math.floor(p.FinishedArea / 200) * 200;
             });
 
             // Populate precinct dropdown (sorted numerically)
@@ -1546,10 +1538,16 @@
 
             // Event listeners
             let debounceTimer;
-            const inputs = ['estBedrooms', 'estBathrooms', 'estHalfBath', 'estDecade', 'estZoning', 'estPrecinct', 'estLotSize', 'estAC', 'estHeatType'];
+            const inputs = ['estBedrooms', 'estBathrooms', 'estHalfBath', 'estDecade', 'estZoning', 'estPrecinct', 'estAC', 'estHeatType'];
             inputs.forEach(id => document.getElementById(id).addEventListener('change', updateEstimate));
             document.getElementById('estSqft').addEventListener('input', () => {
                 document.getElementById('estSqftDisplay').textContent = parseInt(document.getElementById('estSqft').value).toLocaleString();
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(updateEstimate, 150);
+            });
+            document.getElementById('estLotSize').addEventListener('input', () => {
+                const idx = parseInt(document.getElementById('estLotSize').value);
+                document.getElementById('estLotDisplay').textContent = state.lotBinLabels[idx];
                 clearTimeout(debounceTimer);
                 debounceTimer = setTimeout(updateEstimate, 150);
             });
@@ -1564,14 +1562,11 @@
             const targetDecade = document.getElementById('estDecade').value;
             const targetZone = document.getElementById('estZoning').value;
             const targetPrecinct = document.getElementById('estPrecinct').value;
-            const targetLot = document.getElementById('estLotSize').value;
+            const targetLotIdx = parseInt(document.getElementById('estLotSize').value);
             const targetAC = document.getElementById('estAC').value;
             const targetHeat = document.getElementById('estHeatType').value;
 
             const pool = state.residentialProperties;
-
-            // Lot size bin boundaries
-            const lotBins = { '2500': [0,2500], '5000': [2500,5000], '7500': [5000,7500], '10000': [7500,10000], '15000': [10000,15000], '20000': [15000,20000], '50000': [20000,50000], '50001': [50000,Infinity] };
 
             // Highlight selected precinct on map
             if (state.precinctLayer) {
@@ -1609,8 +1604,9 @@
                             if (targetAC === 'no' && p.HasAC) return false;
                         }
                         if (targetHeat !== 'any' && p.HeatType && p.HeatType !== targetHeat) return false;
-                        if (targetLot !== 'any' && p.LotSqFt) {
-                            const [lo, hi] = lotBins[targetLot];
+                        if (p.LotSqFt) {
+                            const lo = state.lotBinEdges[targetLotIdx];
+                            const hi = state.lotBinEdges[targetLotIdx + 1];
                             if (p.LotSqFt < lo || p.LotSqFt >= hi) return false;
                         }
                     }
@@ -1673,35 +1669,48 @@
             badge.textContent = tier;
             badge.className = 'estimate-badge ' + tier.toLowerCase();
 
-            // Waterfall chart
-            const townMed = state.townMedian;
-            const sqftBucket = Math.floor(targetSqft / 500) * 500;
-            const impacts = [
-                { label: 'Bedrooms (' + targetBeds + ')', delta: (state.medianByBedroom[targetBeds] || townMed) - townMed },
-                { label: 'Bathrooms (' + targetBaths + ')', delta: (state.medianByBathroom[targetBaths] || townMed) - townMed },
-                { label: 'Sq Ft (' + targetSqft.toLocaleString() + ')', delta: (state.medianBySqftBucket[sqftBucket] || townMed) - townMed },
-            ];
+            // Marginal value waterfall chart
+            function marginal(lookup, current, next) {
+                const cur = lookup[current];
+                const nxt = lookup[next];
+                if (cur != null && nxt != null) return nxt - cur;
+                return null;
+            }
+
+            const impacts = [];
+            // +1 bedroom
+            const nextBeds = Math.min(targetBeds + 1, 6);
+            const bedDelta = marginal(state.medianByBedroom, targetBeds, nextBeds);
+            if (bedDelta != null && targetBeds < 6) impacts.push({ label: '+1 Bedroom (' + targetBeds + '→' + nextBeds + ')', delta: bedDelta });
+
+            // +1 bath
+            const nextBaths = Math.min(targetBaths + 1, 4);
+            const bathDelta = marginal(state.medianByBathroom, targetBaths, nextBaths);
+            if (bathDelta != null && targetBaths < 4) impacts.push({ label: '+1 Bathroom (' + targetBaths + '→' + nextBaths + ')', delta: bathDelta });
+
+            // +1 half bath
             if (targetHalfBath !== 'any') {
-                impacts.push({ label: 'Half Baths (' + targetHalfBath + ')', delta: (state.medianByHalfBath[targetHalfBath] || townMed) - townMed });
+                const hb = parseInt(targetHalfBath);
+                const nextHb = Math.min(hb + 1, 2);
+                const hbDelta = marginal(state.medianByHalfBath, hb, nextHb);
+                if (hbDelta != null && hb < 2) impacts.push({ label: '+1 Half Bath (' + hb + '→' + nextHb + ')', delta: hbDelta });
             }
-            if (targetLot !== 'any') {
-                const lotLabels = { '2500':'<2.5k','5000':'2.5-5k','7500':'5-7.5k','10000':'7.5-10k','15000':'10-15k','20000':'15-20k','50000':'20-50k','50001':'50k+' };
-                impacts.push({ label: 'Lot (' + lotLabels[targetLot] + ' sqft)', delta: (state.medianByLotBucket[targetLot] || townMed) - townMed });
+
+            // +200 sq ft
+            const sqftBucket = Math.floor(targetSqft / 200) * 200;
+            const sqftDelta = marginal(state.medianBySqftBucket, sqftBucket, sqftBucket + 200);
+            if (sqftDelta != null) impacts.push({ label: '+200 Sq Ft', delta: sqftDelta });
+
+            // +1 lot bin
+            const nextLotIdx = Math.min(targetLotIdx + 1, state.lotBinLabels.length - 1);
+            const lotDelta = marginal(state.medianByLotBucket, targetLotIdx, nextLotIdx);
+            if (lotDelta != null && targetLotIdx < state.lotBinLabels.length - 1) {
+                impacts.push({ label: 'Lot Size (' + state.lotBinLabels[targetLotIdx] + '→' + state.lotBinLabels[nextLotIdx] + ')', delta: lotDelta });
             }
-            if (targetAC !== 'any') {
-                impacts.push({ label: 'AC (' + (targetAC === 'yes' ? 'Yes' : 'No') + ')', delta: (state.medianByAC[targetAC] || townMed) - townMed });
-            }
-            if (targetHeat !== 'any') {
-                impacts.push({ label: targetHeat, delta: (state.medianByHeatType[targetHeat] || townMed) - townMed });
-            }
-            if (targetDecade !== 'any') {
-                impacts.push({ label: 'Decade (' + targetDecade + 's)', delta: (state.medianByDecade[targetDecade] || townMed) - townMed });
-            }
-            if (targetPrecinct !== 'any') {
-                impacts.push({ label: 'Precinct ' + targetPrecinct.replace('P',''), delta: (state.medianByPrecinct[targetPrecinct] || townMed) - townMed });
-            }
-            if (targetZone !== 'any') {
-                impacts.push({ label: targetZone, delta: (state.medianByZone[targetZone] || townMed) - townMed });
+
+            // AC: show delta of adding AC
+            if (state.medianByAC['yes'] != null && state.medianByAC['no'] != null) {
+                impacts.push({ label: 'Adding Central AC', delta: state.medianByAC['yes'] - state.medianByAC['no'] });
             }
 
             const wf = state.charts.estWaterfall;
@@ -1741,12 +1750,13 @@
         }
 
         function resetEstimator() {
+            document.getElementById('estSqft').value = '1800';
+            document.getElementById('estSqftDisplay').textContent = '1,800';
+            document.getElementById('estLotSize').value = '3';
+            document.getElementById('estLotDisplay').textContent = state.lotBinLabels[3];
             document.getElementById('estBedrooms').value = '3';
             document.getElementById('estBathrooms').value = '2';
             document.getElementById('estHalfBath').value = '1';
-            document.getElementById('estSqft').value = '1800';
-            document.getElementById('estSqftDisplay').textContent = '1,800';
-            document.getElementById('estLotSize').value = '5000';
             document.getElementById('estAC').value = 'any';
             document.getElementById('estHeatType').value = 'any';
             document.getElementById('estDecade').value = 'any';
