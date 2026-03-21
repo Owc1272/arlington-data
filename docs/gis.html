@@ -705,6 +705,7 @@
                         <div class="chart-container" style="text-align:center;">
                             <h3 class="chart-title">Estimated Assessed Value</h3>
                             <div class="estimate-value-display" id="estValueDisplay">--</div>
+                            <div id="estTaxDisplay" style="font-size:1.1rem; color:var(--text-light); margin-bottom:0.5rem;"></div>
                             <div class="estimate-match-info" id="estMatchInfo"></div>
                             <span class="estimate-badge strong" id="estBadge"></span>
                         </div>
@@ -1558,12 +1559,16 @@
                 tier = 'Limited';
             }
 
+            const TAX_RATE = 10.67; // FY2026 residential rate per $1,000
+
             const valueDisplay = document.getElementById('estValueDisplay');
+            const taxDisplay = document.getElementById('estTaxDisplay');
             const matchInfo = document.getElementById('estMatchInfo');
             const badge = document.getElementById('estBadge');
 
             if (matches.length === 0) {
                 valueDisplay.textContent = '--';
+                taxDisplay.textContent = '';
                 matchInfo.textContent = 'No comparable properties found';
                 badge.textContent = '';
                 badge.className = 'estimate-badge';
@@ -1586,6 +1591,8 @@
 
             // Update display
             valueDisplay.textContent = '$' + estimate.toLocaleString();
+            const annualTax = Math.round(estimate / 1000 * TAX_RATE);
+            taxDisplay.innerHTML = `Est. Annual Tax: <strong>$${annualTax.toLocaleString()}</strong> <span style="font-size:0.85rem;">(FY2026 rate: $${TAX_RATE}/1k)</span>`;
             matchInfo.innerHTML = `Based on <strong>${matches.length}</strong> comparable properties`;
             badge.textContent = tier;
             badge.className = 'estimate-badge ' + tier.toLowerCase();
