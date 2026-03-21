@@ -708,7 +708,7 @@
                         <div class="chart-container">
                             <h3 class="chart-title">Marginal Value of Adding One More</h3>
                             <p style="font-size:0.82rem; color:var(--text-light); margin:0 0 0.75rem;">
-                                Each bar shows the estimated change in assessed value from adding one more unit of that attribute (e.g., one more bedroom, one more bath, or 200 more sq ft).
+                                Based on a regression across all single-family homes, each bar shows the isolated effect of adding one more unit of that attribute while holding everything else constant.
                             </p>
                             <canvas id="estWaterfallChart"></canvas>
                         </div>
@@ -819,18 +819,8 @@
             <div class="stats-grid" id="statsGrid"></div>
             <div class="charts-row">
                 <div class="chart-container">
-                    <h3 class="chart-title">Property Values by District</h3>
-                    <canvas id="zoningChart"></canvas>
-                </div>
-                <div class="chart-container">
                     <h3 class="chart-title">Property Types by Count</h3>
                     <canvas id="propertyTypeChart"></canvas>
-                </div>
-            </div>
-            <div class="charts-row">
-                <div class="chart-container">
-                    <h3 class="chart-title">Housing Stock by Decade</h3>
-                    <canvas id="decadeChart"></canvas>
                 </div>
             </div>
         </div>
@@ -1001,7 +991,7 @@
             }
 
             const categories = [
-                { name: 'Single Family', types: allTypes.filter(t => matchesAny(t, singleFamilyCodes)) },
+                { name: 'Single Family', types: allTypes.filter(t => matchesAny(t, singleFamilyCodes)), noExpand: true },
                 { name: 'Multi-Unit Residential', types: allTypes.filter(t => matchesAny(t, multiUnitCodes)) },
                 { name: 'Commercial', types: allTypes.filter(t => matchesAny(t, ['031','032','300','301','302','303','310','316','320','321','325','326','330','331','332','334','337','340','341','342','343','344','345','346'])) },
                 { name: 'Public Services', types: allTypes.filter(t => matchesAny(t, ['900','901','902','903','910','920','925','930','931','932','933','934','935','936','937','940','950','960','970','980','990'])) },
@@ -1015,29 +1005,75 @@
 
             categories.forEach(cat => {
                 if (!cat.types.length) return;
-                // Category header with checkbox
+                const catId = 'cat-' + cat.name.replace(/\s/g, '-');
+
+                // Category header row with checkbox and expand toggle
+                const headerDiv = document.createElement('div');
+                headerDiv.style.cssText = 'display:flex; align-items:center; margin-top:0.4rem;';
+
+                // Expand/collapse toggle (only if category has multiple children)
+                const hasChildren = !cat.noExpand && cat.types.length > 0;
+                if (hasChildren) {
+                    const toggle = document.createElement('span');
+                    toggle.className = 'cat-toggle';
+                    toggle.textContent = '\u25B6';
+                    toggle.style.cssText = 'cursor:pointer; font-size:0.7rem; margin-right:0.3rem; transition:transform 0.2s; display:inline-block; width:1rem; text-align:center;';
+                    toggle.dataset.catId = catId;
+                    headerDiv.appendChild(toggle);
+                }
+
                 const catLabel = document.createElement('label');
                 catLabel.className = 'checkbox-item';
-                catLabel.style.fontWeight = '600';
-                catLabel.style.marginTop = '0.4rem';
-                const catId = 'cat-' + cat.name.replace(/\s/g, '-');
+                catLabel.style.cssText = 'font-weight:600; margin:0;';
                 catLabel.innerHTML = `
                     <input type="checkbox" class="property-cat-filter" id="${catId}" data-category="${cat.name}" checked>
                     <span class="checkbox-label">${cat.name}</span>
                 `;
-                container.appendChild(catLabel);
+                headerDiv.appendChild(catLabel);
+                container.appendChild(headerDiv);
 
-                // Individual types within category
+                // For Single Family (noExpand), add hidden type checkbox for filtering
+                if (cat.noExpand) {
+                    cat.types.forEach(type => {
+                        const hidden = document.createElement('input');
+                        hidden.type = 'checkbox';
+                        hidden.className = 'property-type-filter';
+                        hidden.value = type;
+                        hidden.dataset.category = cat.name;
+                        hidden.checked = true;
+                        hidden.style.display = 'none';
+                        container.appendChild(hidden);
+                    });
+                    return;
+                }
+
+                // Collapsible children container (collapsed by default)
+                const childDiv = document.createElement('div');
+                childDiv.className = 'cat-children';
+                childDiv.id = 'children-' + catId;
+                childDiv.style.cssText = 'display:none; padding-left:1.5rem;';
+
                 cat.types.forEach(type => {
                     const label = document.createElement('label');
                     label.className = 'checkbox-item';
-                    label.style.paddingLeft = '1.2rem';
                     label.style.fontSize = '0.85rem';
                     label.innerHTML = `
                         <input type="checkbox" class="property-type-filter" value="${type}" data-category="${cat.name}" checked>
                         <span class="checkbox-label">${type}</span>
                     `;
-                    container.appendChild(label);
+                    childDiv.appendChild(label);
+                });
+                container.appendChild(childDiv);
+            });
+
+            // Toggle expand/collapse
+            document.querySelectorAll('.cat-toggle').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const cd = document.getElementById('children-' + this.dataset.catId);
+                    if (!cd) return;
+                    const open = cd.style.display !== 'none';
+                    cd.style.display = open ? 'none' : 'block';
+                    this.style.transform = open ? '' : 'rotate(90deg)';
                 });
             });
 
@@ -1217,7 +1253,7 @@
             document.getElementById('valueMaxDisplay').textContent = '$3M';
             document.getElementById('yearMinDisplay').textContent = '1800';
             document.getElementById('yearMaxDisplay').textContent = '2024';
-            document.querySelectorAll('.property-type-filter').forEach(cb => cb.checked = true);
+            document.querySelectorAll('.property-type-filter, .property-cat-filter').forEach(cb => { cb.checked = true; cb.indeterminate = false; });
             updateMap();
         }
 
@@ -1228,7 +1264,7 @@
 
             const stats = [
                 { label: 'Total Properties', value: formatNumberPlain(state.allProperties.length) },
-                { label: 'Total Assessed Value', value: formatNumber(20700000000) },
+                { label: 'Total Assessed Value', value: '$20.7B' },
                 { label: 'Median Property Value', value: '$933,900' },
                 { label: 'Average Property Value', value: state.stats.avgPropertyValue ? formatNumber(state.stats.avgPropertyValue) : 'N/A' },
                 { label: 'Total Public Trees', value: formatNumberPlain(state.allTrees.length) },
@@ -1248,65 +1284,35 @@
 
         // Create charts
         function createCharts() {
-            createZoningChart();
             createPropertyTypeChart();
-            createDecadeChart();
-        }
-
-        function createZoningChart() {
-            const zoningData = {};
-            state.allProperties.forEach(prop => {
-                const district = prop.Z_Desc || 'Unknown';
-                if (!zoningData[district]) zoningData[district] = { count: 0, value: 0 };
-                zoningData[district].count++;
-                zoningData[district].value += prop.CurrentTotal || 0;
-            });
-
-            const labels = Object.keys(zoningData).slice(0, 10);
-            const values = labels.map(label => (zoningData[label].value / 1000000).toFixed(1));
-
-            const ctx = document.getElementById('zoningChart').getContext('2d');
-            state.charts.zoning = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Total Value (Millions)',
-                        data: values,
-                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
-                        borderColor: 'rgba(59, 130, 246, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true }
-                    }
-                }
-            });
         }
 
         function createPropertyTypeChart() {
-            const typeData = {};
+            const singleFamilyCodes = ['101'];
+            const multiUnitCodes = ['102', '104', '105', '109', '111', '112', '114'];
+            const commercialCodes = ['031','032','300','301','302','303','310','316','320','321','325','326','330','331','332','334','337','340','341','342','343','344','345','346'];
+            const publicCodes = ['900','901','902','903','910','920','925','930','931','932','933','934','935','936','937','940','950','960','970','980','990'];
+
+            function matchesAny(type, codes) { return codes.some(c => type.startsWith(c)); }
+
+            const catCounts = { 'Single Family': 0, 'Multi-Unit Residential': 0, 'Commercial': 0, 'Public Services': 0, 'Other': 0 };
             state.allProperties.forEach(prop => {
-                const type = prop.LUC_Desc || 'Unknown';
-                typeData[type] = (typeData[type] || 0) + 1;
+                const t = prop.LUC_Desc || 'Unknown';
+                if (matchesAny(t, singleFamilyCodes)) catCounts['Single Family']++;
+                else if (matchesAny(t, multiUnitCodes)) catCounts['Multi-Unit Residential']++;
+                else if (matchesAny(t, commercialCodes)) catCounts['Commercial']++;
+                else if (matchesAny(t, publicCodes)) catCounts['Public Services']++;
+                else catCounts['Other']++;
             });
 
-            const labels = Object.keys(typeData).slice(0, 8);
-            const data = labels.map(label => typeData[label]);
+            const labels = Object.keys(catCounts);
+            const data = labels.map(l => catCounts[l]);
             const colors = [
                 'rgba(59, 130, 246, 0.7)',
                 'rgba(16, 185, 129, 0.7)',
                 'rgba(251, 146, 60, 0.7)',
-                'rgba(239, 68, 68, 0.7)',
                 'rgba(168, 85, 247, 0.7)',
-                'rgba(6, 182, 212, 0.7)',
-                'rgba(234, 179, 8, 0.7)',
-                'rgba(244, 63, 94, 0.7)'
+                'rgba(156, 163, 175, 0.7)'
             ];
 
             const ctx = document.getElementById('propertyTypeChart').getContext('2d');
@@ -1329,43 +1335,6 @@
                             position: 'bottom',
                             labels: { font: { size: 11 }, padding: 15 }
                         }
-                    }
-                }
-            });
-        }
-
-        function createDecadeChart() {
-            const decadeData = {};
-            state.allProperties.forEach(prop => {
-                if (prop.YearBuilt) {
-                    const decade = Math.floor(prop.YearBuilt / 10) * 10;
-                    decadeData[decade] = (decadeData[decade] || 0) + 1;
-                }
-            });
-
-            const decades = Object.keys(decadeData).sort((a, b) => a - b);
-            const labels = decades.map(d => d + 's');
-            const values = decades.map(d => decadeData[d]);
-
-            const ctx = document.getElementById('decadeChart').getContext('2d');
-            state.charts.decade = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Number of Properties',
-                        data: values,
-                        backgroundColor: 'rgba(20, 184, 166, 0.7)',
-                        borderColor: 'rgba(20, 184, 166, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true }
                     }
                 }
             });
@@ -1427,6 +1396,76 @@
             state.medianBySqftBucket = groupMedian(state.residentialProperties, p => {
                 return Math.floor(p.FinishedArea / 200) * 200;
             });
+
+            // OLS regression for marginal value analysis
+            // Regress CurrentTotal on: FinishedArea, LotSqFt, NumBedroom, FullBath, HalfBath, HasAC
+            (function computeRegression() {
+                const data = state.residentialProperties.filter(p =>
+                    p.FinishedArea > 0 && p.LotSqFt > 0
+                );
+                const n = data.length;
+                if (n < 50) { state.regressionCoeffs = null; return; }
+
+                // Feature columns: sqft, lot, beds, baths, halfbaths, AC
+                const k = 7; // 6 features + intercept
+                const X = data.map(p => [
+                    1, // intercept
+                    p.FinishedArea,
+                    p.LotSqFt,
+                    parseFloat(p.NumBedroom) || 0,
+                    parseFloat(p.FullBath) || 0,
+                    parseFloat(p.HalfBath) || 0,
+                    p.HasAC ? 1 : 0
+                ]);
+                const y = data.map(p => p.CurrentTotal);
+
+                // Compute X'X and X'y using normal equations
+                const XtX = Array.from({length: k}, () => Array(k).fill(0));
+                const Xty = Array(k).fill(0);
+                for (let i = 0; i < n; i++) {
+                    for (let j = 0; j < k; j++) {
+                        Xty[j] += X[i][j] * y[i];
+                        for (let l = j; l < k; l++) {
+                            XtX[j][l] += X[i][j] * X[i][l];
+                        }
+                    }
+                }
+                // Symmetrize
+                for (let j = 0; j < k; j++)
+                    for (let l = 0; l < j; l++)
+                        XtX[j][l] = XtX[l][j];
+
+                // Solve via Gaussian elimination with partial pivoting
+                const A = XtX.map((row, i) => [...row, Xty[i]]);
+                for (let col = 0; col < k; col++) {
+                    let maxRow = col;
+                    for (let row = col + 1; row < k; row++)
+                        if (Math.abs(A[row][col]) > Math.abs(A[maxRow][col])) maxRow = row;
+                    [A[col], A[maxRow]] = [A[maxRow], A[col]];
+                    if (Math.abs(A[col][col]) < 1e-10) { state.regressionCoeffs = null; return; }
+                    for (let row = col + 1; row < k; row++) {
+                        const factor = A[row][col] / A[col][col];
+                        for (let j = col; j <= k; j++) A[row][j] -= factor * A[col][j];
+                    }
+                }
+                // Back substitution
+                const beta = Array(k).fill(0);
+                for (let i = k - 1; i >= 0; i--) {
+                    beta[i] = A[i][k];
+                    for (let j = i + 1; j < k; j++) beta[i] -= A[i][j] * beta[j];
+                    beta[i] /= A[i][i];
+                }
+
+                state.regressionCoeffs = {
+                    intercept: beta[0],
+                    sqft: beta[1],       // per 1 sq ft
+                    lotSqft: beta[2],    // per 1 lot sq ft
+                    bedroom: beta[3],    // per bedroom
+                    bathroom: beta[4],   // per bathroom
+                    halfBath: beta[5],   // per half bath
+                    ac: beta[6]          // having AC vs not
+                };
+            })();
 
             // Populate precinct dropdown (sorted numerically)
             const precinctCounts = {};
@@ -1669,48 +1708,24 @@
             badge.textContent = tier;
             badge.className = 'estimate-badge ' + tier.toLowerCase();
 
-            // Marginal value waterfall chart
-            function marginal(lookup, current, next) {
-                const cur = lookup[current];
-                const nxt = lookup[next];
-                if (cur != null && nxt != null) return nxt - cur;
-                return null;
-            }
-
+            // Marginal value waterfall chart (using regression coefficients)
             const impacts = [];
-            // +1 bedroom
-            const nextBeds = Math.min(targetBeds + 1, 6);
-            const bedDelta = marginal(state.medianByBedroom, targetBeds, nextBeds);
-            if (bedDelta != null && targetBeds < 6) impacts.push({ label: '+1 Bedroom (' + targetBeds + '→' + nextBeds + ')', delta: bedDelta });
+            const coeff = state.regressionCoeffs;
+            if (coeff) {
+                impacts.push({ label: '+200 Sq Ft', delta: Math.round(coeff.sqft * 200) });
 
-            // +1 bath
-            const nextBaths = Math.min(targetBaths + 1, 4);
-            const bathDelta = marginal(state.medianByBathroom, targetBaths, nextBaths);
-            if (bathDelta != null && targetBaths < 4) impacts.push({ label: '+1 Bathroom (' + targetBaths + '→' + nextBaths + ')', delta: bathDelta });
+                // Lot size: average sq ft jump for next bin
+                if (targetLotIdx < state.lotBinLabels.length - 1) {
+                    const curMid = (state.lotBinEdges[targetLotIdx] + Math.min(state.lotBinEdges[targetLotIdx + 1], 20000)) / 2;
+                    const nextIdx = targetLotIdx + 1;
+                    const nextMid = (state.lotBinEdges[nextIdx] + Math.min(state.lotBinEdges[nextIdx + 1], 20000)) / 2;
+                    impacts.push({ label: 'Lot ' + state.lotBinLabels[targetLotIdx] + ' → ' + state.lotBinLabels[nextIdx], delta: Math.round(coeff.lotSqft * (nextMid - curMid)) });
+                }
 
-            // +1 half bath
-            if (targetHalfBath !== 'any') {
-                const hb = parseInt(targetHalfBath);
-                const nextHb = Math.min(hb + 1, 2);
-                const hbDelta = marginal(state.medianByHalfBath, hb, nextHb);
-                if (hbDelta != null && hb < 2) impacts.push({ label: '+1 Half Bath (' + hb + '→' + nextHb + ')', delta: hbDelta });
-            }
-
-            // +200 sq ft
-            const sqftBucket = Math.floor(targetSqft / 200) * 200;
-            const sqftDelta = marginal(state.medianBySqftBucket, sqftBucket, sqftBucket + 200);
-            if (sqftDelta != null) impacts.push({ label: '+200 Sq Ft', delta: sqftDelta });
-
-            // +1 lot bin
-            const nextLotIdx = Math.min(targetLotIdx + 1, state.lotBinLabels.length - 1);
-            const lotDelta = marginal(state.medianByLotBucket, targetLotIdx, nextLotIdx);
-            if (lotDelta != null && targetLotIdx < state.lotBinLabels.length - 1) {
-                impacts.push({ label: 'Lot Size (' + state.lotBinLabels[targetLotIdx] + '→' + state.lotBinLabels[nextLotIdx] + ')', delta: lotDelta });
-            }
-
-            // AC: show delta of adding AC
-            if (state.medianByAC['yes'] != null && state.medianByAC['no'] != null) {
-                impacts.push({ label: 'Adding Central AC', delta: state.medianByAC['yes'] - state.medianByAC['no'] });
+                impacts.push({ label: '+1 Bedroom', delta: Math.round(coeff.bedroom) });
+                impacts.push({ label: '+1 Bathroom', delta: Math.round(coeff.bathroom) });
+                impacts.push({ label: '+1 Half Bath', delta: Math.round(coeff.halfBath) });
+                impacts.push({ label: 'Adding Central AC', delta: Math.round(coeff.ac) });
             }
 
             const wf = state.charts.estWaterfall;
