@@ -708,7 +708,7 @@
                         <div class="chart-container">
                             <h3 class="chart-title">Marginal Value of Adding One More</h3>
                             <p style="font-size:0.82rem; color:var(--text-light); margin:0 0 0.75rem;">
-                                Based on a regression across all single-family homes, each bar shows the isolated effect of adding one more unit of that attribute while holding everything else constant.
+                                Based on a regression across all single-family homes. Each bar shows the value of adding one more unit <em>from your current selection</em>, holding everything else constant. Change the sliders to see how marginal returns shift.
                             </p>
                             <canvas id="estWaterfallChart"></canvas>
                         </div>
@@ -1406,20 +1406,20 @@
                 const n = data.length;
                 if (n < 50) { state.regressionCoeffs = null; return; }
 
-                // Feature columns: sqft, lot, beds, baths, halfbaths, AC
-                const k = 7; // 6 features + intercept
-                const X = data.map(p => [
-                    1, // intercept
-                    p.FinishedArea,
-                    p.LotSqFt,
-                    parseFloat(p.NumBedroom) || 0,
-                    parseFloat(p.FullBath) || 0,
-                    parseFloat(p.HalfBath) || 0,
-                    p.HasAC ? 1 : 0
-                ]);
+                // Feature columns with quadratic terms for diminishing returns
+                // [1, sqft, sqft², lot, lot², beds, beds², baths, baths², halfbath, halfbath², AC]
+                const k = 12;
+                const X = data.map(p => {
+                    const sqft = p.FinishedArea;
+                    const lot = p.LotSqFt;
+                    const beds = parseFloat(p.NumBedroom) || 0;
+                    const baths = parseFloat(p.FullBath) || 0;
+                    const hb = parseFloat(p.HalfBath) || 0;
+                    return [1, sqft, sqft*sqft, lot, lot*lot, beds, beds*beds, baths, baths*baths, hb, hb*hb, p.HasAC ? 1 : 0];
+                });
                 const y = data.map(p => p.CurrentTotal);
 
-                // Compute X'X and X'y using normal equations
+                // Solve normal equations: beta = (X'X)^-1 X'y
                 const XtX = Array.from({length: k}, () => Array(k).fill(0));
                 const Xty = Array(k).fill(0);
                 for (let i = 0; i < n; i++) {
@@ -1430,12 +1430,11 @@
                         }
                     }
                 }
-                // Symmetrize
                 for (let j = 0; j < k; j++)
                     for (let l = 0; l < j; l++)
                         XtX[j][l] = XtX[l][j];
 
-                // Solve via Gaussian elimination with partial pivoting
+                // Gaussian elimination with partial pivoting
                 const A = XtX.map((row, i) => [...row, Xty[i]]);
                 for (let col = 0; col < k; col++) {
                     let maxRow = col;
@@ -1448,7 +1447,6 @@
                         for (let j = col; j <= k; j++) A[row][j] -= factor * A[col][j];
                     }
                 }
-                // Back substitution
                 const beta = Array(k).fill(0);
                 for (let i = k - 1; i >= 0; i--) {
                     beta[i] = A[i][k];
@@ -1456,14 +1454,16 @@
                     beta[i] /= A[i][i];
                 }
 
+                // Store coefficients: value = β_lin * x + β_quad * x²
+                // Marginal of x→x+1 = β_lin + β_quad * (2x + 1)
                 state.regressionCoeffs = {
                     intercept: beta[0],
-                    sqft: beta[1],       // per 1 sq ft
-                    lotSqft: beta[2],    // per 1 lot sq ft
-                    bedroom: beta[3],    // per bedroom
-                    bathroom: beta[4],   // per bathroom
-                    halfBath: beta[5],   // per half bath
-                    ac: beta[6]          // having AC vs not
+                    sqft: beta[1], sqft2: beta[2],
+                    lot: beta[3], lot2: beta[4],
+                    beds: beta[5], beds2: beta[6],
+                    baths: beta[7], baths2: beta[8],
+                    hb: beta[9], hb2: beta[10],
+                    ac: beta[11]
                 };
             })();
 
@@ -1708,24 +1708,46 @@
             badge.textContent = tier;
             badge.className = 'estimate-badge ' + tier.toLowerCase();
 
-            // Marginal value waterfall chart (using regression coefficients)
+            // Marginal value waterfall chart (position-dependent via quadratic regression)
+            // For y = β·x + γ·x², marginal at x→x+Δ = β·Δ + γ·((x+Δ)² - x²)
             const impacts = [];
-            const coeff = state.regressionCoeffs;
-            if (coeff) {
-                impacts.push({ label: '+200 Sq Ft', delta: Math.round(coeff.sqft * 200) });
+            const c = state.regressionCoeffs;
+            if (c) {
+                // +200 sq ft from current selection
+                const sqDelta = c.sqft * 200 + c.sqft2 * ((targetSqft + 200) * (targetSqft + 200) - targetSqft * targetSqft);
+                impacts.push({ label: '+200 Sq Ft (at ' + targetSqft.toLocaleString() + ')', delta: Math.round(sqDelta) });
 
-                // Lot size: average sq ft jump for next bin
+                // Lot size: next bin
                 if (targetLotIdx < state.lotBinLabels.length - 1) {
                     const curMid = (state.lotBinEdges[targetLotIdx] + Math.min(state.lotBinEdges[targetLotIdx + 1], 20000)) / 2;
                     const nextIdx = targetLotIdx + 1;
                     const nextMid = (state.lotBinEdges[nextIdx] + Math.min(state.lotBinEdges[nextIdx + 1], 20000)) / 2;
-                    impacts.push({ label: 'Lot ' + state.lotBinLabels[targetLotIdx] + ' → ' + state.lotBinLabels[nextIdx], delta: Math.round(coeff.lotSqft * (nextMid - curMid)) });
+                    const lotDelta = c.lot * (nextMid - curMid) + c.lot2 * (nextMid * nextMid - curMid * curMid);
+                    impacts.push({ label: 'Lot ' + state.lotBinLabels[targetLotIdx] + ' → ' + state.lotBinLabels[nextIdx], delta: Math.round(lotDelta) });
                 }
 
-                impacts.push({ label: '+1 Bedroom', delta: Math.round(coeff.bedroom) });
-                impacts.push({ label: '+1 Bathroom', delta: Math.round(coeff.bathroom) });
-                impacts.push({ label: '+1 Half Bath', delta: Math.round(coeff.halfBath) });
-                impacts.push({ label: 'Adding Central AC', delta: Math.round(coeff.ac) });
+                // +1 bedroom from current
+                if (targetBeds < 6) {
+                    const bedDelta = c.beds + c.beds2 * (2 * targetBeds + 1);
+                    impacts.push({ label: '+1 Bedroom (' + targetBeds + ' → ' + (targetBeds + 1) + ')', delta: Math.round(bedDelta) });
+                }
+
+                // +1 bathroom from current
+                if (targetBaths < 4) {
+                    const bathDelta = c.baths + c.baths2 * (2 * targetBaths + 1);
+                    impacts.push({ label: '+1 Bathroom (' + targetBaths + ' → ' + (targetBaths + 1) + ')', delta: Math.round(bathDelta) });
+                }
+
+                // +1 half bath from current
+                if (targetHalfBath !== 'any') {
+                    const hb = parseInt(targetHalfBath);
+                    if (hb < 2) {
+                        const hbDelta = c.hb + c.hb2 * (2 * hb + 1);
+                        impacts.push({ label: '+1 Half Bath (' + hb + ' → ' + (hb + 1) + ')', delta: Math.round(hbDelta) });
+                    }
+                }
+
+                impacts.push({ label: 'Adding Central AC', delta: Math.round(c.ac) });
             }
 
             const wf = state.charts.estWaterfall;
