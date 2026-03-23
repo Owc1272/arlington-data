@@ -11,6 +11,9 @@
             background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%);
         }
         .stat-value { color: #7f1d1d; }
+        @media (max-width: 768px) {
+            .tax-chart-card { max-width: 280px; }
+        }
         .override-marker {
             border-left: 2px dashed #b91c1c;
             padding-left: 0.5rem;
@@ -55,12 +58,12 @@
         <h2 class="section-header">The Tax Squeeze</h2>
 
         <div class="chart-grid-2col">
-            <div class="chart-card">
+            <div class="chart-card tax-chart-card">
                 <h3>Tax Burden: Taxes per Household as % of Median Income</h3>
                 <canvas id="taxBurdenChart"></canvas>
                 <div class="source-note">Source: MA DOR Municipal Databank / DLS Peer Comparison</div>
             </div>
-            <div class="chart-card">
+            <div class="chart-card tax-chart-card">
                 <h3>Expenditures Per Capita: Arlington vs Peer Average</h3>
                 <canvas id="spendingCapitaChart"></canvas>
                 <div class="source-note">Source: MA DOR Municipal Databank / DLS Peer Comparison</div>
