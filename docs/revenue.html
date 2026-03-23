@@ -110,7 +110,7 @@
                 <h3>Tax Rate vs Total Property Tax Levy (FY2002&ndash;FY2026)</h3>
                 <canvas id="taxRateVsLevyChart"></canvas>
                 <div class="insight-box">
-                    <strong>The paradox:</strong> Arlington&rsquo;s tax rate fell from $13.85 to $10.67 per $1,000 &mdash; but the total levy nearly tripled ($59M &rarr; $171M). Rising home values mask the real cost increase. A home assessed at $500K in FY2002 paid $6,925; the same home assessed at $900K today pays $9,603.
+                    <strong>The paradox:</strong> Arlington&rsquo;s tax rate fell from $13.85 to $10.67 per $1,000 &mdash; but the total levy nearly tripled ($59M &rarr; $171M). The average single-family home value rose from $299K (FY2002) to $1.12M (FY2026), and the average tax bill doubled from $5,949 (FY2011) to $11,950 (FY2026). Falling rates mask rising bills.
                 </div>
                 <div class="source-note">Source: Arlington Assessor / MA DOR Tax Classification Hearings</div>
             </div>
@@ -118,14 +118,14 @@
 
         <div class="chart-grid-2col">
             <div class="chart-card">
-                <h3>Total Assessed Property Value</h3>
+                <h3>Average Single-Family Home Value</h3>
                 <canvas id="totalValueChart"></canvas>
-                <div class="source-note">Source: Arlington Assessor / MA DOR Recapitulation Sheets</div>
+                <div class="source-note">Source: Arlington Assessor LA-4 Class Code Totals / Tax Classification Hearings</div>
             </div>
             <div class="chart-card">
-                <h3>Total Tax Levy</h3>
+                <h3>Average Single-Family Tax Bill</h3>
                 <canvas id="totalLevyChart"></canvas>
-                <div class="source-note">Source: Arlington Assessor / MA DOR Recapitulation Sheets</div>
+                <div class="source-note">Source: Arlington Tax Classification Hearing Presentations</div>
             </div>
         </div>
     </div>
@@ -573,44 +573,50 @@
             }
         });
 
-        /* Total Assessed Value */
+        /* Average Single-Family Home Value */
         new Chart(document.getElementById('totalValueChart'), {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: reLabels,
                 datasets: [{
-                    label: 'Total Assessed Value',
-                    data: reTax.map(r => r.total_value),
-                    backgroundColor: 'rgba(30,58,95,0.7)',
+                    label: 'Avg SF Home Value',
+                    data: reTax.map(r => r.avg_sf_value),
                     borderColor: '#1e3a5f',
-                    borderWidth: 1,
-                    borderRadius: 4
+                    backgroundColor: 'rgba(30,58,95,0.1)',
+                    borderWidth: 3,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#1e3a5f',
+                    fill: true,
+                    tension: 0.2
                 }]
             },
             options: {
                 responsive: true,
-                plugins: { legend: { display: false } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { callbacks: { label: ctx => 'Avg Value: ' + fmtDollar(ctx.parsed.y) } }
+                },
                 scales: {
                     x: { ticks: { maxRotation: 45, autoSkip: true } },
                     y: {
-                        ticks: { callback: v => { if (v >= 1e9) return '$' + (v/1e9).toFixed(0) + 'B'; return fmtDollarAxis(v); } },
-                        title: { display: true, text: 'Total Assessed Value' }
+                        ticks: { callback: v => fmtDollar(v) },
+                        title: { display: true, text: 'Average Assessed Value' }
                     }
                 }
             }
         });
 
-        /* Total Tax Levy */
+        /* Average Single-Family Tax Bill */
+        var billData = reTax.filter(r => r.avg_sf_bill != null);
         new Chart(document.getElementById('totalLevyChart'), {
             type: 'bar',
             data: {
-                labels: reLabels,
+                labels: billData.map(r => 'FY' + r.fy),
                 datasets: [{
-                    label: 'Total Tax Levy',
-                    data: reTax.map(r => r.levy),
-                    backgroundColor: reTax.map(r => {
-                        // Highlight override years
-                        if ([2006, 2012, 2020, 2025].includes(r.fy)) return 'rgba(230,57,70,0.7)';
+                    label: 'Avg SF Tax Bill',
+                    data: billData.map(r => r.avg_sf_bill),
+                    backgroundColor: billData.map(r => {
+                        if ([2012, 2020, 2025].includes(r.fy)) return 'rgba(230,57,70,0.7)';
                         return 'rgba(59,130,246,0.6)';
                     }),
                     borderRadius: 4
@@ -623,9 +629,9 @@
                     tooltip: {
                         callbacks: {
                             label: function(ctx) {
-                                var r = reTax[ctx.dataIndex];
-                                var label = 'Levy: ' + fmtDollar(ctx.parsed.y);
-                                if ([2006, 2012, 2020, 2025].includes(r.fy)) label += ' (override year)';
+                                var r = billData[ctx.dataIndex];
+                                var label = 'Avg Tax Bill: $' + r.avg_sf_bill.toLocaleString();
+                                if ([2012, 2020, 2025].includes(r.fy)) label += ' (override year)';
                                 return label;
                             }
                         }
@@ -634,8 +640,8 @@
                 scales: {
                     x: { ticks: { maxRotation: 45, autoSkip: true } },
                     y: {
-                        ticks: { callback: fmtDollarAxis },
-                        title: { display: true, text: 'Total Levy ($)' }
+                        ticks: { callback: v => '$' + v.toLocaleString() },
+                        title: { display: true, text: 'Average Annual Tax Bill' }
                     }
                 }
             }
