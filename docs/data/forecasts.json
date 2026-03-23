@@ -17,6 +17,7 @@
   ],
 
   "other_overruns": [
+    {"project": "Thompson School", "initial": 20000000, "final": 33000000, "growth_pct": 65, "note": "MSBA reimbursement only 50% vs expected 63%"},
     {"project": "Hardy School Expansion", "initial": 3500000, "final": 4800000, "growth_pct": 37, "note": "Bids exceeded estimate"},
     {"project": "Community Safety Building", "initial": 1350000, "final": 2550000, "growth_pct": 89, "note": "Poor initial construction quality of 1983 building"},
     {"project": "Central Fire Station", "initial": 4000000, "final": 6050000, "growth_pct": 51, "note": "Seismic code changes + trade price escalation"}
