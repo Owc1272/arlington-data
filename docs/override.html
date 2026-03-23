@@ -84,6 +84,7 @@
     <script src="nav.js"></script>
     <script>
         const state = { data: null, charts: {} };
+        const mobileRatio = window.innerWidth < 768 ? 1 : 2;
 
         function fmt(n) {
             if (n == null) return 'N/A';
@@ -224,6 +225,7 @@
                 },
                 options: {
                     responsive: true,
+                    aspectRatio: mobileRatio,
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { position: 'top' },
@@ -287,6 +289,7 @@
                 },
                 options: {
                     responsive: true,
+                    aspectRatio: mobileRatio,
                     plugins: {
                         legend: { position: 'top' },
                         tooltip: {
@@ -347,6 +350,7 @@
                 },
                 options: {
                     responsive: true,
+                    aspectRatio: mobileRatio,
                     plugins: {
                         legend: { position: 'top' },
                         tooltip: {

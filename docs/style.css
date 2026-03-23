@@ -376,7 +376,7 @@ footer a {
     .chart-grid-2col { grid-template-columns: 1fr; gap: 1.25rem; }
     .chart-card { padding: 1rem; }
     .chart-card h3 { font-size: 1rem; margin-bottom: 0.75rem; }
-    .chart-card canvas { max-height: 300px; }
+    .chart-card canvas { min-height: 250px; max-height: none; }
 
     /* --- Section headers & insight boxes --- */
     .section-header { font-size: 1.1rem; margin: 2rem 0 1rem 0; }
