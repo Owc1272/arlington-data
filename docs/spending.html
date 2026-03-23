@@ -140,12 +140,9 @@
 
         /* ===== Stats Bar ===== */
         var statsData = [
-            { value: fmtDollar(latest.expenditures.total_expenditures), label: 'FY' + latest.fiscal_year + ' Total Expenditures' },
-            { value: '44.1%', label: 'Schools (% of Budget)' },
-            { value: '+206%', label: 'School Growth (20yr)' },
-            { value: '+170%', label: 'Pension Growth (20yr)' },
-            { value: '+116%', label: 'Insurance Growth (20yr)' },
-            { value: '+55%', label: 'Town Dept Growth (20yr)' }
+            { value: fmtDollar(latest.expenditures.total_expenditures), label: 'FY' + latest.fiscal_year + ' Total Budget' },
+            { value: '44.1%', label: 'Schools Share' },
+            { value: '+206%', label: 'School Growth (20yr)' }
         ];
         document.getElementById('statsBar').innerHTML = statsData.map(function(s) {
             return '<div class="stat-card"><div class="stat-value">' + s.value + '</div><div class="stat-label">' + s.label + '</div></div>';

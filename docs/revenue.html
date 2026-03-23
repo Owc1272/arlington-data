@@ -166,12 +166,9 @@
 
         /* ===== Stats Bar ===== */
         const statsData = [
-            { value: fmtDollar(latestRev), label: 'FY' + latestFY + ' Total Revenue' },
-            { value: '2.8%', label: 'FY2025 Revenue Growth' },
-            { value: '0.80%', label: 'New Growth Rate (Last of 13 Peers)' },
-            { value: '5.34%', label: 'Commercial Tax Base' },
-            { value: '$28.6M', label: 'State Aid (14% of Revenue)' },
-            { value: '3.24', label: 'Revenue Growth Factor (12th of 13)' }
+            { value: fmtDollar(latestRev), label: 'FY' + latestFY + ' Revenue' },
+            { value: '0.80%', label: 'New Growth (Last of Peers)' },
+            { value: '5.34%', label: 'Commercial Tax Base' }
         ];
         document.getElementById('statsBar').innerHTML = statsData.map(s =>
             '<div class="stat-card"><div class="stat-value">' + s.value + '</div><div class="stat-label">' + s.label + '</div></div>'

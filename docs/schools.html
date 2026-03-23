@@ -33,12 +33,12 @@
         @media (max-width: 768px) {
             .dese-section { padding: 0 1rem 1rem; }
             .dese-stats-bar {
-                display: flex; overflow-x: auto; flex-wrap: nowrap;
-                -webkit-overflow-scrolling: touch; gap: 0.75rem;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
             }
-            .dese-stat-card { min-width: 130px; flex-shrink: 0; padding: 0.75rem; }
-            .dese-stat-value { font-size: 1.25rem; }
-            .dese-stat-label { font-size: 0.7rem; }
+            .dese-stat-card { padding: 0.6rem 0.4rem; }
+            .dese-stat-value { font-size: 1.1rem; }
+            .dese-stat-label { font-size: 0.65rem; }
         }
     </style>
 </head>
@@ -62,16 +62,8 @@
 
     <div class="dese-stats-bar">
         <div class="dese-stat-card">
-            <div class="dese-stat-value">$95,661</div>
-            <div class="dese-stat-label">Avg Teacher Salary</div>
-        </div>
-        <div class="dese-stat-card">
             <div class="dese-stat-value">$20,549</div>
             <div class="dese-stat-label">Per Pupil Spending</div>
-        </div>
-        <div class="dese-stat-card">
-            <div class="dese-stat-value">12.1</div>
-            <div class="dese-stat-label">Student-Teacher Ratio</div>
         </div>
         <div class="dese-stat-card">
             <div class="dese-stat-value">630</div>
@@ -80,10 +72,6 @@
         <div class="dese-stat-card">
             <div class="dese-stat-value">87.4%</div>
             <div class="dese-stat-label">4-Year College Rate</div>
-        </div>
-        <div class="dese-stat-card">
-            <div class="dese-stat-value">90.4%</div>
-            <div class="dese-stat-label">Teacher Retention</div>
         </div>
     </div>
 
@@ -193,9 +181,6 @@
                 { value: fmt(s.enrollment), label: 'Students (' + s.enrollment_year + ')' },
                 { value: s.student_teacher_ratio + ':1', label: 'Student-Teacher Ratio' },
                 { value: s.graduation_rate + '%', label: 'Graduation Rate' },
-                { value: fmt(s.teacher_fte), label: 'Teachers (FTE)' },
-                { value: fmt(s.staff_fte), label: 'Total Staff (FTE)' },
-                { value: s.high_needs_pct + '%', label: 'High Needs' },
             ];
             document.getElementById('statsBar').innerHTML = items.map(i => `
                 <div class="stat-card"><div class="stat-value">${i.value}</div><div class="stat-label">${i.label}</div></div>
@@ -435,7 +420,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
+                legend: { display: false },
                 title: { display: true, text: 'Arlington Total Salary Bill', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
