@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arlington Schools — Open Data Explorer</title>
+    <title>Arlington Schools &mdash; Open Data Explorer</title>
     <style>
-        :root { --primary-dark: #1e3a5f; --primary-blue: #3b82f6; --accent-teal: #14b8a6; --light-bg: #f8fafc; --border-color: #e2e8f0; --text-dark: #1f2937; --text-light: #6b7280; --white: #ffffff; --purple-dark: #4a1942; --purple: #7b2d6e; }
+        :root {
+            --primary-dark: #1e3a5f;
+            --primary-blue: #3b82f6;
+            --accent-teal: #14b8a6;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --white: #ffffff;
+            --purple-dark: #4a1942;
+            --purple: #7b2d6e;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: var(--light-bg); color: var(--text-dark); line-height: 1.6; }
         nav { position: sticky; top: 0; background: var(--white); border-bottom: 1px solid var(--border-color); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
@@ -17,13 +28,14 @@
         @media (max-width: 768px) { .nav-links { display: none; } }
         .hero { background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple) 100%); color: var(--white); padding: 4rem 2rem; text-align: center; }
         .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; }
-        .hero p { font-size: 1.1rem; opacity: 0.9; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
         .loading-spinner { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.9); z-index: 1000; justify-content: center; align-items: center; font-size: 1.2rem; color: var(--text-light); }
         .loading-spinner.active { display: flex; }
         .stats-bar { max-width: 1200px; margin: -2rem auto 2rem; padding: 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; position: relative; z-index: 10; }
         .stat-card { background: var(--white); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1.25rem; text-align: center; }
         .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--purple-dark); }
         .stat-label { font-size: 0.85rem; color: var(--text-light); margin-top: 0.25rem; }
+
         .charts-section { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
         .chart-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2rem; }
         .chart-grid-2col { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
@@ -32,6 +44,60 @@
         .chart-card h3 { font-size: 1.1rem; color: var(--primary-dark); margin-bottom: 1rem; }
         .chart-card canvas { max-height: 400px; }
         .source-note { font-size: 0.8rem; color: var(--text-light); margin-top: 0.75rem; font-style: italic; }
+
+        /* DESE Peer Comparison Section */
+        .dese-section { max-width: 1200px; margin: 0 auto; padding: 0 2rem 2rem; }
+        .dese-divider {
+            max-width: 1200px; margin: 3rem auto 0;
+            padding: 2rem 2rem 0;
+            border-top: 3px solid var(--purple-dark);
+        }
+        .dese-divider h2 {
+            font-size: 1.8rem; font-weight: 700; color: var(--purple-dark);
+            margin-bottom: 0.5rem;
+        }
+        .dese-divider p {
+            color: var(--text-light); font-size: 1rem; margin-bottom: 0.5rem;
+        }
+
+        .dese-stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .dese-stat-card { background: var(--white); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 1rem; text-align: center; border-top: 3px solid #e63946; }
+        .dese-stat-value { font-size: 1.5rem; font-weight: 700; color: #1d3557; }
+        .dese-stat-label { font-size: 0.8rem; color: var(--text-light); margin-top: 0.25rem; }
+
+        .section-header {
+            font-size: 1.3rem; font-weight: 700; color: #1d3557;
+            margin: 2.5rem 0 1.25rem 0; padding-bottom: 8px;
+            border-bottom: 3px solid #e63946;
+        }
+        .dese-chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+        @media (max-width: 900px) { .dese-chart-grid { grid-template-columns: 1fr; } }
+        .dese-chart-grid .chart-card.full { grid-column: 1 / -1; }
+
+        .insight-box {
+            background: #fff8e1; border-left: 4px solid #e63946;
+            border-radius: 6px; padding: 1rem 1.25rem; margin: 0.75rem 0 2rem 0;
+            font-size: 0.95rem;
+        }
+        .insight-box ul { margin: 0.5rem 0 0 0; padding-left: 1.25rem; }
+        .insight-box li { margin-bottom: 4px; }
+
+        .km-table-wrap { margin: 1.5rem 0 2rem 0; overflow-x: auto; }
+        .km-table {
+            width: 100%; border-collapse: collapse; background: var(--white);
+            border-radius: 12px; overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .km-table th {
+            background: #1d3557; color: white; padding: 12px 16px;
+            text-align: left; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .km-table td { padding: 10px 16px; border-bottom: 1px solid #eee; font-size: 0.95rem; }
+        .km-table tr:last-child td { border-bottom: none; }
+        .km-table tr:hover td { background: #f8f9fa; }
+        .km-table .positive { color: #2a9d8f; font-weight: 600; }
+        .km-table .negative { color: #e63946; font-weight: 600; }
+
         footer { text-align: center; padding: 2rem; color: var(--text-light); border-top: 1px solid var(--border-color); margin-top: 3rem; }
         footer a { color: var(--primary-blue); text-decoration: none; }
     </style>
@@ -47,12 +113,16 @@
             <li><a href="crime.html">Crime</a></li>
         </ul>
     </nav>
+
     <div class="hero">
         <h1>Arlington Schools</h1>
-        <p>Enrollment, performance, staffing, and spending data for Arlington Public Schools</p>
+        <p>Enrollment, performance, staffing, and spending data for Arlington Public Schools &mdash; plus DESE peer district comparisons</p>
     </div>
+
     <div class="loading-spinner" id="loadingSpinner">Loading school data...</div>
     <div class="stats-bar" id="statsBar"></div>
+
+    <!-- ========== EXISTING SCHOOL DATA CHARTS ========== -->
     <div class="charts-section">
         <div class="chart-grid">
             <div class="chart-card">
@@ -105,12 +175,163 @@
             </div>
         </div>
     </div>
+
+    <!-- ========== DESE PEER COMPARISON SECTION ========== -->
+    <div class="dese-divider">
+        <h2>DESE Peer District Comparisons</h2>
+        <p>Arlington vs 12 peer districts &amp; state averages &mdash; 15 data sources spanning up to 31 years</p>
+        <p style="font-size: 0.85rem; color: var(--text-light);">Peers: Belmont, Brookline, Medford, Melrose, Milton, Natick, Needham, North Andover, Reading, Stoneham, Watertown, Winchester</p>
+    </div>
+
+    <div class="dese-section">
+
+    <div class="dese-stats-bar">
+        <div class="dese-stat-card">
+            <div class="dese-stat-value">$95,661</div>
+            <div class="dese-stat-label">Avg Teacher Salary</div>
+        </div>
+        <div class="dese-stat-card">
+            <div class="dese-stat-value">$20,549</div>
+            <div class="dese-stat-label">Per Pupil Spending</div>
+        </div>
+        <div class="dese-stat-card">
+            <div class="dese-stat-value">12.1</div>
+            <div class="dese-stat-label">Student-Teacher Ratio</div>
+        </div>
+        <div class="dese-stat-card">
+            <div class="dese-stat-value">630</div>
+            <div class="dese-stat-label">SAT Math</div>
+        </div>
+        <div class="dese-stat-card">
+            <div class="dese-stat-value">87.4%</div>
+            <div class="dese-stat-label">4-Year College Rate</div>
+        </div>
+        <div class="dese-stat-card">
+            <div class="dese-stat-value">90.4%</div>
+            <div class="dese-stat-label">Teacher Retention</div>
+        </div>
+    </div>
+
+    <!-- Key Metrics Summary -->
+    <h2 class="section-header">Arlington Trajectory: Key Metrics Summary</h2>
+    <div class="km-table-wrap">
+    <table class="km-table">
+    <thead><tr>
+        <th>Metric</th><th>First Year</th><th>First Value</th>
+        <th>Latest Year</th><th>Latest Value</th><th>Change</th>
+    </tr></thead>
+    <tbody>
+    <tr>
+        <td>Avg Teacher Salary</td>
+        <td>1996-97</td><td>$46,104</td>
+        <td>2023-24</td><td>$95,661</td>
+        <td class="positive">+107.5%</td>
+    </tr><tr>
+        <td>Teacher FTE Count</td>
+        <td>1996-97</td><td>272.1</td>
+        <td>2023-24</td><td>490.4</td>
+        <td class="positive">+80.2%</td>
+    </tr><tr>
+        <td>Total Salary Bill</td>
+        <td>1996-97</td><td>$12,544,878</td>
+        <td>2023-24</td><td>$46,911,926</td>
+        <td class="positive">+274.0%</td>
+    </tr><tr>
+        <td>Per Pupil Expenditure</td>
+        <td>2008</td><td>$11,685</td>
+        <td>2024</td><td>$20,549</td>
+        <td class="positive">+75.9%</td>
+    </tr><tr>
+        <td>Student-Teacher Ratio</td>
+        <td>2007-08</td><td>13.6</td>
+        <td>2025-26</td><td>12.1</td>
+        <td class="negative">-1.5</td>
+    </tr><tr>
+        <td>SAT Math</td>
+        <td>2006-07</td><td>554</td>
+        <td>2024-25</td><td>630</td>
+        <td class="positive">+76.0</td>
+    </tr><tr>
+        <td>Teacher Retention (%)</td>
+        <td>2009</td><td>80.4%</td>
+        <td>2026</td><td>90.4%</td>
+        <td class="positive">+10.0</td>
+    </tr><tr>
+        <td>4-Year College Rate (%)</td>
+        <td>1994-95</td><td>69.6%</td>
+        <td>2024-25</td><td>87.4%</td>
+        <td class="positive">+17.8</td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+
+    <!-- Section 1: Teacher Compensation -->
+    <h2 class="section-header">Teacher Compensation</h2>
+    <div class="dese-chart-grid">
+        <div class="chart-card full"><canvas id="chart1a"></canvas></div>
+        <div class="chart-card"><canvas id="chart1b"></canvas></div>
+        <div class="chart-card"><canvas id="chart1c"></canvas></div>
+    </div>
+    <div class="insight-box"><strong>Key Insights:</strong><ul><li>Arlington average teacher salary grew from $46,104 (1996-97) to $95,661 (2023-24), a 107% increase.</li><li>Arlington's latest salary is $4,143 below the peer average ($99,804).</li></ul></div>
+
+    <!-- Section 2: School Spending -->
+    <h2 class="section-header">School Spending</h2>
+    <div class="dese-chart-grid">
+        <div class="chart-card full"><canvas id="chart2a"></canvas></div>
+        <div class="chart-card"><canvas id="chart2b"></canvas></div>
+        <div class="chart-card"><canvas id="chart2c"></canvas></div>
+    </div>
+    <div class="insight-box"><strong>Key Insights:</strong><ul><li>Total per-pupil expenditure rose from $11,685 to $20,549, a 76% increase.</li><li>Arlington spends 147% of its required net school spending &mdash; 47 percentage points above the state minimum.</li></ul></div>
+
+    <!-- Section 3: Teacher Workforce -->
+    <h2 class="section-header">Teacher Workforce</h2>
+    <div class="dese-chart-grid">
+        <div class="chart-card"><canvas id="chart3a"></canvas></div>
+        <div class="chart-card"><canvas id="chart3b"></canvas></div>
+        <div class="chart-card full"><canvas id="chart3c"></canvas></div>
+    </div>
+    <div class="insight-box"><strong>Key Insights:</strong><ul><li>Student-teacher ratio moved from 13.6 (2007-08) to 12.1 (2025-26).</li><li>Teacher retention improved from 80.4% to 90.4%.</li></ul></div>
+
+    <!-- Section 4: Academic Performance -->
+    <h2 class="section-header">Academic Performance</h2>
+    <div class="dese-chart-grid">
+        <div class="chart-card full"><canvas id="chart4a"></canvas></div>
+        <div class="chart-card"><canvas id="chart4b"></canvas></div>
+        <div class="chart-card"><canvas id="chart4c"></canvas></div>
+    </div>
+    <div class="insight-box"><strong>Key Insights:</strong><ul><li>SAT Math scores moved from 554 (2006-07) to 630 (2024-25). Note: SAT was redesigned in 2016-17, making cross-era comparisons approximate.</li><li>Arlington AP scores (% scoring 3-5) stood at 91.7% in 2025.</li></ul></div>
+
+    <!-- Section 5: Student Outcomes -->
+    <h2 class="section-header">Student Outcomes</h2>
+    <div class="dese-chart-grid">
+        <div class="chart-card"><canvas id="chart5a"></canvas></div>
+        <div class="chart-card"><canvas id="chart5b"></canvas></div>
+    </div>
+    <div class="insight-box"><strong>Key Insights:</strong><ul><li>4-year college rate moved from 69.6% (1994-95) to 87.4% (2024-25).</li><li>Arlington is 9.0 pts above the peer average for 4-year college enrollment.</li></ul></div>
+
+    <!-- Section 6: Student Stability & Special Education -->
+    <h2 class="section-header">Student Stability &amp; Special Education</h2>
+    <div class="dese-chart-grid">
+        <div class="chart-card full"><canvas id="chart6a"></canvas></div>
+        <div class="chart-card"><canvas id="chart6b"></canvas></div>
+        <div class="chart-card"><canvas id="chart6c"></canvas></div>
+    </div>
+    <div class="insight-box"><strong>Key Insights:</strong><ul><li>Student stability rate was 97.7% in 2025.</li><li>Special education full inclusion rate stood at 51.7% in 2024.</li></ul></div>
+
+    </div>
+
     <footer>
-        <p><strong>Data Source:</strong> <a href="https://profiles.doe.mass.edu/profiles/student.aspx?orgcode=00100000&orgtypecode=5" target="_blank">MA DESE Arlington District Profile</a></p>
+        <p><strong>Data Sources:</strong>
+            <a href="https://profiles.doe.mass.edu/profiles/student.aspx?orgcode=00100000&orgtypecode=5" target="_blank">MA DESE Arlington Profile</a> |
+            <a href="https://profiles.doe.mass.edu" target="_blank">DESE Statewide Data</a>
+        </p>
         <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: March 2026</p>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
+    <!-- Existing school data charts (from schools.json) -->
     <script>
         const state = { data: null, charts: {} };
 
@@ -135,7 +356,7 @@
                 createTeacherChart();
                 createClassSizeChart();
                 createSpendingChart();
-            } catch(e) { console.error('Error:', e); }
+            } catch(e) { console.error('Error loading schools.json:', e); }
             document.getElementById('loadingSpinner').classList.remove('active');
         });
 
@@ -160,12 +381,7 @@
                 type: 'line',
                 data: {
                     labels: d.map(r => r.year),
-                    datasets: [{
-                        label: 'Total Enrollment',
-                        data: d.map(r => r.total),
-                        borderColor: '#7b2d6e', backgroundColor: 'rgba(123,45,110,0.1)',
-                        borderWidth: 2, pointRadius: 3, fill: true,
-                    }]
+                    datasets: [{ label: 'Total Enrollment', data: d.map(r => r.total), borderColor: '#7b2d6e', backgroundColor: 'rgba(123,45,110,0.1)', borderWidth: 2, pointRadius: 3, fill: true }]
                 },
                 options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false } } }
             });
@@ -178,14 +394,7 @@
             const keys = ['pk','k','g1','g2','g3','g4','g5','g6','g7','g8','g9','g10','g11','g12'];
             new Chart(document.getElementById('gradeChart'), {
                 type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Students',
-                        data: keys.map(k => g[k] || 0),
-                        backgroundColor: 'rgba(123,45,110,0.7)',
-                    }]
-                },
+                data: { labels: labels, datasets: [{ label: 'Students', data: keys.map(k => g[k] || 0), backgroundColor: 'rgba(123,45,110,0.7)' }] },
                 options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: latest.year + ' Data' } }, scales: { y: { beginAtZero: true } } }
             });
         }
@@ -195,16 +404,8 @@
             const r = latest.race_pct;
             new Chart(document.getElementById('demoChart'), {
                 type: 'doughnut',
-                data: {
-                    labels: ['White', 'Asian', 'Multiracial', 'Hispanic', 'Black'],
-                    datasets: [{ data: [r.white, r.asian, r.multiracial, r.hispanic, r.black], backgroundColor: ['#3b82f6','#d97706','#8b5cf6','#14b8a6','#ef4444'] }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: { legend: { position: 'right' }, title: { display: true, text: latest.year + ' Data' },
-                        tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed.toFixed(1) + '%' } }
-                    }
-                }
+                data: { labels: ['White', 'Asian', 'Multiracial', 'Hispanic', 'Black'], datasets: [{ data: [r.white, r.asian, r.multiracial, r.hispanic, r.black], backgroundColor: ['#3b82f6','#d97706','#8b5cf6','#14b8a6','#ef4444'] }] },
+                options: { responsive: true, plugins: { legend: { position: 'right' }, title: { display: true, text: latest.year + ' Data' }, tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed.toFixed(1) + '%' } } } }
             });
         }
 
@@ -301,6 +502,696 @@
                 }
             });
         }
+    </script>
+
+    <!-- DESE Peer Comparison Charts (inline data) -->
+    <script>
+
+    new Chart(document.getElementById('chart1a'), {
+        type: 'line',
+        data: {
+            labels: ["1996-97", "1997-98", "1998-99", "1999-00", "2000-01", "2001-02", "2002-03", "2003-04", "2004-05", "2005-06", "2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24"],
+            datasets: [{"label": "Arlington", "data": [46104.0, 46588.0, 44770.0, 45039.0, 47405.0, 44789.0, 45782.0, 49569.0, 48002.0, 51189.0, 53655.0, 57636.0, 59343.0, 61757.0, 55373.0, 57825.0, 61069.0, 69547.0, 66493.0, 69977.0, 70251.0, 75090.0, 74792.0, 81650.0, 83466.0, 90572.0, 90109.0, 95661.0], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Average", "data": [46072.17, 46807.75, 47402.42, 48815.0, 51369.42, 51033.33, 52227.75, 54802.75, 55503.33, 56503.58, 59072.83, 66252.67, 69627.92, 68762.75, 69599.08, 71890.25, 72234.08, 75035.33, 76020.08, 78221.0, 80337.25, 80712.58, 82461.58, 85375.75, 88166.08, 91519.67, 95670.42, 99804.08], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "State", "data": [42874.0, 44051.0, 45149.0, 46580.0, 48649.0, 49242.0, 51803.0, 53733.0, 54701.0, 56366.0, 58258.0, 64164.0, 67572.0, 68781.0, 70340.0, 70960.0, 71983.0, 73966.0, 74744.0, 76656.0, 78670.0, 80204.0, 82379.0, 83586.0, 86118.0, 89858.0, 92941.0, 91014.0], "borderColor": "#2a9d8f", "backgroundColor": "#2a9d8f", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "Belmont", "data": [49561.0, 50712.0, 50598.0, 52003.0, 52921.0, 53371.0, 53643.0, 55659.0, 55264.0, 56786.0, 58445.0, 66366.0, 69479.0, 72300.0, 79489.0, 79143.0, 79244.0, 82943.0, 85241.0, 85279.0, 85906.0, 90616.0, 93414.0, 96334.0, 101061.0, 107286.0, 107011.0, 111738.0], "borderColor": "#a8dadc", "backgroundColor": "#a8dadc", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Brookline", "data": [47116.0, 47959.0, 49096.0, 52244.0, 59022.0, 56072.0, 58343.0, 61037.0, 62446.0, 64662.0, 67399.0, 78308.0, 86046.0, 81401.0, 80485.0, 85867.0, 82488.0, 93213.0, 91507.0, 93727.0, 101413.0, 95208.0, 98614.0, 100041.0, 101158.0, 104268.0, 115926.0, 122329.0], "borderColor": "#b5b5b5", "backgroundColor": "#b5b5b5", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Medford", "data": [42637.0, 43804.0, 39636.0, 45570.0, 43985.0, 48463.0, 43931.0, 47429.0, 48963.0, 49424.0, 63115.0, 66627.0, 68578.0, 68929.0, 65192.0, 64887.0, 67365.0, 69833.0, 72648.0, 76179.0, 75323.0, 71115.0, 78910.0, 86949.0, 88179.0, 92886.0, 96290.0, 98518.0], "borderColor": "#c9ada7", "backgroundColor": "#c9ada7", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Melrose", "data": [44451.0, 45396.0, 46079.0, 46037.0, 46960.0, 46935.0, 47937.0, 50656.0, 51190.0, 52660.0, 51211.0, 54010.0, 55897.0, 62225.0, 56666.0, 57764.0, 53569.0, 60338.0, 60939.0, 63645.0, 65368.0, 65624.0, 67136.0, 69025.0, 76369.0, 82669.0, 87558.0, 85682.0], "borderColor": "#ddbea9", "backgroundColor": "#ddbea9", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Milton", "data": [41892.0, 43915.0, 45402.0, 49214.0, 48742.0, 48655.0, 53310.0, 56049.0, 56661.0, 57773.0, 59412.0, 72221.0, 73133.0, 74565.0, 76233.0, 78011.0, 79176.0, 78732.0, 80117.0, 81164.0, 83287.0, 82613.0, 82283.0, 86571.0, 87644.0, 93116.0, 96091.0, 100399.0], "borderColor": "#ced4da", "backgroundColor": "#ced4da", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Natick", "data": [46612.0, 47101.0, 48021.0, 48245.0, 48439.0, 51158.0, 50723.0, 53932.0, 55922.0, 55897.0, 53816.0, 62757.0, 64955.0, 65816.0, 66070.0, 68540.0, 69673.0, 66825.0, 68893.0, 70293.0, 73106.0, 77049.0, 79634.0, 81434.0, 84410.0, 89880.0, 95481.0, 100680.0], "borderColor": "#adb5bd", "backgroundColor": "#adb5bd", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Needham", "data": [47584.0, 48355.0, 51749.0, 47363.0, 53689.0, 55702.0, 55093.0, 55759.0, 56242.0, 58914.0, 63324.0, 67977.0, 73093.0, 75807.0, 78328.0, 79303.0, 81062.0, 87175.0, 87555.0, 89622.0, 91350.0, 95184.0, 95162.0, 92960.0, 98388.0, 97996.0, 100161.0, 101790.0], "borderColor": "#e9c46a", "backgroundColor": "#e9c46a", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "North Andover", "data": [44314.0, 45751.0, 45823.0, 45961.0, 45539.0, 49015.0, 50076.0, 52887.0, 53394.0, 55180.0, 54773.0, 72277.0, 76920.0, 63908.0, 65381.0, 70167.0, 72619.0, 76974.0, 77466.0, 80009.0, 80461.0, 77641.0, 79388.0, 81527.0, 83256.0, 89074.0, 90118.0, 94771.0], "borderColor": "#f4a261", "backgroundColor": "#f4a261", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Reading", "data": [45057.0, 42781.0, 46072.0, 49410.0, 51973.0, 50534.0, 52756.0, 55938.0, 57277.0, 55678.0, 55008.0, 61212.0, 59661.0, 60300.0, 64129.0, 65194.0, 66048.0, 65291.0, 70262.0, 72366.0, 74407.0, 76135.0, 77458.0, 81265.0, 83378.0, 84264.0, 87825.0, 96405.0], "borderColor": "#bcb8b1", "backgroundColor": "#bcb8b1", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Stoneham", "data": [45247.0, 46226.0, 46143.0, 47926.0, 48661.0, 45477.0, 49476.0, 49266.0, 47587.0, 46692.0, 55038.0, 57795.0, 62934.0, 60168.0, 61959.0, 66387.0, 67103.0, 68232.0, 66693.0, 71442.0, 72302.0, 74035.0, 73676.0, 78626.0, 77040.0, 77768.0, 80465.0, 81293.0], "borderColor": "#cdb4db", "backgroundColor": "#cdb4db", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Watertown", "data": [49931.0, 50524.0, 51496.0, 52346.0, 61015.0, 56042.0, 57293.0, 60156.0, 61512.0, 63550.0, 61589.0, 63801.0, 67816.0, 70826.0, 71129.0, 74220.0, 74293.0, 77128.0, 76887.0, 78217.0, 85372.0, 84086.0, 83624.0, 83861.0, 87668.0, 87686.0, 95129.0, 100692.0], "borderColor": "#bde0fe", "backgroundColor": "#bde0fe", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Winchester", "data": [48464.0, 49169.0, 48714.0, 49461.0, 55487.0, 50976.0, 54152.0, 58865.0, 59582.0, 60827.0, 65744.0, 71681.0, 77023.0, 68908.0, 70128.0, 73200.0, 74169.0, 73740.0, 74033.0, 76709.0, 75752.0, 79245.0, 80240.0, 85916.0, 89442.0, 91343.0, 95990.0, 103352.0], "borderColor": "#ffc8dd", "backgroundColor": "#ffc8dd", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Average Teacher Salary', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': $' + val.toLocaleString(undefined, {maximumFractionDigits: 0});
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return '$' + v.toLocaleString(); }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart1b'), {
+        type: 'bar',
+        data: {
+            labels: ["1996-97", "1997-98", "1998-99", "1999-00", "2000-01", "2001-02", "2002-03", "2003-04", "2004-05", "2005-06", "2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24"],
+            datasets: [{"label": "Total Salary Bill", "data": [12544878.0, 13566324.0, 13650495.0, 14471178.0, 14619734.0, 15156707.0, 15057618.0, 15455478.0, 16354214.0, 17470640.0, 18741839.0, 19250403.0, 19980290.0, 21312259.0, 17536715.0, 19024374.0, 20555845.0, 22162867.0, 23917577.0, 26619396.0, 28114402.0, 30389114.0, 31487608.0, 35811485.0, 38878430.0, 42550582.0, 43819949.0, 46911926.0], "borderColor": "#e63946", "backgroundColor": "#e6394699", "borderWidth": 1, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "type": "bar"}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Arlington Total Salary Bill', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': $' + val.toLocaleString(undefined, {maximumFractionDigits: 0});
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return '$' + v.toLocaleString(); }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart1c'), {
+        type: 'line',
+        data: {
+            labels: ["1996-97", "1997-98", "1998-99", "1999-00", "2000-01", "2001-02", "2002-03", "2003-04", "2004-05", "2005-06", "2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24"],
+            datasets: [{"label": "Teacher FTE", "data": [272.1, 291.2, 304.9, 321.3, 308.4, 338.4, 328.9, 311.8, 340.7, 341.3, 349.3, 334.0, 336.7, 345.1, 316.7, 329.0, 336.6, 318.7, 359.7, 380.0, 400.0, 405.0, 421.0, 438.6, 465.8, 469.8, 486.3, 490.4], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Arlington Teacher FTE Count', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: {  },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart2a'), {
+        type: 'line',
+        data: {
+            labels: ["2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
+            datasets: [{"label": "Arlington", "data": [11685.49, 11813.08, 12501.68, 12942.16, 12602.94, 12545.75, 13084.88, 13382.77, 13984.11, 14222.82, 14594.15, 14615.87, 15628.93, 17933.78, 18615.49, 19471.21, 20549.22], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Average", "data": [12091.18, 12512.57, 12572.45, 12811.62, 13093.68, 13537.02, 13909.01, 14604.52, 15138.75, 15617.87, 16202.08, 16679.8, 17293.19, 18992.88, 19848.52, 20968.62, 22151.15], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "State", "data": [12446.84, 13003.91, 13047.92, 13353.6, 13636.93, 14023.09, 14520.87, 14942.16, 15488.38, 15923.55, 16506.27, 17131.06, 17572.8, 19066.35, 20283.76, 21885.91, 23165.11], "borderColor": "#2a9d8f", "backgroundColor": "#2a9d8f", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "Belmont", "data": [11301.08, 11652.66, 11609.29, 11968.83, 12259.18, 12659.15, 12799.17, 13028.52, 13348.83, 13581.74, 14246.31, 14820.36, 15279.99, 17450.83, 18294.94, 19411.45, 20852.48], "borderColor": "#a8dadc", "backgroundColor": "#a8dadc", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Brookline", "data": [15431.47, 16846.97, 17090.15, 16556.38, 16625.83, 16924.12, 17290.76, 17652.46, 18866.23, 19527.54, 19921.88, 20486.39, 21306.86, 25689.75, 25802.1, 26528.27, 27765.05], "borderColor": "#b5b5b5", "backgroundColor": "#b5b5b5", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Medford", "data": [13376.27, 13268.99, 12817.59, 13004.9, 13031.51, 13959.68, 14733.35, 16005.95, 17043.82, 16930.61, 17990.24, 18265.01, 20558.42, 20809.48, 21372.0, 22857.59, 23377.91], "borderColor": "#c9ada7", "backgroundColor": "#c9ada7", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Melrose", "data": [10264.05, 10288.36, 10493.21, 10587.8, 11175.71, 11504.89, 11915.06, 12057.62, 12003.1, 12174.88, 12327.21, 12400.98, 12665.06, 15016.08, 15540.08, 16293.44, 16976.51], "borderColor": "#ddbea9", "backgroundColor": "#ddbea9", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Milton", "data": [11339.87, 11472.57, 11750.08, 12612.95, 12816.34, 12991.7, 13499.07, 14116.37, 14387.57, 14854.75, 15468.91, 15784.87, 15508.44, 16855.56, 17558.83, 18925.49, 20877.78], "borderColor": "#ced4da", "backgroundColor": "#ced4da", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Natick", "data": [12279.14, 12925.89, 12909.95, 12648.93, 13146.29, 13510.56, 13549.72, 14044.07, 14290.64, 16523.26, 16393.24, 16195.0, 16744.78, 17396.77, 18406.53, 20475.21, 21772.31], "borderColor": "#adb5bd", "backgroundColor": "#adb5bd", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Needham", "data": [12551.66, 12954.58, 13248.26, 13601.65, 13741.74, 14319.83, 15019.87, 15900.29, 16546.96, 17306.62, 18148.78, 18826.61, 19192.9, 21146.56, 22808.43, 23407.01, 24928.34], "borderColor": "#e9c46a", "backgroundColor": "#e9c46a", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "North Andover", "data": [10479.0, 10948.66, 11276.57, 11503.35, 11602.93, 11768.83, 11889.43, 12054.9, 12638.61, 12737.78, 13136.37, 14191.06, 14995.83, 16052.29, 17408.78, 18220.67, 19312.72], "borderColor": "#f4a261", "backgroundColor": "#f4a261", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Reading", "data": [10406.52, 10742.07, 10749.1, 10975.88, 11051.37, 11281.35, 11807.31, 12519.75, 13284.57, 13561.55, 14201.96, 14947.4, 15249.82, 16616.08, 17643.0, 19058.43, 20123.77], "borderColor": "#bcb8b1", "backgroundColor": "#bcb8b1", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Stoneham", "data": [10826.65, 11399.84, 11577.33, 12449.31, 13226.35, 13864.24, 14516.54, 14939.72, 15222.19, 15520.34, 16673.47, 17107.22, 17865.4, 18512.78, 19346.7, 20910.12, 22466.02], "borderColor": "#cdb4db", "backgroundColor": "#cdb4db", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Watertown", "data": [15973.89, 16277.08, 15984.88, 16007.67, 16493.05, 17279.47, 17309.06, 20134.03, 20720.05, 21148.05, 21794.87, 22422.74, 22879.98, 25550.44, 26006.14, 26517.38, 27428.27], "borderColor": "#bde0fe", "backgroundColor": "#bde0fe", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Winchester", "data": [10864.51, 11373.13, 11362.99, 11821.81, 11953.82, 12380.46, 12578.77, 12800.52, 13312.37, 13547.31, 14121.68, 14709.94, 15270.81, 16817.9, 17994.68, 19018.43, 19932.59], "borderColor": "#ffc8dd", "backgroundColor": "#ffc8dd", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Total Per Pupil Expenditure', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': $' + val.toLocaleString(undefined, {maximumFractionDigits: 0});
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return '$' + v.toLocaleString(); }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart2b'), {
+        type: 'line',
+        data: {
+            labels: ["2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
+            datasets: [{"label": "Total Per Pupil", "data": [11685.49, 11813.08, 12501.68, 12942.16, 12602.94, 12545.75, 13084.88, 13382.77, 13984.11, 14222.82, 14594.15, 14615.87, 15628.93, 17933.78, 18615.49, 19471.21, 20549.22], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "In-District Per Pupil", "data": [10739.81, 10906.24, 11479.97, 11910.43, 11474.07, 11489.43, 11921.35, 12316.61, 13022.16, 13097.27, 13389.79, 13642.69, 14804.77, 16919.62, 17867.54, 18799.25, 19872.4], "borderColor": "#457b9d", "backgroundColor": "rgba(69,123,157,0.15)", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": "-1", "hidden": false}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Arlington: In-District vs Total Per Pupil (gap = out-of-district)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': $' + val.toLocaleString(undefined, {maximumFractionDigits: 0});
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return '$' + v.toLocaleString(); }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart2c'), {
+        type: 'line',
+        data: {
+            labels: ["2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+            datasets: [{"label": "Arlington", "data": [130.0, 127.0, 129.0, 122.0, 132.0, 127.0, 124.0, 128.0, 130.0, 133.0, 135.0, 133.0, 135.0, 143.0, 147.0], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Average", "data": [121.75, 124.92, 122.83, 123.67, 125.67, 125.5, 126.92, 130.5, 132.83, 138.25, 141.33, 141.92, 144.25, 143.5, 149.5], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Net School Spending as % of Required', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': ' + val.toFixed(1) + '%';
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return v + '%'; }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart3a'), {
+        type: 'line',
+        data: {
+            labels: ["2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"],
+            datasets: [{"label": "Arlington", "data": [13.6, 13.8, 13.7, 15.2, 14.8, 14.6, 15.8, 14.5, 13.9, 13.9, 14.3, 14.1, 13.8, 12.4, 12.5, 12.3, 12.2, 12.6, 12.1], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Average", "data": [14.65, 14.78, 14.41, 14.32, 14.52, 14.13, 14.29, 13.88, 14.26, 14.12, 13.48, 13.3, 13.08, 12.36, 12.3, 12.33, 12.29, 12.27, 12.33], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "State", "data": [13.6, 13.6, 13.7, 13.9, 13.7, 13.5, 13.6, 13.3, 13.2, 13.2, 13.0, 12.9, 12.6, 12.1, 11.9, 11.9, 11.8, 11.9, 11.7], "borderColor": "#2a9d8f", "backgroundColor": "#2a9d8f", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "Belmont", "data": [15.7, 15.6, 15.7, 17.0, 17.1, 16.8, 17.1, 17.2, 16.8, 16.6, 16.8, 16.6, 16.5, 15.8, 15.4, 15.1, 15.0, 14.4, 15.0], "borderColor": "#a8dadc", "backgroundColor": "#a8dadc", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Brookline", "data": [12.9, 12.9, 12.6, 12.7, 13.8, 12.8, 13.5, 13.0, 12.8, 12.6, 12.5, 12.2, 11.7, 10.2, 11.0, 11.6, 12.1, 12.9, 11.0], "borderColor": "#b5b5b5", "backgroundColor": "#b5b5b5", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Medford", "data": [13.6, 14.3, 14.3, 12.7, 12.5, 12.2, 11.8, 11.5, null, null, 10.7, 10.7, 10.6, 10.3, 10.3, 10.6, 10.3, 10.2, 10.4], "borderColor": "#c9ada7", "backgroundColor": "#c9ada7", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Melrose", "data": [15.1, 15.5, 15.8, 15.2, 14.9, 13.9, 14.4, 14.5, 14.4, 14.5, 14.6, 14.7, 14.5, 13.3, 14.0, 14.6, 13.7, 13.7, 14.4], "borderColor": "#ddbea9", "backgroundColor": "#ddbea9", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Milton", "data": [15.3, 15.1, 15.3, 14.5, 14.3, 14.3, 14.5, 14.0, 17.2, 16.8, 14.1, 13.9, 14.3, 13.7, 13.6, 13.1, 12.7, 12.8, 13.0], "borderColor": "#ced4da", "backgroundColor": "#ced4da", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Natick", "data": [14.3, 14.2, 14.1, 14.5, 14.7, 14.8, 14.7, 14.6, 14.6, 14.1, 13.6, 13.3, 12.8, 12.0, 11.9, 11.9, 11.6, 12.0, 11.9], "borderColor": "#adb5bd", "backgroundColor": "#adb5bd", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Needham", "data": [14.5, 15.1, 15.2, 15.5, 15.4, 15.2, 15.5, 14.5, 14.3, 13.9, 13.9, 14.0, 13.5, 13.0, 12.6, 12.6, 12.3, 12.1, 11.8], "borderColor": "#e9c46a", "backgroundColor": "#e9c46a", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "North Andover", "data": [19.5, 19.5, 15.6, 15.6, 16.3, 16.4, 17.4, 16.4, 16.1, 15.9, 16.0, 15.7, 14.8, 14.0, 13.7, 13.1, 13.3, 13.1, 14.9], "borderColor": "#f4a261", "backgroundColor": "#f4a261", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Reading", "data": [15.5, 14.6, 14.5, 14.8, 14.6, 14.5, 14.0, 14.1, 13.9, 13.9, 13.8, 13.2, 13.2, 12.5, 11.9, 12.0, 12.9, 11.9, 11.9], "borderColor": "#bcb8b1", "backgroundColor": "#bcb8b1", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Stoneham", "data": [14.1, 14.3, 13.3, 13.4, 13.4, 12.8, 12.8, 12.4, 12.6, 12.7, 12.4, 12.3, 12.0, 10.9, 11.4, 11.4, 10.8, 11.2, 11.2], "borderColor": "#cdb4db", "backgroundColor": "#cdb4db", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Watertown", "data": [11.1, 11.5, 11.7, 11.7, 12.4, 11.7, 12.1, 10.8, 10.5, 11.2, 10.5, 9.9, 9.9, 9.7, 9.5, 9.8, 10.2, 10.3, 10.4], "borderColor": "#bde0fe", "backgroundColor": "#bde0fe", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Winchester", "data": [14.2, 14.7, 14.8, 14.2, 14.8, 14.2, 13.7, 13.5, 13.7, 13.1, 12.9, 13.1, 13.1, 12.9, 12.3, 12.2, 12.6, 12.6, 12.0], "borderColor": "#ffc8dd", "backgroundColor": "#ffc8dd", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Student-Teacher Ratio', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: {  },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart3b'), {
+        type: 'line',
+        data: {
+            labels: ["2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"],
+            datasets: [{"label": "Arlington", "data": [80.4, 86.7, 79.8, 83.0, 91.5, 87.8, 85.1, 91.3, 88.0, 91.3, 88.2, 87.8, 91.7, 86.8, 85.8, 86.4, 88.7, 90.4], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Average", "data": [87.58, 89.58, 88.66, 88.09, 89.26, 87.83, 87.81, 87.08, 88.44, 88.78, 89.01, 88.5, 89.02, 87.88, 87.58, 88.3, 88.94, 88.27], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "State", "data": [90.0, 90.9, 89.7, 90.3, 90.7, 89.9, 89.5, 84.6, 90.5, 89.8, 90.5, 90.8, 90.6, 89.8, 88.7, 89.5, 89.7, 90.1], "borderColor": "#2a9d8f", "backgroundColor": "#2a9d8f", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "Belmont", "data": [87.2, 86.9, 84.2, 85.0, 85.6, 87.9, 87.5, 86.1, 86.9, 89.0, 88.5, 89.6, 89.3, 87.7, 88.1, 89.3, 91.8, 84.0], "borderColor": "#a8dadc", "backgroundColor": "#a8dadc", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Brookline", "data": [88.3, 88.5, 89.1, 84.4, 89.3, 85.8, 86.4, 85.7, 86.9, 87.3, 84.5, 87.9, 85.8, 82.6, 85.5, 85.7, 87.4, 92.3], "borderColor": "#b5b5b5", "backgroundColor": "#b5b5b5", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Medford", "data": [87.6, 91.1, 92.6, 88.6, 90.7, 89.5, 85.5, null, null, null, 89.8, 90.4, 88.1, 89.0, 86.7, 86.4, 86.9, 92.2], "borderColor": "#c9ada7", "backgroundColor": "#c9ada7", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Melrose", "data": [84.3, 91.1, 88.8, 83.6, 88.0, 84.5, 83.3, 83.5, 86.5, 87.0, 90.1, 88.1, 91.2, 87.9, 87.3, 91.7, 87.0, 84.0], "borderColor": "#ddbea9", "backgroundColor": "#ddbea9", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Milton", "data": [91.1, 85.8, 92.1, 89.6, 91.4, 86.7, 93.3, 86.7, 87.2, 89.5, 88.1, 89.5, 91.2, 90.1, 88.9, 87.4, 91.5, 92.7], "borderColor": "#ced4da", "backgroundColor": "#ced4da", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Natick", "data": [87.2, 89.7, 88.0, 89.1, 83.3, 88.7, 85.1, 86.1, 89.4, 87.7, 88.7, 89.9, 89.7, 89.6, 89.6, 90.5, 90.7, 88.6], "borderColor": "#adb5bd", "backgroundColor": "#adb5bd", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Needham", "data": [87.0, 92.2, 89.7, 90.4, 88.9, 87.7, 88.3, 91.1, 91.4, 89.7, 91.0, 90.5, 88.8, 89.3, 87.5, 90.8, 90.5, 88.3], "borderColor": "#e9c46a", "backgroundColor": "#e9c46a", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "North Andover", "data": [92.1, 91.0, 88.6, 92.2, 91.2, 88.0, 91.4, 92.0, 91.3, 86.5, 89.2, 88.5, 90.1, 88.2, 90.8, 92.6, 90.9, 83.3], "borderColor": "#f4a261", "backgroundColor": "#f4a261", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Reading", "data": [90.5, 89.0, 88.7, 88.6, 90.0, 90.5, 88.1, 85.2, 86.1, 87.0, 92.7, 88.1, 86.0, 89.5, 88.3, 85.7, 86.8, 90.5], "borderColor": "#bcb8b1", "backgroundColor": "#bcb8b1", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Stoneham", "data": [88.6, 87.6, 86.7, 87.1, 92.7, 90.8, 87.7, 88.6, 90.3, 89.8, 87.9, 85.7, 91.3, 82.4, 83.8, 87.6, 82.4, 83.2], "borderColor": "#cdb4db", "backgroundColor": "#cdb4db", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Watertown", "data": [84.7, 88.0, 83.4, 87.7, 87.6, 85.5, 85.2, 85.2, 85.4, 90.5, 90.1, 84.4, 91.2, 91.6, 86.1, 84.9, 89.1, 87.7], "borderColor": "#bde0fe", "backgroundColor": "#bde0fe", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}, {"label": "Winchester", "data": [82.4, 94.0, 92.0, 90.8, 92.4, 88.3, 91.9, 87.7, 91.4, 92.6, 87.5, 89.4, 85.6, 86.6, 88.3, 87.0, 92.3, 92.4], "borderColor": "#ffc8dd", "backgroundColor": "#ffc8dd", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": true}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Teacher Retention Rate (%)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': ' + val.toFixed(1) + '%';
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return v + '%'; }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart3c'), {
+        type: 'line',
+        data: {
+            labels: ["2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25"],
+            datasets: [{"label": "Arlington", "data": [80.9, 79.1, 79.9, 78.9, 79.5, 79.5, 81.9, 70.0], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Average", "data": [81.92, 83.35, 83.57, 85.02, 85.62, 86.04, 85.24, 77.93], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "State", "data": [81.7, 82.6, 82.6, 83.1, 82.6, 81.3, 80.8, 73.2], "borderColor": "#2a9d8f", "backgroundColor": "#2a9d8f", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Percent of Experienced Teachers', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': ' + val.toFixed(1) + '%';
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return v + '%'; }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart4a'), {
+        type: 'line',
+        data: {
+            labels: ["2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25"],
+            datasets: [{"label": "Arlington Math", "data": [554.0, 569.0, 565.0, 577.0, 560.0, 565.0, 573.0, 582.0, 583.0, 592.0, 600.0, 602.0, 601.0, 608.0, 617.0, 619.0, 620.0, 622.0, 630.0], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Avg Math", "data": [546.0, 552.25, 553.67, 558.42, 554.08, 555.33, 554.17, 560.83, 560.17, 558.5, 588.92, 588.67, 586.67, 592.0, 600.42, 595.33, 595.92, 600.5, 599.58], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "Arlington R/W", "data": [541.0, 564.0, 555.0, 561.0, 554.0, 564.0, 577.0, 571.0, 578.0, 581.0, 616.0, 610.0, 603.0, 610.0, 623.0, 626.0, 625.0, 634.0, 636.0], "borderColor": "#c1121f", "backgroundColor": "#c1121f", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Avg R/W", "data": [532.08, 537.92, 536.5, 539.25, 537.17, 538.5, 539.42, 542.0, 544.42, 544.58, 584.58, 584.08, 581.83, 584.83, 596.92, 598.92, 600.83, 610.08, 608.5], "borderColor": "#6c9cbd", "backgroundColor": "#6c9cbd", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'SAT Scores: Math & Reading/Writing', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: {  },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart4b'), {
+        type: 'bar',
+        data: {
+            labels: ["2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+            datasets: [{"label": "AP Test Takers", "data": [191.0, 206.0, 193.0, 236.0, 250.0, 313.0, 335.0, 334.0, 366.0, 371.0, 394.0, 397.0, 452.0, 395.0, 437.0, 545.0, 622.0, 646.0, 735.0], "borderColor": "#e63946", "backgroundColor": "#e6394699", "borderWidth": 1, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "type": "bar"}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Arlington AP Test Takers', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: {  },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart4c'), {
+        type: 'line',
+        data: {
+            labels: ["2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+            datasets: [{"label": "Arlington", "data": [83.4, 81.5, 88.6, 77.5, 83.3, 84.6, 83.2, 84.6, 85.2, 86.1, 81.3, 84.7, 80.1, 85.3, 75.3, 80.4, 78.1, 86.1, 91.7], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Average", "data": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "State", "data": [71.8, 70.3, 70.3, 68.0, 68.5, 69.9, 68.8, 68.4, 66.3, 66.5, 65.7, 65.9, 67.3, 71.6, 60.9, 65.1, 65.9, 70.2, 75.7], "borderColor": "#2a9d8f", "backgroundColor": "#2a9d8f", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'AP Scores: % Scoring 3-5', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': ' + val.toFixed(1) + '%';
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return v + '%'; }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart5a'), {
+        type: 'line',
+        data: {
+            labels: ["1994-95", "1995-96", "1996-97", "1997-98", "1998-99", "1999-00", "2000-01", "2001-02", "2002-03", "2003-04", "2004-05", "2005-06", "2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25"],
+            datasets: [{"label": "Arlington", "data": [69.6, 80.0, 72.2, 75.8, 73.4, 80.9, 75.7, 72.9, 79.2, 76.6, 80.1, 72.5, 77.4, 77.7, 77.4, 77.5, 77.5, 72.0, 79.3, 76.3, 84.9, 86.3, 86.8, 84.4, 86.6, 77.5, 84.8, 81.2, 82.6, 88.9, 87.4], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Average", "data": [72.1, 71.8, 71.7, 72.3, 73.0, 69.0, 74.0, 73.4, 75.5, 77.0, 77.0, 77.8, 78.3, 78.1, 75.5, 78.8, 79.2, 76.6, 78.1, 79.2, 79.3, 81.8, 82.9, 82.5, 81.9, 79.0, 79.7, 78.5, 82.0, 80.5, 78.4], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}, {"label": "State", "data": [52.9, 54.2, 53.4, 53.2, 52.9, 53.4, 53.6, 52.4, 55.5, 56.2, 57.4, 57.4, 57.7, 57.3, 56.6, 59.3, 58.3, 57.4, 57.9, 59.1, 60.2, 60.6, 61.5, 60.4, 60.7, 57.8, 58.3, 57.7, 59.5, 58.6, 55.7], "borderColor": "#2a9d8f", "backgroundColor": "#2a9d8f", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: '4-Year College Rate (Private + Public)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': ' + val.toFixed(1) + '%';
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return v + '%'; }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart5b'), {
+        type: 'line',
+        data: {
+            labels: ["1994-95", "1995-96", "1996-97", "1997-98", "1998-99", "1999-00", "2000-01", "2001-02", "2002-03", "2003-04", "2004-05", "2005-06", "2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25"],
+            datasets: [{"label": "4yr Private", "data": [43.8, 59.3, 43.9, 50.2, 50.8, 53.8, 53.7, 53.9, 56.1, 52.8, 50.0, 45.4, 47.9, 48.2, 47.8, 44.9, 43.6, 46.8, 51.7, 46.4, 68.8, 67.9, 48.6, 45.4, 49.7, 47.4, 57.1, 45.1, 42.5, 43.9, 44.2], "borderColor": "#e63946", "backgroundColor": "#e6394699", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": true, "hidden": false}, {"label": "4yr Public", "data": [25.8, 20.7, 28.3, 25.6, 22.6, 27.1, 22.0, 19.0, 23.1, 23.8, 30.1, 27.1, 29.5, 29.5, 29.6, 32.6, 33.9, 25.2, 27.6, 29.9, 16.1, 18.4, 38.2, 39.0, 36.9, 30.1, 27.7, 36.1, 40.1, 45.0, 43.2], "borderColor": "#457b9d", "backgroundColor": "#457b9d99", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": true, "hidden": false}, {"label": "2yr Public", "data": [11.2, 7.1, 14.6, 6.8, 14.7, 10.0, 11.4, 14.0, 11.0, 5.3, 8.1, 10.2, 11.1, 7.6, 10.3, 12.7, 11.7, 10.1, 8.7, 8.6, 7.6, 3.8, 7.1, 7.0, 3.7, 2.6, 5.7, 4.2, 3.4, 1.8, 2.0], "borderColor": "#2a9d8f", "backgroundColor": "#2a9d8f99", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": true, "hidden": false}, {"label": "2yr Private", "data": [4.3, 3.7, 1.5, 2.3, 1.6, 0.4, 0.4, 1.2, 0.4, 3.0, 1.6, 2.1, 0.3, 0.7, 1.0, 0.7, 0.3, 1.1, 0.0, 1.0, 0.3, 0.0, 0.3, 0.0, 0.6, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2], "borderColor": "#e9c46a", "backgroundColor": "#e9c46a99", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": true, "hidden": false}, {"label": "Work", "data": [7.7, 6.2, 3.5, 6.8, 5.6, 4.8, 3.7, 2.3, 2.3, 5.7, 3.3, 2.8, 3.5, 2.5, 4.8, 1.1, 1.7, 0.7, 2.2, 2.7, 3.2, 3.5, 2.0, 2.5, 1.4, 3.2, 1.2, 0.3, 4.0, 2.8, 2.5], "borderColor": "#6c757d", "backgroundColor": "#6c757d99", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": true, "hidden": false}, {"label": "Military", "data": [0.4, 0.8, 2.5, 2.7, 1.6, 0.8, 2.0, 1.9, 0.0, 1.5, 0.0, 1.4, 0.7, 1.4, 0.3, 1.5, 2.0, 0.0, 0.9, 0.3, 0.3, 0.6, 0.3, 1.3, 0.6, 0.0, 0.3, 0.0, 0.0, 0.5, 0.5], "borderColor": "#f4a261", "backgroundColor": "#f4a26199", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": true, "hidden": false}, {"label": "Other Post-Sec", "data": [1.7, 1.7, 3.5, 4.1, 2.0, 0.8, 3.3, 2.3, 3.0, 2.3, 3.3, 7.4, 4.2, 2.5, 2.4, 1.9, 2.0, 0.4, 3.1, 3.8, 1.6, 2.2, 0.3, 1.0, 0.6, 1.2, 1.2, 0.8, 1.8, 2.6, 2.0], "borderColor": "#264653", "backgroundColor": "#26465399", "borderWidth": 1, "pointRadius": 0, "pointHoverRadius": 5, "tension": 0.3, "fill": true, "hidden": false}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Arlington Graduate Plans (Stacked)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': ' + val.toFixed(1) + '%';
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: true,
+                     
+                    ticks: { callback: function(v) { return v + '%'; }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart6a'), {
+        type: 'line',
+        data: {
+            labels: ["2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+            datasets: [{"label": "Arlington", "data": [92.2, 90.6, 83.7, 94.1, 87.0, 95.8, 96.5, 88.6, 95.7, 96.7, 96.7, 97.8, 98.2, 96.6, 97.4, 97.6, 97.9, 97.7], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Average", "data": [95.2, 94.28, 93.91, 96.62, 94.76, 96.73, 96.8, 96.42, 96.63, 96.7, 96.53, 96.62, 96.83, 96.52, 96.29, 96.45, 96.56, 96.43], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Student Stability Rate (%)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': ' + val.toFixed(1) + '%';
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return v + '%'; }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart6b'), {
+        type: 'line',
+        data: {
+            labels: ["2012", "2013", "2014", "2015", "2016", "2017", "2019", "2020", "2021", "2022", "2023", "2024"],
+            datasets: [{"label": "Arlington", "data": [14.1, 27.0, 52.6, 48.4, 44.6, 49.4, 59.3, 61.5, 59.7, 49.1, 63.5, 51.7], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Average", "data": [24.13, 40.42, 46.33, 49.54, 55.83, 57.7, 59.49, 59.88, 55.93, 54.73, 54.11, 53.85], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Special Ed: Full Inclusion Rate (%)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': ' + val.toFixed(1) + '%';
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return v + '%'; }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('chart6c'), {
+        type: 'line',
+        data: {
+            labels: ["2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2019", "2020", "2021", "2022", "2023", "2024"],
+            datasets: [{"label": "Arlington", "data": [20.3, 20.0, 19.1, 21.1, 22.1, 21.5, 22.6, 18.1, 20.7, 20.4, 18.6, 20.7, 15.3, 12.3, 14.4, 12.6, 11.5, 10.5], "borderColor": "#e63946", "backgroundColor": "#e63946", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false}, {"label": "Peer Average", "data": [17.3, 17.1, 16.9, 17.3, 17.5, 16.4, 16.7, 16.7, 16.3, 16.1, 14.6, 14.8, 14.7, 14.8, 15.0, 14.7, 15.6, 16.2], "borderColor": "#457b9d", "backgroundColor": "#457b9d", "borderWidth": 3, "pointRadius": 2, "pointHoverRadius": 5, "tension": 0.3, "fill": false, "hidden": false, "borderDash": [6, 3]}]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            spanGaps: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                title: { display: true, text: 'Special Ed: Separate Settings Rate (%)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    
+            callbacks: {
+                label: function(ctx) {
+                    let val = ctx.parsed.y;
+                    if (val === null || val === undefined) return ctx.dataset.label + ': N/A';
+                    return ctx.dataset.label + ': ' + val.toFixed(1) + '%';
+                }
+            },
+                }
+            },
+            scales: {
+                x: {
+                    stacked: false,
+                    ticks: { maxRotation: 45, autoSkip: true, maxTicksLimit: 20 }
+                },
+                y: {
+                    stacked: false,
+                     
+                    ticks: { callback: function(v) { return v + '%'; }, },
+                    grid: { color: '#eee' }
+                }
+            }
+        }
+    });
     </script>
 </body>
 </html>
