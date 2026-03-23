@@ -282,25 +282,40 @@
             });
         }
 
-        /* ===== Chart 2: Override Cycle Acceleration ===== */
+        /* ===== Chart 2: Override Cycle Acceleration (proportional time axis) ===== */
         function createCycleChart() {
             const overrides = state.data.overrides.filter(o => o.cycle_years != null);
-            const labels = overrides.map(o => o.year.toString());
-            const values = overrides.map(o => o.cycle_years);
             const colors = ['#fca5a5', '#f87171', '#dc2626', '#991b1b'];
+
+            // Build proportional time axis from first to last override year
+            const minYr = Math.min(...overrides.map(o => o.year));
+            const maxYr = Math.max(...overrides.map(o => o.year));
+            const allYears = [];
+            for (let yr = minYr; yr <= maxYr; yr++) allYears.push(yr.toString());
+
+            const sparseValues = allYears.map(yr => {
+                const o = overrides.find(x => x.year.toString() === yr);
+                return o ? o.cycle_years : null;
+            });
+            const sparseColors = allYears.map(yr => {
+                const idx = overrides.findIndex(x => x.year.toString() === yr);
+                return idx >= 0 ? colors[idx % colors.length] : 'transparent';
+            });
 
             const ctx = document.getElementById('cycleChart').getContext('2d');
             state.charts.cycle = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: labels,
+                    labels: allYears,
                     datasets: [{
                         label: 'Years Between Overrides',
-                        data: values,
-                        backgroundColor: colors,
-                        borderColor: colors.map(c => c),
+                        data: sparseValues,
+                        backgroundColor: sparseColors,
+                        borderColor: sparseColors,
                         borderWidth: 1,
-                        borderRadius: 6
+                        borderRadius: 6,
+                        barPercentage: 0.9,
+                        categoryPercentage: 0.8
                     }]
                 },
                 options: {
@@ -308,6 +323,7 @@
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            filter: function(item) { return item.raw !== null; },
                             callbacks: {
                                 label: function (ctx) {
                                     return ctx.parsed.y + ' years until next override';
@@ -316,6 +332,14 @@
                         }
                     },
                     scales: {
+                        x: {
+                            ticks: {
+                                callback: function(val, idx) {
+                                    var yr = allYears[idx];
+                                    return overrides.find(o => o.year.toString() === yr) ? yr : '';
+                                }
+                            }
+                        },
                         y: {
                             beginAtZero: true,
                             max: 10,

@@ -41,6 +41,10 @@
             <div class="stat-value">$3.38M</div>
             <div class="stat-label">Insurance Deviation (single-year deficit impact)</div>
         </div>
+        <div class="stat-card">
+            <div class="stat-value">105+ yrs</div>
+            <div class="stat-label">Ottoson Middle School Age (built 1921)</div>
+        </div>
     </div>
 
     <div class="charts-section">
@@ -97,6 +101,27 @@
         </div>
         <div class="insight-box">
             The town's long-range plans assume 5.25% annual health insurance growth. FY2026 actual growth was 12.7% — more than double the assumption. This single variance added $3.38M to the deficit.
+        </div>
+
+        <!-- Ottoson Middle School: The Next Capital Crisis -->
+        <h2 class="section-header">Next Up: Ottoson Middle School</h2>
+
+        <div class="chart-grid">
+            <div class="chart-card full">
+                <h3>Ottoson: What History Tells Us About the True Cost</h3>
+                <canvas id="ottosonChart"></canvas>
+                <div class="source-note">Source: Arlington Capital Planning Committee Reports, MSBA data</div>
+            </div>
+        </div>
+        <div class="insight-box">
+            <strong>Ottoson Middle School</strong> (built 1921, last renovated ~1998) will be 105+ years old when Arlington can submit to MSBA after the AHS project completes. The town estimates $100M+, but the AHS experience suggests the true cost could reach <strong>$250&ndash;$300M</strong>.
+            <br><br>
+            <ul>
+                <li><strong>AHS pattern:</strong> Original estimate $100M (2007) &rarr; Final cost $291M (2023) = <strong>+191% overrun</strong></li>
+                <li><strong>MSBA reimbursement:</strong> Likely ~29% for wealthy suburbs, meaning Arlington would bear ~$175&ndash;$210M locally</li>
+                <li><strong>Timing:</strong> Cannot apply to MSBA until AHS is complete; earliest construction ~2030</li>
+                <li><strong>Elementary schools:</strong> Buildings rebuilt in 2000&ndash;2005 are now cycling back for $600K&ndash;$2.2M maintenance each</li>
+            </ul>
         </div>
 
     </div>
@@ -271,7 +296,60 @@ function buildCharts(forecasts, drivers) {
         tbody.appendChild(tr);
     });
 
-    /* --- 4. Health Insurance: Actual vs Assumption --- */
+    /* --- 4. Ottoson Projection --- */
+    var ott = forecasts.ottoson_projection;
+    if (ott && ott.comparison) {
+        new Chart(document.getElementById('ottosonChart'), {
+            type: 'bar',
+            data: {
+                labels: ott.comparison.map(function(c) { return c.project; }),
+                datasets: [{
+                    label: 'Cost',
+                    data: ott.comparison.map(function(c) { return c.estimate; }),
+                    backgroundColor: ott.comparison.map(function(c) { return c.color; }),
+                    borderColor: ott.comparison.map(function(c) { return c.color; }),
+                    borderWidth: 1,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                return fmtDollar(ctx.parsed.x);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { callback: fmtDollarAxis },
+                        title: { display: true, text: 'Project Cost ($)' }
+                    }
+                }
+            },
+            plugins: [{
+                afterDatasetsDraw: function(chart) {
+                    var ctx = chart.ctx;
+                    var meta = chart.getDatasetMeta(0);
+                    ctx.save();
+                    ctx.font = 'bold 12px -apple-system, BlinkMacSystemFont, sans-serif';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = '#1f2937';
+                    meta.data.forEach(function(bar, i) {
+                        ctx.fillText(fmtDollar(ott.comparison[i].estimate), bar.x + 8, bar.y);
+                    });
+                    ctx.restore();
+                }
+            }]
+        });
+    }
+
+    /* --- 5. Health Insurance: Actual vs Assumption --- */
     var hiData = drivers.health_insurance;
     var assumedRate = forecasts.insurance_assumption.assumed_annual_rate_pct / 100;
 

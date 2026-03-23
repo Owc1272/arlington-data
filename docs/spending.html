@@ -36,14 +36,14 @@
             </div>
         </div>
 
-        <!-- Chart 2: Growth Rate + Budget Share Bubble Chart -->
+        <!-- Chart 2: Budget Size + Growth Rate (horizontal bars with growth labels) -->
         <h2 class="section-header">Who Leads in Both Size and Growth?</h2>
         <div class="chart-grid">
             <div class="chart-card">
-                <h3>Budget Share vs 20-Year Growth Rate</h3>
+                <h3>FY2025 Budget by Category &mdash; with 20-Year Growth Rate</h3>
                 <canvas id="bubbleChart"></canvas>
-                <div class="insight-box">Schools dominate both dimensions: 44% of the budget AND 206% growth. Exempt debt (+365%) has the highest growth rate but is a smaller budget share. Town departments are the most restrained category.</div>
-                <div class="source-note">Bubble size = absolute FY2025 budget. Source: Arlington Town Manager Financial Plans</div>
+                <div class="insight-box">Schools dominate both dimensions: 44% of the budget AND 206% growth. Exempt debt (+365%) has the highest growth rate but only 5.7% of the budget. Town departments are the most restrained category at +55%.</div>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans FY2007&ndash;FY2027</div>
             </div>
         </div>
 
@@ -66,7 +66,7 @@
             <div class="chart-card">
                 <h3>Pension Costs: Mandated Path to FY2040</h3>
                 <canvas id="pensionChart"></canvas>
-                <div class="insight-box"><strong>Pensions</strong> grow 5.5&ndash;6% annually under a state-mandated schedule toward full funding by FY2040. Arlington has ~856 active employees and ~700 retirees drawing benefits. This cost is non-negotiable.</div>
+                <div class="insight-box"><strong>Pensions</strong> grow 5.5&ndash;6% annually under a state-mandated schedule toward full funding by FY2040. Arlington&rsquo;s system grew from 774 active employees + 615 retirees (FY2016) to ~856 active + ~700 retirees (FY2025). Cost per member rose from $6,548 to $9,644 (+47%) while total members grew 12%. The cost increase is driven primarily by <strong>higher per-capita obligations</strong> (closing the unfunded liability), not just more people.</div>
                 <div class="source-note">Source: Arlington Retirement System / PERAC Actuarial Schedule</div>
             </div>
             <div class="chart-card">
@@ -163,53 +163,61 @@
             }
         });
 
-        /* ===== Chart 2: Growth Rate + Budget Share Bubble ===== */
-        var comp = drivers.budget_composition;
-        var bubbleItems = [
-            { label: 'Schools', x: 44.1, y: gs.school.pct, amount: gs.school.to, color: '#e63946' },
-            { label: 'Town Operations', x: 19.6, y: gs.town.pct, amount: gs.town.to, color: '#457b9d' },
-            { label: 'Health Insurance', x: 10.6, y: gs.insurance.pct, amount: gs.insurance.to, color: '#d97706' },
-            { label: 'Pensions', x: 6.9, y: gs.pensions.pct, amount: gs.pensions.to, color: '#2a9d8f' },
-            { label: 'Exempt Debt', x: 5.7, y: gs.exempt_debt.pct, amount: gs.exempt_debt.to, color: '#6c757d' }
+        /* ===== Chart 2: Budget Size + Growth Rate (horizontal bars) ===== */
+        var catItems = [
+            { label: 'Schools (44.1%)', amount: gs.school.to, growth: gs.school.pct, color: '#e63946' },
+            { label: 'Town Operations (19.6%)', amount: gs.town.to, growth: gs.town.pct, color: '#457b9d' },
+            { label: 'Health Insurance (10.6%)', amount: gs.insurance.to, growth: gs.insurance.pct, color: '#d97706' },
+            { label: 'Pensions (6.9%)', amount: gs.pensions.to, growth: gs.pensions.pct, color: '#2a9d8f' },
+            { label: 'Exempt Debt (5.7%)', amount: gs.exempt_debt.to, growth: gs.exempt_debt.pct, color: '#6c757d' }
         ];
 
         new Chart(document.getElementById('bubbleChart'), {
-            type: 'bubble',
+            type: 'bar',
             data: {
-                datasets: bubbleItems.map(function(b) {
-                    return {
-                        label: b.label,
-                        data: [{ x: b.x, y: b.y, r: Math.sqrt(b.amount / 1e6) * 1.2 }],
-                        backgroundColor: b.color + 'AA',
-                        borderColor: b.color,
-                        borderWidth: 2
-                    };
-                })
+                labels: catItems.map(function(c) { return c.label; }),
+                datasets: [{
+                    label: 'FY2025 Budget',
+                    data: catItems.map(function(c) { return c.amount; }),
+                    backgroundColor: catItems.map(function(c) { return c.color; }),
+                    borderRadius: 4
+                }]
             },
             options: {
+                indexAxis: 'y',
                 responsive: true,
                 plugins: {
-                    legend: { position: 'bottom', labels: { usePointStyle: true } },
+                    legend: { display: false },
                     tooltip: {
                         callbacks: {
                             label: function(ctx) {
-                                var b = bubbleItems[ctx.datasetIndex];
-                                return b.label + ': ' + b.x + '% of budget, +' + b.y + '% growth, ' + fmtDollar(b.amount);
+                                var c = catItems[ctx.dataIndex];
+                                return fmtDollar(ctx.raw) + ' — grew +' + c.growth + '% over 20 years';
                             }
                         }
                     }
                 },
                 scales: {
                     x: {
-                        title: { display: true, text: 'Share of FY2025 Budget (%)' },
-                        min: 0, max: 50
-                    },
-                    y: {
-                        title: { display: true, text: '20-Year Growth (%)' },
-                        min: 0
+                        ticks: { callback: fmtDollarAxis },
+                        title: { display: true, text: 'FY2025 Budget ($)' }
                     }
                 }
-            }
+            },
+            plugins: [{
+                id: 'growthLabels',
+                afterDatasetsDraw: function(chart) {
+                    var ctx2 = chart.ctx;
+                    ctx2.save();
+                    ctx2.font = 'bold 11px sans-serif';
+                    ctx2.textBaseline = 'middle';
+                    ctx2.fillStyle = '#1f2937';
+                    chart.getDatasetMeta(0).data.forEach(function(bar, i) {
+                        ctx2.fillText('+' + catItems[i].growth + '%', bar.x + 6, bar.y);
+                    });
+                    ctx2.restore();
+                }
+            }]
         });
 
         /* ===== Chart 3: Health Insurance by Employee Group (stacked area) ===== */

@@ -115,67 +115,10 @@
     <div class="loading-spinner" id="loadingSpinner">Loading school data...</div>
     <div class="stats-bar" id="statsBar"></div>
 
-    <!-- ========== EXISTING SCHOOL DATA CHARTS ========== -->
-    <div class="charts-section">
-        <div class="chart-grid">
-            <div class="chart-card">
-                <h3>Enrollment Over Time</h3>
-                <canvas id="enrollmentChart"></canvas>
-                <div class="source-note">Source: MA DESE Enrollment Data</div>
-            </div>
-        </div>
-        <div class="chart-grid-2col">
-            <div class="chart-card">
-                <h3>Enrollment by Grade Level (Latest Year)</h3>
-                <canvas id="gradeChart"></canvas>
-                <div class="source-note">Source: MA DESE</div>
-            </div>
-            <div class="chart-card">
-                <h3>Student Demographics</h3>
-                <canvas id="demoChart"></canvas>
-                <div class="source-note">Source: MA DESE</div>
-            </div>
-        </div>
-        <div class="chart-grid-2col">
-            <div class="chart-card">
-                <h3>MCAS Proficiency (% Meeting/Exceeding Expectations)</h3>
-                <canvas id="mcasChart"></canvas>
-                <div class="source-note">Source: MA DESE MCAS Legacy Results</div>
-            </div>
-            <div class="chart-card">
-                <h3>Graduation &amp; Dropout Rates</h3>
-                <canvas id="gradChart"></canvas>
-                <div class="source-note">Source: MA DESE</div>
-            </div>
-        </div>
-        <div class="chart-grid-2col">
-            <div class="chart-card">
-                <h3>Teachers &amp; Student-Teacher Ratio</h3>
-                <canvas id="teacherChart"></canvas>
-                <div class="source-note">Source: MA DESE Teacher Data</div>
-            </div>
-            <div class="chart-card">
-                <h3>Average Class Size</h3>
-                <canvas id="classSizeChart"></canvas>
-                <div class="source-note">Source: MA DESE</div>
-            </div>
-        </div>
-        <div class="chart-grid">
-            <div class="chart-card">
-                <h3>Per-Pupil Spending &amp; Net School Spending</h3>
-                <canvas id="spendingChart"></canvas>
-                <div class="source-note">Source: MA DESE Finance Data</div>
-            </div>
-        </div>
-    </div>
+    <!-- ========== SCHOOL DATA CHARTS (reordered) ========== -->
+    <div class="charts-section"></div>
 
     <!-- ========== DESE PEER COMPARISON SECTION ========== -->
-    <div class="dese-divider">
-        <h2>DESE Peer District Comparisons</h2>
-        <p>Arlington vs 12 peer districts &amp; state averages &mdash; 15 data sources spanning up to 31 years</p>
-        <p style="font-size: 0.85rem; color: var(--text-light);">Peers: Belmont, Brookline, Medford, Melrose, Milton, Natick, Needham, North Andover, Reading, Stoneham, Watertown, Winchester</p>
-    </div>
-
     <div class="dese-section">
 
     <div class="dese-stats-bar">
@@ -205,125 +148,88 @@
         </div>
     </div>
 
-    <!-- Key Metrics Summary -->
-    <h2 class="section-header">Arlington Trajectory: Key Metrics Summary</h2>
-    <div class="km-table-wrap">
-    <table class="km-table">
-    <thead><tr>
-        <th>Metric</th><th>First Year</th><th>First Value</th>
-        <th>Latest Year</th><th>Latest Value</th><th>Change</th>
-    </tr></thead>
-    <tbody>
-    <tr>
-        <td>Avg Teacher Salary</td>
-        <td>1996-97</td><td>$46,104</td>
-        <td>2023-24</td><td>$95,661</td>
-        <td class="positive">+107.5%</td>
-    </tr><tr>
-        <td>Teacher FTE Count</td>
-        <td>1996-97</td><td>272.1</td>
-        <td>2023-24</td><td>490.4</td>
-        <td class="positive">+80.2%</td>
-    </tr><tr>
-        <td>Total Salary Bill</td>
-        <td>1996-97</td><td>$12,544,878</td>
-        <td>2023-24</td><td>$46,911,926</td>
-        <td class="positive">+274.0%</td>
-    </tr><tr>
-        <td>Per Pupil Expenditure</td>
-        <td>2008</td><td>$11,685</td>
-        <td>2024</td><td>$20,549</td>
-        <td class="positive">+75.9%</td>
-    </tr><tr>
-        <td>Student-Teacher Ratio</td>
-        <td>2007-08</td><td>13.6</td>
-        <td>2025-26</td><td>12.1</td>
-        <td class="negative">-1.5</td>
-    </tr><tr>
-        <td>SAT Math</td>
-        <td>2006-07</td><td>554</td>
-        <td>2024-25</td><td>630</td>
-        <td class="positive">+76.0</td>
-    </tr><tr>
-        <td>Teacher Retention (%)</td>
-        <td>2009</td><td>80.4%</td>
-        <td>2026</td><td>90.4%</td>
-        <td class="positive">+10.0</td>
-    </tr><tr>
-        <td>4-Year College Rate (%)</td>
-        <td>1994-95</td><td>69.6%</td>
-        <td>2024-25</td><td>87.4%</td>
-        <td class="positive">+17.8</td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-
-    <!-- Section 1: Teacher Compensation -->
-    <h2 class="section-header">Teacher Compensation</h2>
+    <!-- (a) Average Class Size + Student-Teacher Ratio -->
+    <h2 class="section-header">Class Size &amp; Staffing</h2>
     <div class="dese-chart-grid">
-        <div class="chart-card full"><canvas id="chart1a"></canvas></div>
-        <div class="chart-card"><canvas id="chart1b"></canvas></div>
-        <div class="chart-card"><canvas id="chart1c"></canvas></div>
-    </div>
-    <div class="insight-box"><strong>Key Insights:</strong><ul><li>Arlington average teacher salary grew from $46,104 (1996-97) to $95,661 (2023-24), a 107% increase.</li><li>Arlington's latest salary is $4,143 below the peer average ($99,804).</li></ul></div>
-
-    <!-- Section 2: School Spending -->
-    <h2 class="section-header">School Spending</h2>
-    <div class="dese-chart-grid">
-        <div class="chart-card full"><canvas id="chart2a"></canvas></div>
-        <div class="chart-card"><canvas id="chart2b"></canvas></div>
-        <div class="chart-card"><canvas id="chart2c"></canvas></div>
-    </div>
-    <div class="insight-box"><strong>Key Insights:</strong><ul><li>Total per-pupil expenditure rose from $11,685 to $20,549, a 76% increase.</li><li>Arlington spends 147% of its required net school spending &mdash; 47 percentage points above the state minimum.</li></ul></div>
-
-    <!-- Section 3: Teacher Workforce -->
-    <h2 class="section-header">Teacher Workforce</h2>
-    <div class="dese-chart-grid">
+        <div class="chart-card"><canvas id="classSizeChart"></canvas></div>
         <div class="chart-card"><canvas id="chart3a"></canvas></div>
-        <div class="chart-card"><canvas id="chart3b"></canvas></div>
-        <div class="chart-card full"><canvas id="chart3c"></canvas></div>
     </div>
-    <div class="insight-box"><strong>Key Insights:</strong><ul><li>Student-teacher ratio moved from 13.6 (2007-08) to 12.1 (2025-26).</li><li>Teacher retention improved from 80.4% to 90.4%.</li></ul></div>
+    <div class="insight-box"><ul><li>Student-teacher ratio moved from 13.6 (2007-08) to 12.1 (2025-26), converging with the peer average.</li></ul></div>
 
-    <!-- Section 4: Academic Performance -->
+    <!-- (b) SAT Scores -->
     <h2 class="section-header">Academic Performance</h2>
     <div class="dese-chart-grid">
         <div class="chart-card full"><canvas id="chart4a"></canvas></div>
-        <div class="chart-card"><canvas id="chart4b"></canvas></div>
-        <div class="chart-card"><canvas id="chart4c"></canvas></div>
     </div>
-    <div class="insight-box"><strong>Key Insights:</strong><ul><li>SAT Math scores moved from 554 (2006-07) to 630 (2024-25). Note: SAT was redesigned in 2016-17, making cross-era comparisons approximate.</li><li>Arlington AP scores (% scoring 3-5) stood at 91.7% in 2025.</li></ul></div>
+    <div class="insight-box"><ul><li>SAT Math scores moved from 554 (2006-07) to 630 (2024-25). Note: SAT was redesigned in 2016-17.</li></ul></div>
 
-    <!-- Section 5: Student Outcomes -->
+    <!-- (c) 4-Year College Rate + AP Test Takers -->
     <h2 class="section-header">Student Outcomes</h2>
     <div class="dese-chart-grid">
         <div class="chart-card"><canvas id="chart5a"></canvas></div>
-        <div class="chart-card"><canvas id="chart5b"></canvas></div>
+        <div class="chart-card"><canvas id="chart4b"></canvas></div>
     </div>
-    <div class="insight-box"><strong>Key Insights:</strong><ul><li>4-year college rate moved from 69.6% (1994-95) to 87.4% (2024-25).</li><li>Arlington is 9.0 pts above the peer average for 4-year college enrollment.</li></ul></div>
+    <div class="insight-box"><ul><li>4-year college rate: 69.6% (1994-95) to 87.4% (2024-25) &mdash; 9 pts above the peer average.</li><li>AP test takers nearly quadrupled: 191 (2007) to 735 (2025).</li></ul></div>
 
-    <!-- Section 6: Student Stability & Special Education -->
-    <h2 class="section-header">Student Stability &amp; Special Education</h2>
+    <!-- (d) Average Teacher Salary + Total Salary Bill -->
+    <h2 class="section-header">Teacher Compensation</h2>
+    <div class="dese-chart-grid">
+        <div class="chart-card"><canvas id="chart1a"></canvas></div>
+        <div class="chart-card"><canvas id="chart1b"></canvas></div>
+    </div>
+    <div class="insight-box"><ul><li>Arlington salary $95,661 is $4,143 below the peer average ($99,804).</li><li>But total salary bill quadrupled ($12.5M &rarr; $46.9M) due to 80% growth in teacher FTEs.</li></ul></div>
+
+    <!-- (e) Per Pupil Expenditure + Teacher FTE & Enrollment Combined -->
+    <h2 class="section-header">School Spending &amp; Workforce</h2>
+    <div class="dese-chart-grid">
+        <div class="chart-card"><canvas id="chart2a"></canvas></div>
+        <div class="chart-card"><canvas id="fteEnrollChart"></canvas></div>
+    </div>
+    <div class="insight-box"><ul><li>Per-pupil expenditure rose from $11,685 to $20,549 (+76%), but Arlington remains 9th of 13 peers.</li><li>Teacher FTE grew 80% (272 &rarr; 490) while enrollment grew more modestly.</li></ul></div>
+
+    <!-- (f) Per-Pupil Spending and NSS -->
+    <h2 class="section-header">Net School Spending</h2>
+    <div class="dese-chart-grid">
+        <div class="chart-card"><canvas id="spendingChart"></canvas></div>
+        <div class="chart-card"><canvas id="chart2c"></canvas></div>
+    </div>
+    <div class="insight-box"><ul><li>Arlington spends 147% of its required net school spending &mdash; 47 pts above the state minimum.</li></ul></div>
+
+    <!-- (g) Demographics as historical line chart -->
+    <h2 class="section-header">Student Demographics</h2>
+    <div class="dese-chart-grid">
+        <div class="chart-card full"><canvas id="demoChart"></canvas></div>
+    </div>
+    <div class="insight-box"><ul><li>The student body has become significantly more diverse over the past decade.</li></ul></div>
+
+    <!-- Remaining charts: Enrollment, MCAS, Graduation, Retention, etc. -->
+    <h2 class="section-header">Additional Data</h2>
+    <div class="dese-chart-grid">
+        <div class="chart-card"><canvas id="enrollmentChart"></canvas></div>
+        <div class="chart-card"><canvas id="gradeChart"></canvas></div>
+    </div>
+    <div class="dese-chart-grid">
+        <div class="chart-card"><canvas id="mcasChart"></canvas></div>
+        <div class="chart-card"><canvas id="gradChart"></canvas></div>
+    </div>
+    <div class="dese-chart-grid">
+        <div class="chart-card"><canvas id="teacherChart"></canvas></div>
+        <div class="chart-card"><canvas id="chart3b"></canvas></div>
+    </div>
     <div class="dese-chart-grid">
         <div class="chart-card full"><canvas id="chart6a"></canvas></div>
-        <div class="chart-card"><canvas id="chart6b"></canvas></div>
-        <div class="chart-card"><canvas id="chart6c"></canvas></div>
     </div>
-    <div class="insight-box"><strong>Key Insights:</strong><ul><li>Student stability rate was 97.7% in 2025.</li><li>Special education full inclusion rate stood at 51.7% in 2024.</li></ul></div>
 
     <h2 class="section-header">Community Demographics Context</h2>
     <div class="chart-grid-2col">
         <div class="chart-card">
             <h3>School-Age Population Trends</h3>
             <canvas id="ageCohortsChart"></canvas>
-            <div class="insight-box">The school-age population (5-17) has been relatively stable, but shifts between age cohorts affect enrollment at different grade levels.</div>
             <div class="source-note">Source: US Census ACS via Arlington GIS</div>
         </div>
         <div class="chart-card">
             <h3>Community vs Student Racial/Ethnic Diversity</h3>
             <canvas id="diversityCompareChart"></canvas>
-            <div class="insight-box">The student body is more diverse than the overall town population, reflecting demographic change led by younger families.</div>
             <div class="source-note">Source: US Census ACS, MA DESE</div>
         </div>
     </div>
@@ -367,6 +273,7 @@
                 createTeacherChart();
                 createClassSizeChart();
                 createSpendingChart();
+                createFteEnrollChart();
                 createAgeCohortsChart();
                 createDiversityCompareChart();
             } catch(e) { console.error('Error loading data:', e); }
@@ -413,12 +320,39 @@
         }
 
         function createDemoChart() {
-            const latest = state.data.enrollment[state.data.enrollment.length - 1];
-            const r = latest.race_pct;
+            // Historical line chart of racial composition
+            const d = state.data.enrollment;
+            const raceColors = { white: '#3b82f6', asian: '#d97706', multiracial: '#8b5cf6', hispanic: '#14b8a6', black: '#ef4444' };
+            const raceLabels = { white: 'White', asian: 'Asian', multiracial: 'Multiracial', hispanic: 'Hispanic', black: 'Black' };
+            const raceKeys = ['white', 'asian', 'hispanic', 'multiracial', 'black'];
             new Chart(document.getElementById('demoChart'), {
-                type: 'doughnut',
-                data: { labels: ['White', 'Asian', 'Multiracial', 'Hispanic', 'Black'], datasets: [{ data: [r.white, r.asian, r.multiracial, r.hispanic, r.black], backgroundColor: ['#3b82f6','#d97706','#8b5cf6','#14b8a6','#ef4444'] }] },
-                options: { responsive: true, plugins: { legend: { position: 'right' }, title: { display: true, text: latest.year + ' Data' }, tooltip: { callbacks: { label: ctx => ctx.label + ': ' + ctx.parsed.toFixed(1) + '%' } } } }
+                type: 'line',
+                data: {
+                    labels: d.map(r => r.year),
+                    datasets: raceKeys.map(k => ({
+                        label: raceLabels[k],
+                        data: d.map(r => r.race_pct ? r.race_pct[k] : null),
+                        borderColor: raceColors[k],
+                        backgroundColor: raceColors[k],
+                        borderWidth: 2.5,
+                        pointRadius: 2,
+                        tension: 0.3,
+                        fill: false,
+                        spanGaps: true
+                    }))
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                        title: { display: true, text: 'Student Racial/Ethnic Composition Over Time', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                        tooltip: { mode: 'index', intersect: false, callbacks: { label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y != null ? ctx.parsed.y.toFixed(1) + '%' : 'N/A') } }
+                    },
+                    scales: {
+                        x: { ticks: { maxRotation: 45, autoSkip: true } },
+                        y: { ticks: { callback: v => v + '%' }, title: { display: true, text: '% of Student Body' } }
+                    }
+                }
             });
         }
 
@@ -516,6 +450,40 @@
             });
         }
 
+        function createFteEnrollChart() {
+            const t = state.data.teachers;
+            const e = state.data.enrollment;
+            // Align years: use teacher data years, match enrollment
+            const years = t.map(r => r.year);
+            const fteData = t.map(r => r.teacher_fte);
+            const enrollData = years.map(yr => {
+                const match = e.find(r => r.year === yr);
+                return match ? match.total : null;
+            });
+            new Chart(document.getElementById('fteEnrollChart'), {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [
+                        { label: 'Teacher FTE', data: fteData, borderColor: '#e63946', backgroundColor: '#e63946', borderWidth: 2.5, pointRadius: 3, yAxisID: 'y', tension: 0.3 },
+                        { label: 'Total Enrollment', data: enrollData, borderColor: '#457b9d', backgroundColor: 'rgba(69,123,157,0.1)', borderWidth: 2.5, pointRadius: 3, yAxisID: 'y1', tension: 0.3, fill: true }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                        title: { display: true, text: 'Arlington: Teacher FTE vs Total Enrollment', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    scales: {
+                        y: { position: 'left', title: { display: true, text: 'Teacher FTE' }, ticks: { color: '#e63946' } },
+                        y1: { position: 'right', title: { display: true, text: 'Enrollment' }, grid: { drawOnChartArea: false }, ticks: { color: '#457b9d' } }
+                    }
+                }
+            });
+        }
+
         function createAgeCohortsChart() {
             const pop = state.population;
             if (!pop || !pop.acs_annual) return;
@@ -537,7 +505,7 @@
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                         tooltip: { mode: 'index', intersect: false }
                     },
                     scales: {
@@ -581,7 +549,7 @@
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                         tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%' } }
                     },
                     scales: {
@@ -596,6 +564,12 @@
     <!-- DESE Peer Comparison Charts (inline data) -->
     <script>
 
+    // Global legend filter: hide peer town datasets that are hidden by default
+    var deseDefaultLegendFilter = function(legendItem, chartData) {
+        var ds = chartData.datasets[legendItem.datasetIndex];
+        return ds.hidden !== true;
+    };
+
     new Chart(document.getElementById('chart1a'), {
         type: 'line',
         data: {
@@ -608,7 +582,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Average Teacher Salary', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -650,7 +624,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Arlington Total Salary Bill', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -692,7 +666,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Arlington Teacher FTE Count', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -727,7 +701,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Total Per Pupil Expenditure', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -769,7 +743,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Arlington: In-District vs Total Per Pupil (gap = out-of-district)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -811,7 +785,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Net School Spending as % of Required', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -853,7 +827,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Student-Teacher Ratio', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -888,7 +862,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Teacher Retention Rate (%)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -930,7 +904,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Percent of Experienced Teachers', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -972,7 +946,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'SAT Scores: Math & Reading/Writing', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -1007,7 +981,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Arlington AP Test Takers', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -1042,7 +1016,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'AP Scores: % Scoring 3-5', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -1084,7 +1058,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: '4-Year College Rate (Private + Public)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -1126,7 +1100,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Arlington Graduate Plans (Stacked)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -1168,7 +1142,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Student Stability Rate (%)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -1210,7 +1184,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Special Ed: Full Inclusion Rate (%)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',
@@ -1252,7 +1226,7 @@
             spanGaps: true,
             interaction: { mode: 'index', intersect: false },
             plugins: {
-                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, filter: deseDefaultLegendFilter } },
                 title: { display: true, text: 'Special Ed: Separate Settings Rate (%)', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
                 tooltip: {
                     mode: 'index',

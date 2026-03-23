@@ -475,28 +475,46 @@
                     };
                 });
 
-                // === CHART 3: Override Vote History ===
+                // === CHART 3: Override Vote History (proportional time axis) ===
                 const votes = data.override_votes;
-                const voteLabels = votes.map(v => v.year.toString());
                 const voteAmounts = votes.map(v => v.amount / 1e6);
                 const voteColors = votes.map(v => {
                     if (v.passed === false) return '#e63946';
                     if (v.passed === null) return '#d97706';
                     return '#2a9d8f';
                 });
-                const voteBorders = voteColors;
+
+                // Build proportional time axis: one label per year from min to max
+                const minYear = Math.min(...votes.map(v => v.year));
+                const maxYear = Math.max(...votes.map(v => v.year));
+                const allYears = [];
+                for (let yr = minYear; yr <= maxYear; yr++) allYears.push(yr.toString());
+                // Map vote data into sparse array
+                const sparseAmounts = allYears.map(yr => {
+                    const v = votes.find(x => x.year.toString() === yr);
+                    return v ? v.amount / 1e6 : null;
+                });
+                const sparseColors = allYears.map(yr => {
+                    const v = votes.find(x => x.year.toString() === yr);
+                    if (!v) return 'transparent';
+                    if (v.passed === false) return '#e63946';
+                    if (v.passed === null) return '#d97706';
+                    return '#2a9d8f';
+                });
 
                 new Chart(document.getElementById('overrideVoteChart'), {
                     type: 'bar',
                     data: {
-                        labels: voteLabels,
+                        labels: allYears,
                         datasets: [{
                             label: 'Override Amount',
-                            data: voteAmounts,
-                            backgroundColor: voteColors,
-                            borderColor: voteBorders,
+                            data: sparseAmounts,
+                            backgroundColor: sparseColors,
+                            borderColor: sparseColors,
                             borderWidth: 1,
-                            borderRadius: 6
+                            borderRadius: 6,
+                            barPercentage: 0.9,
+                            categoryPercentage: 0.8
                         }]
                     },
                     options: {
@@ -506,10 +524,12 @@
                         plugins: {
                             legend: { display: false },
                             tooltip: {
+                                filter: function(item) { return item.raw !== null; },
                                 callbacks: {
                                     title: function(items) {
-                                        const idx = items[0].dataIndex;
-                                        const v = votes[idx];
+                                        const yr = items[0].label;
+                                        const v = votes.find(x => x.year.toString() === yr);
+                                        if (!v) return yr;
                                         const status = v.passed === false ? 'FAILED' : v.passed === null ? 'PENDING' : 'PASSED';
                                         return v.year + ' — ' + status;
                                     },
@@ -517,7 +537,8 @@
                                         return '$' + ctx.parsed.y.toFixed(1) + 'M requested';
                                     },
                                     afterLabel: function(ctx) {
-                                        const v = votes[ctx.dataIndex];
+                                        const v = votes.find(x => x.year.toString() === ctx.label);
+                                        if (!v) return [];
                                         var lines = [];
                                         if (v.margin) lines.push(v.margin);
                                         if (v.notes) lines.push(v.notes);
@@ -527,7 +548,7 @@
                             }
                         },
                         scales: {
-                            x: { grid: { display: false }, ticks: { font: { size: 12, weight: 'bold' } } },
+                            x: { grid: { display: false }, ticks: { font: { size: 11 }, maxRotation: 0, callback: function(val, idx) { var yr = allYears[idx]; var v = votes.find(x => x.year.toString() === yr); return v ? yr : ''; } } },
                             y: {
                                 grid: { color: 'rgba(0,0,0,0.06)' },
                                 ticks: {
@@ -551,9 +572,11 @@
                             ctx2.textAlign = 'center';
                             ctx2.font = 'bold 11px -apple-system, sans-serif';
                             chart.getDatasetMeta(0).data.forEach(function(bar, i) {
-                                var v = votes[i];
+                                if (sparseAmounts[i] === null) return;
+                                var v = votes.find(x => x.year.toString() === allYears[i]);
+                                if (!v) return;
                                 var label = v.passed === false ? 'FAILED' : v.passed === null ? 'PENDING' : 'PASSED';
-                                ctx2.fillStyle = voteColors[i];
+                                ctx2.fillStyle = v.passed === false ? '#e63946' : v.passed === null ? '#d97706' : '#2a9d8f';
                                 ctx2.fillText(label, bar.x, bar.y - 6);
                             });
                             ctx2.restore();

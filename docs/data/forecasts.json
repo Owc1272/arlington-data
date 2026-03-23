@@ -25,5 +25,21 @@
   "insurance_assumption": {
     "assumed_annual_rate_pct": 5.25,
     "note": "Long-range financial plans assume 5.25%/year health insurance growth"
+  },
+
+  "ottoson_projection": {
+    "current_estimate": 100000000,
+    "current_estimate_label": "Town estimate (~$100M)",
+    "ahs_overrun_pct": 191,
+    "projected_with_overrun": 291000000,
+    "msba_rate_pct": 29,
+    "local_share_low": 175000000,
+    "local_share_high": 210000000,
+    "comparison": [
+      {"project": "AHS (2014 est.)", "estimate": 100000000, "color": "#9ca3af"},
+      {"project": "AHS (actual)", "estimate": 290800000, "color": "#dc2626"},
+      {"project": "Ottoson (town est.)", "estimate": 100000000, "color": "#3b82f6"},
+      {"project": "Ottoson (if AHS pattern)", "estimate": 291000000, "color": "#e63946"}
+    ]
   }
 }

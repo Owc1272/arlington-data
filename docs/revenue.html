@@ -101,6 +101,33 @@
             <br><br>
             <a href="gis.html" style="color: var(--primary-blue);">See detailed property maps &amp; assessment data &rarr;</a>
         </div>
+
+        <!-- Historical Real Estate Tax Section -->
+        <h2 class="section-header">The Tax Rate Illusion: Rates Fall, Bills Rise</h2>
+
+        <div class="chart-grid">
+            <div class="chart-card full">
+                <h3>Tax Rate vs Total Property Tax Levy (FY2002&ndash;FY2026)</h3>
+                <canvas id="taxRateVsLevyChart"></canvas>
+                <div class="insight-box">
+                    <strong>The paradox:</strong> Arlington&rsquo;s tax rate fell from $13.85 to $10.67 per $1,000 &mdash; but the total levy nearly tripled ($59M &rarr; $171M). Rising home values mask the real cost increase. A home assessed at $500K in FY2002 paid $6,925; the same home assessed at $900K today pays $9,603.
+                </div>
+                <div class="source-note">Source: Arlington Assessor / MA DOR Tax Classification Hearings</div>
+            </div>
+        </div>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Total Assessed Property Value</h3>
+                <canvas id="totalValueChart"></canvas>
+                <div class="source-note">Source: Arlington Assessor / MA DOR Recapitulation Sheets</div>
+            </div>
+            <div class="chart-card">
+                <h3>Total Tax Levy</h3>
+                <canvas id="totalLevyChart"></canvas>
+                <div class="source-note">Source: Arlington Assessor / MA DOR Recapitulation Sheets</div>
+            </div>
+        </div>
     </div>
 
     <footer>
@@ -181,10 +208,10 @@
         /* ===== Chart 2: Revenue Sources (Stacked Area) ===== */
         const sourceColors = {
             property_tax: '#1e3a5f',
-            state_aid: '#3b82f6',
+            state_aid: '#e63946',
             local_receipts: '#14b8a6',
             free_cash: '#d97706',
-            other_funds: '#6b7280'
+            other_funds: '#8b5cf6'
         };
         const sourceLabels = {
             property_tax: 'Property Tax',
@@ -475,6 +502,140 @@
                     y: {
                         ticks: { callback: v => { if (v >= 1e9) return '$' + (v/1e9).toFixed(0) + 'B'; return fmtDollarAxis(v); } },
                         title: { display: true, text: 'Total Assessed Value' }
+                    }
+                }
+            }
+        });
+
+        /* ===== Historical Real Estate Tax Charts ===== */
+        var reTax = drivers.real_estate_tax_history;
+        var reLabels = reTax.map(r => 'FY' + r.fy);
+
+        /* Tax Rate vs Levy (dual axis) */
+        new Chart(document.getElementById('taxRateVsLevyChart'), {
+            type: 'line',
+            data: {
+                labels: reLabels,
+                datasets: [
+                    {
+                        label: 'Tax Rate ($/1,000)',
+                        data: reTax.map(r => r.rate),
+                        borderColor: '#e63946',
+                        backgroundColor: '#e63946',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#e63946',
+                        yAxisID: 'y',
+                        tension: 0.2
+                    },
+                    {
+                        label: 'Total Tax Levy',
+                        data: reTax.map(r => r.levy),
+                        borderColor: '#1e3a5f',
+                        backgroundColor: 'rgba(30,58,95,0.1)',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#1e3a5f',
+                        yAxisID: 'y1',
+                        tension: 0.2,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 16 } },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                if (ctx.dataset.yAxisID === 'y') return 'Tax Rate: $' + ctx.parsed.y.toFixed(2) + '/1,000';
+                                return 'Levy: ' + fmtDollar(ctx.parsed.y);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        position: 'left',
+                        ticks: { callback: v => '$' + v.toFixed(1), color: '#e63946' },
+                        title: { display: true, text: 'Tax Rate ($/1,000)', color: '#e63946' },
+                        reverse: false
+                    },
+                    y1: {
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        ticks: { callback: v => fmtDollarAxis(v), color: '#1e3a5f' },
+                        title: { display: true, text: 'Total Levy ($)', color: '#1e3a5f' }
+                    }
+                }
+            }
+        });
+
+        /* Total Assessed Value */
+        new Chart(document.getElementById('totalValueChart'), {
+            type: 'bar',
+            data: {
+                labels: reLabels,
+                datasets: [{
+                    label: 'Total Assessed Value',
+                    data: reTax.map(r => r.total_value),
+                    backgroundColor: 'rgba(30,58,95,0.7)',
+                    borderColor: '#1e3a5f',
+                    borderWidth: 1,
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { ticks: { maxRotation: 45, autoSkip: true } },
+                    y: {
+                        ticks: { callback: v => { if (v >= 1e9) return '$' + (v/1e9).toFixed(0) + 'B'; return fmtDollarAxis(v); } },
+                        title: { display: true, text: 'Total Assessed Value' }
+                    }
+                }
+            }
+        });
+
+        /* Total Tax Levy */
+        new Chart(document.getElementById('totalLevyChart'), {
+            type: 'bar',
+            data: {
+                labels: reLabels,
+                datasets: [{
+                    label: 'Total Tax Levy',
+                    data: reTax.map(r => r.levy),
+                    backgroundColor: reTax.map(r => {
+                        // Highlight override years
+                        if ([2006, 2012, 2020, 2025].includes(r.fy)) return 'rgba(230,57,70,0.7)';
+                        return 'rgba(59,130,246,0.6)';
+                    }),
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                var r = reTax[ctx.dataIndex];
+                                var label = 'Levy: ' + fmtDollar(ctx.parsed.y);
+                                if ([2006, 2012, 2020, 2025].includes(r.fy)) label += ' (override year)';
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { ticks: { maxRotation: 45, autoSkip: true } },
+                    y: {
+                        ticks: { callback: fmtDollarAxis },
+                        title: { display: true, text: 'Total Levy ($)' }
                     }
                 }
             }
