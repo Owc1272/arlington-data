@@ -6,6 +6,7 @@
     <title>The Override Cycle — Arlington Data Explorer</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script>if(window.innerWidth<768)Chart.defaults.aspectRatio=1;</script>
     <style>
         .hero {
             background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%);
@@ -84,7 +85,6 @@
     <script src="nav.js"></script>
     <script>
         const state = { data: null, charts: {} };
-        const mobileRatio = window.innerWidth < 768 ? 1 : 2;
 
         function fmt(n) {
             if (n == null) return 'N/A';
@@ -222,7 +222,6 @@
                 },
                 options: {
                     responsive: true,
-                    aspectRatio: mobileRatio,
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: {
@@ -292,7 +291,6 @@
                 },
                 options: {
                     responsive: true,
-                    aspectRatio: mobileRatio,
                     plugins: {
                         legend: { position: 'top' },
                         tooltip: {
@@ -353,7 +351,6 @@
                 },
                 options: {
                     responsive: true,
-                    aspectRatio: mobileRatio,
                     plugins: {
                         legend: { position: 'top' },
                         tooltip: {
