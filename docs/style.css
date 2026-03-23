@@ -285,12 +285,120 @@ footer a {
     text-decoration: none;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-    .nav-links { display: none; }
+/* ===== Hamburger Toggle (hidden on desktop) ===== */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+}
+
+/* ===== Next Page Card ===== */
+.next-page-wrap {
+    max-width: 600px;
+    margin: 0 auto 1rem;
+    padding: 0 2rem;
+}
+.next-page-card {
+    border: 2px solid var(--border-color);
+    text-align: center;
+}
+.next-page-card .section-link {
+    font-size: 1.05rem;
+}
+
+/* ===== Responsive: Tablet ===== */
+@media (max-width: 900px) {
     .chart-grid-2col { grid-template-columns: 1fr; }
 }
 
-@media (max-width: 900px) {
-    .chart-grid-2col { grid-template-columns: 1fr; }
+/* ===== Responsive: Mobile ===== */
+@media (max-width: 768px) {
+    /* --- Nav: hamburger menu --- */
+    nav {
+        padding: 0.75rem 1rem;
+        flex-wrap: wrap;
+    }
+    .nav-brand { font-size: 1.1rem; }
+    .nav-toggle { display: block; }
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        gap: 0;
+        padding: 0;
+        margin-top: 0.5rem;
+        border-top: 1px solid var(--border-color);
+    }
+    .nav-links.nav-open { display: flex; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+        display: block;
+        padding: 0.75rem 0.5rem;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 0.95rem;
+    }
+    .nav-links a.nav-active {
+        background: var(--light-bg);
+    }
+
+    /* --- Hero --- */
+    .hero {
+        padding: 2.5rem 1rem;
+    }
+    .hero h1 { font-size: 1.75rem; }
+    .hero p { font-size: 0.95rem; }
+
+    /* --- Stats bar: horizontal scroll --- */
+    .stats-bar {
+        display: flex;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        gap: 0.75rem;
+        padding: 0 1rem;
+        margin: -1.5rem 0 1.5rem;
+        -webkit-overflow-scrolling: touch;
+    }
+    .stat-card {
+        min-width: 140px;
+        flex-shrink: 0;
+        padding: 1rem 0.75rem;
+    }
+    .stat-value { font-size: 1.4rem; }
+    .stat-label { font-size: 0.75rem; }
+
+    /* --- Charts section --- */
+    .charts-section { padding: 0 1rem; }
+    .chart-grid-2col { grid-template-columns: 1fr; gap: 1.25rem; }
+    .chart-card { padding: 1rem; }
+    .chart-card h3 { font-size: 1rem; margin-bottom: 0.75rem; }
+    .chart-card canvas { max-height: 300px; }
+
+    /* --- Section headers & insight boxes --- */
+    .section-header { font-size: 1.1rem; margin: 2rem 0 1rem 0; }
+    .insight-box { font-size: 0.85rem; padding: 0.75rem 1rem; }
+
+    /* --- Tables --- */
+    .km-table th { padding: 8px 10px; font-size: 0.75rem; }
+    .km-table td { padding: 8px 10px; font-size: 0.85rem; }
+
+    /* --- Section cards (index + next-page) --- */
+    .sections { padding: 0 1rem; gap: 1.25rem; }
+    .section-card { padding: 1.5rem 1.25rem; }
+    .section-card h2 { font-size: 1.25rem; }
+    .section-card p { font-size: 0.9rem; margin-bottom: 1rem; }
+    .section-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+
+    /* --- Next page card --- */
+    .next-page-wrap { padding: 0 1rem; }
+
+    /* --- Footer --- */
+    footer { padding: 1.5rem 1rem; font-size: 0.85rem; }
+
+    /* --- Source notes --- */
+    .source-note { font-size: 0.7rem; }
 }

@@ -188,9 +188,41 @@
         }
 
         @media (max-width: 768px) {
+            body[data-page="home"] .hero {
+                padding: 2.5rem 1rem 5rem;
+            }
+            body[data-page="home"] .hero h1 {
+                font-size: 2rem;
+            }
+            .hero-chart-card {
+                margin: -3rem 1rem 1.5rem;
+                padding: 1rem 1rem 0.75rem;
+            }
+            .hero-chart-card canvas {
+                max-height: 260px;
+            }
             .hero-insights {
                 grid-template-columns: 1fr;
+                padding: 0 1rem;
             }
+            .hero-insight {
+                font-size: 0.82rem;
+            }
+            .key-stats {
+                padding: 0 1rem;
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .key-stat-number { font-size: 2rem; }
+            .waterfall-section {
+                padding: 0 1rem;
+            }
+            .waterfall-card {
+                padding: 1rem 1rem 0.75rem;
+            }
+            .waterfall-card canvas { max-height: 280px; }
+            #overrideVoteChart { max-height: 220px !important; }
+            .also-available { padding: 0 1rem; font-size: 0.85rem; }
         }
     </style>
 </head>
