@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arlington Spending — Open Data Explorer</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hero { background: linear-gradient(135deg, #1a4731 0%, #2d6b4d 100%); }
+        .stat-value { color: #1a4731; }
+    </style>
+</head>
+<body data-page="spending">
+    <nav id="main-nav"></nav>
+    <script src="nav.js"></script>
+
+    <div class="hero">
+        <h1>Arlington Spending</h1>
+        <p>Where the money goes &mdash; disciplined management, but structural costs outpace revenue</p>
+    </div>
+
+    <div class="loading-spinner" id="loadingSpinner">Loading spending data...</div>
+
+    <div class="stats-bar" id="statsBar"></div>
+
+    <div class="charts-section">
+        <!-- Chart 1: Budget Growth by Category (full width) -->
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Budget Growth by Category (FY2007&ndash;FY2027)</h3>
+                <canvas id="budgetGrowthChart"></canvas>
+                <div class="insight-box">School appropriations grew 206% ($35M&rarr;$108M) while town departments grew just 55% ($26M&rarr;$41M). Health insurance (+116%) and pensions (+170%) are mandatory costs that grow independently of town decisions.</div>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+        </div>
+
+        <!-- Charts 2 + 3: Composition + Growth % -->
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>FY2025 Budget Composition</h3>
+                <canvas id="compositionChart"></canvas>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+            <div class="chart-card">
+                <h3>20-Year Budget Growth by Category (%)</h3>
+                <canvas id="growthPctChart"></canvas>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+        </div>
+
+        <!-- Fixed Costs Section -->
+        <h2 class="section-header">Fixed Costs</h2>
+
+        <!-- Chart 4: Fixed Cost Share -->
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Insurance + Pensions: Share of General Fund</h3>
+                <canvas id="fixedCostChart"></canvas>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+        </div>
+
+        <!-- Chart 5: Health Insurance Volatility (full width) -->
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Health Insurance: Actual vs Long-Range Plan Assumption (5.25%/yr)</h3>
+                <canvas id="insuranceChart"></canvas>
+                <div class="insight-box">The town's long-range plans assume 5.25% annual health insurance growth. FY2026 actual growth was 12.7% &mdash; more than double the assumption. This single variance added $3.38M to the deficit.</div>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+        </div>
+
+        <!-- Spending Detail Section -->
+        <h2 class="section-header">Spending Detail</h2>
+
+        <!-- Charts 6 + 7: Spending Over Time + Town Departments -->
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Spending by Category Over Time</h3>
+                <canvas id="spendingStackChart"></canvas>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+            <div class="chart-card">
+                <h3>Town Department Growth (FY2016&ndash;FY2025)</h3>
+                <canvas id="deptGrowthChart"></canvas>
+                <div class="insight-box">Public safety (Police +29%, Fire +31%) barely kept pace with inflation. Facilities (+227%) and IT (+107%) saw the largest increases, reflecting deferred investment in buildings and technology.</div>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Source: Arlington Town Manager Financial Plans</p>
+        <p>Last updated: March 2026</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script>
+    (async function() {
+        const spinner = document.getElementById('loadingSpinner');
+        spinner.classList.add('active');
+
+        const [finances, drivers] = await Promise.all([
+            fetch('data/finances.json').then(r => r.json()),
+            fetch('data/override_drivers.json').then(r => r.json())
+        ]);
+
+        spinner.classList.remove('active');
+
+        const years = finances.years;
+        const latest = years[years.length - 1];
+        const latestFY = latest.fiscal_year;
+        const latestExp = latest.expenditures.total_expenditures;
+
+        /* ===== Helpers ===== */
+        function fmtDollar(v) {
+            if (v >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B';
+            if (v >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
+            if (v >= 1e3) return '$' + (v / 1e3).toFixed(0) + 'K';
+            return '$' + v.toLocaleString();
+        }
+        function fmtDollarAxis(v) {
+            if (v >= 1e6) return '$' + (v / 1e6).toFixed(0) + 'M';
+            return '$' + v.toLocaleString();
+        }
+
+        /* ===== Stats Bar ===== */
+        const statsData = [
+            { value: fmtDollar(latestExp), label: 'FY' + latestFY + ' Total Expenditures' },
+            { value: '44.1%', label: 'Schools (% of Budget)' },
+            { value: '10.6%', label: 'Health Insurance' },
+            { value: '6.9%', label: 'Pensions' },
+            { value: '+206%', label: 'School Growth (20yr)' },
+            { value: '+55%', label: 'Town Dept Growth (20yr)' }
+        ];
+        document.getElementById('statsBar').innerHTML = statsData.map(s =>
+            '<div class="stat-card"><div class="stat-value">' + s.value + '</div><div class="stat-label">' + s.label + '</div></div>'
+        ).join('');
+
+        /* ===== Chart 1: Budget Growth by Category (multi-line) ===== */
+        var bbc = drivers.budget_by_category;
+        new Chart(document.getElementById('budgetGrowthChart'), {
+            type: 'line',
+            data: {
+                labels: bbc.map(d => 'FY' + d.fy),
+                datasets: [
+                    {
+                        label: 'Schools',
+                        data: bbc.map(d => d.school),
+                        borderColor: '#e63946',
+                        backgroundColor: 'rgba(230,57,70,0.1)',
+                        tension: 0.3,
+                        pointRadius: 4,
+                        borderWidth: 2.5
+                    },
+                    {
+                        label: 'Town Departments',
+                        data: bbc.map(d => d.town),
+                        borderColor: '#457b9d',
+                        backgroundColor: 'rgba(69,123,157,0.1)',
+                        tension: 0.3,
+                        pointRadius: 4,
+                        borderWidth: 2.5
+                    },
+                    {
+                        label: 'Health Insurance',
+                        data: bbc.map(d => d.insurance),
+                        borderColor: '#d97706',
+                        backgroundColor: 'rgba(217,119,6,0.1)',
+                        tension: 0.3,
+                        pointRadius: 4,
+                        borderWidth: 2.5
+                    },
+                    {
+                        label: 'Pensions',
+                        data: bbc.map(d => d.pensions),
+                        borderColor: '#2a9d8f',
+                        backgroundColor: 'rgba(42,157,143,0.1)',
+                        tension: 0.3,
+                        pointRadius: 4,
+                        borderWidth: 2.5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom' } },
+                scales: {
+                    y: {
+                        ticks: { callback: v => fmtDollarAxis(v) },
+                        title: { display: true, text: 'Annual Appropriation ($)' }
+                    }
+                }
+            }
+        });
+
+        /* ===== Chart 2: Budget Composition (doughnut) ===== */
+        var comp = drivers.budget_composition;
+        var compColors = ['#e63946', '#457b9d', '#d97706', '#2a9d8f', '#6c757d', '#8b5cf6', '#94a3b8', '#14b8a6', '#cbd5e1'];
+        new Chart(document.getElementById('compositionChart'), {
+            type: 'doughnut',
+            data: {
+                labels: comp.map(c => c.category),
+                datasets: [{
+                    data: comp.map(c => c.amount),
+                    backgroundColor: compColors
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 11 } } },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                var total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                                var pct = ((ctx.raw / total) * 100).toFixed(1);
+                                return ctx.label + ': ' + fmtDollar(ctx.raw) + ' (' + pct + '%)';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        /* ===== Chart 3: 20-Year Growth % (bar) ===== */
+        var gs = drivers.growth_summary;
+        var growthItems = [
+            { label: 'Schools', pct: gs.school.pct, color: '#e63946' },
+            { label: 'Pensions', pct: gs.pensions.pct, color: '#2a9d8f' },
+            { label: 'Insurance', pct: gs.insurance.pct, color: '#d97706' },
+            { label: 'Town Depts', pct: gs.town.pct, color: '#457b9d' }
+        ].sort((a, b) => b.pct - a.pct);
+
+        new Chart(document.getElementById('growthPctChart'), {
+            type: 'bar',
+            data: {
+                labels: growthItems.map(g => g.label),
+                datasets: [{
+                    label: 'Growth (%)',
+                    data: growthItems.map(g => g.pct),
+                    backgroundColor: growthItems.map(g => g.color),
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) { return '+' + ctx.raw + '%'; }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: { callback: v => v + '%' },
+                        title: { display: true, text: 'Growth Since FY2007 (%)' }
+                    }
+                }
+            },
+            plugins: [{
+                id: 'barLabels',
+                afterDatasetsDraw: function(chart) {
+                    var ctx = chart.ctx;
+                    ctx.save();
+                    ctx.font = 'bold 12px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#1f2937';
+                    chart.getDatasetMeta(0).data.forEach(function(bar, i) {
+                        ctx.fillText('+' + growthItems[i].pct + '%', bar.x, bar.y - 6);
+                    });
+                    ctx.restore();
+                }
+            }]
+        });
+
+        /* ===== Chart 4: Insurance + Pensions Share of GF ===== */
+        var fixedData = bbc.map(function(d) {
+            var fixed = d.insurance + d.pensions;
+            var total = d.school + d.town + d.insurance + d.pensions + d.exempt_debt;
+            return { fy: d.fy, fixed: fixed, total: total, pct: ((fixed / total) * 100).toFixed(1) };
+        });
+        new Chart(document.getElementById('fixedCostChart'), {
+            type: 'bar',
+            data: {
+                labels: fixedData.map(d => 'FY' + d.fy),
+                datasets: [
+                    {
+                        label: 'Health Insurance',
+                        data: bbc.map(d => d.insurance),
+                        backgroundColor: '#d97706',
+                        stack: 'fixed'
+                    },
+                    {
+                        label: 'Pensions',
+                        data: bbc.map(d => d.pensions),
+                        backgroundColor: '#2a9d8f',
+                        stack: 'fixed'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: {
+                        callbacks: {
+                            afterBody: function(items) {
+                                var idx = items[0].dataIndex;
+                                return 'Share of GF: ' + fixedData[idx].pct + '%';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: {
+                        stacked: true,
+                        ticks: { callback: v => fmtDollarAxis(v) },
+                        title: { display: true, text: 'Insurance + Pensions ($)' }
+                    }
+                }
+            },
+            plugins: [{
+                id: 'pctLabels',
+                afterDatasetsDraw: function(chart) {
+                    var ctx = chart.ctx;
+                    ctx.save();
+                    ctx.font = 'bold 11px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillStyle = '#1f2937';
+                    var meta = chart.getDatasetMeta(1);
+                    meta.data.forEach(function(bar, i) {
+                        ctx.fillText(fixedData[i].pct + '%', bar.x, bar.y - 6);
+                    });
+                    ctx.restore();
+                }
+            }]
+        });
+
+        /* ===== Chart 5: Health Insurance Actual vs Assumption ===== */
+        var hi = drivers.health_insurance;
+        // Build assumption line from FY2016 at 5.25% annual growth
+        var fy2016Actual = hi.find(d => d.fy === 2016);
+        var baseAmount = fy2016Actual ? fy2016Actual.amount : hi.find(d => d.fy === 2015).amount;
+        var baseFY = fy2016Actual ? 2016 : 2015;
+
+        var assumptionData = hi.map(function(d) {
+            if (d.fy < baseFY) return null;
+            var yearsOut = d.fy - baseFY;
+            return Math.round(baseAmount * Math.pow(1.0525, yearsOut));
+        });
+
+        new Chart(document.getElementById('insuranceChart'), {
+            type: 'line',
+            data: {
+                labels: hi.map(d => 'FY' + d.fy),
+                datasets: [
+                    {
+                        label: 'Actual Cost',
+                        data: hi.map(d => d.amount),
+                        borderColor: '#e63946',
+                        backgroundColor: 'rgba(230,57,70,0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 5,
+                        borderWidth: 2.5
+                    },
+                    {
+                        label: '5.25%/yr Assumption',
+                        data: assumptionData,
+                        borderColor: '#9ca3af',
+                        borderDash: [8, 4],
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.3,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom' } },
+                scales: {
+                    y: {
+                        ticks: { callback: v => fmtDollarAxis(v) },
+                        title: { display: true, text: 'Health Insurance Cost ($)' }
+                    }
+                }
+            }
+        });
+
+        /* ===== Chart 6: Spending by Category Over Time (stacked bar) ===== */
+        var expYears = years.filter(y => y.expenditures && y.expenditures.total_expenditures);
+        var stackColors = {
+            school: '#e63946',
+            healthcare: '#d97706',
+            municipal: '#457b9d',
+            capital: '#6c757d',
+            minuteman: '#8b5cf6'
+        };
+        new Chart(document.getElementById('spendingStackChart'), {
+            type: 'bar',
+            data: {
+                labels: expYears.map(y => 'FY' + y.fiscal_year),
+                datasets: [
+                    {
+                        label: 'Schools',
+                        data: expYears.map(y => y.expenditures.school_department || 0),
+                        backgroundColor: stackColors.school,
+                        stack: 'spend'
+                    },
+                    {
+                        label: 'Healthcare & Pensions',
+                        data: expYears.map(y => y.expenditures.healthcare_pensions || 0),
+                        backgroundColor: stackColors.healthcare,
+                        stack: 'spend'
+                    },
+                    {
+                        label: 'Municipal Departments',
+                        data: expYears.map(y => y.expenditures.municipal_departments || y.expenditures.total_expenditures - (y.expenditures.school_department || 0) - (y.expenditures.healthcare_pensions || 0) - (y.expenditures.capital_debt || 0) - (y.expenditures.minuteman_school || 0) || 0),
+                        backgroundColor: stackColors.municipal,
+                        stack: 'spend'
+                    },
+                    {
+                        label: 'Capital & Debt',
+                        data: expYears.map(y => y.expenditures.capital_debt || 0),
+                        backgroundColor: stackColors.capital,
+                        stack: 'spend'
+                    },
+                    {
+                        label: 'Minuteman',
+                        data: expYears.map(y => y.expenditures.minuteman_school || 0),
+                        backgroundColor: stackColors.minuteman,
+                        stack: 'spend'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } },
+                scales: {
+                    x: { stacked: true, ticks: { maxRotation: 45 } },
+                    y: {
+                        stacked: true,
+                        ticks: { callback: v => fmtDollarAxis(v) },
+                        title: { display: true, text: 'Total Expenditures ($)' }
+                    }
+                }
+            }
+        });
+
+        /* ===== Chart 7: Town Department Growth (horizontal bar) ===== */
+        var depts = drivers.town_departments.slice().sort((a, b) => a.growth_pct - b.growth_pct);
+        var highlightDepts = ['Facilities', 'IT'];
+        new Chart(document.getElementById('deptGrowthChart'), {
+            type: 'bar',
+            data: {
+                labels: depts.map(d => d.dept),
+                datasets: [{
+                    label: 'Growth (%)',
+                    data: depts.map(d => d.growth_pct),
+                    backgroundColor: depts.map(d => highlightDepts.indexOf(d.dept) !== -1 ? '#1a4731' : '#2d6b4d'),
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                var dept = depts[ctx.dataIndex];
+                                return '+' + ctx.raw + '% (' + fmtDollar(dept.fy2016) + ' \u2192 ' + fmtDollar(dept.fy2025) + ')';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { callback: v => v + '%' },
+                        title: { display: true, text: 'Growth FY2016\u2013FY2025 (%)' }
+                    }
+                }
+            },
+            plugins: [{
+                id: 'barLabels',
+                afterDatasetsDraw: function(chart) {
+                    var ctx = chart.ctx;
+                    ctx.save();
+                    ctx.font = 'bold 11px sans-serif';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = '#1f2937';
+                    chart.getDatasetMeta(0).data.forEach(function(bar, i) {
+                        ctx.fillText('+' + depts[i].growth_pct + '%', bar.x + 6, bar.y);
+                    });
+                    ctx.restore();
+                }
+            }]
+        });
+
+    })();
+    </script>
+</body>
+</html>

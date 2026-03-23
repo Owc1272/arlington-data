@@ -1,0 +1,184 @@
+{
+  "generated": "2026-03-23",
+  "source": "Arlington Town Manager Financial Plans FY2007-FY2027",
+
+  "override_fund": [
+    {"fy": 2006, "balance": 2180289, "context": "2005 override deposits begin"},
+    {"fy": 2007, "balance": 4479519, "context": "Building"},
+    {"fy": 2008, "balance": 4531174, "context": "Near peak of 2005 cycle"},
+    {"fy": 2009, "balance": 4687515, "context": "Peak of 2005 cycle"},
+    {"fy": 2010, "balance": 1581292, "context": "First drawdown"},
+    {"fy": 2011, "balance": 0, "context": "2005 override exhausted"},
+    {"fy": 2012, "balance": 3993618, "context": "2011 override + GIC savings begin"},
+    {"fy": 2013, "balance": 7888722, "context": "Rapid accumulation"},
+    {"fy": 2014, "balance": 13678300, "context": "GIC dividend years"},
+    {"fy": 2015, "balance": 18000920, "context": "Accumulating"},
+    {"fy": 2016, "balance": 20850650, "context": "Accumulating"},
+    {"fy": 2017, "balance": 23481076, "context": "Near peak"},
+    {"fy": 2018, "balance": 24010774, "context": "Peak of 2011 cycle"},
+    {"fy": 2019, "balance": 21618539, "context": "First drawdown of 2011 cycle"},
+    {"fy": 2020, "balance": 26671157, "context": "2019 override replenishment"},
+    {"fy": 2021, "balance": 24775993, "context": "Drawdown resumes"},
+    {"fy": 2022, "balance": 19706180, "context": "Accelerating drawdown"},
+    {"fy": 2023, "balance": 17652644, "context": null},
+    {"fy": 2024, "balance": 17064069, "context": "Minimal draw (ARPA $5M masks need)"},
+    {"fy": 2025, "balance": 12689279, "context": "ARPA gone; heavy draw begins"},
+    {"fy": 2026, "balance": 5528387, "context": "Projected"},
+    {"fy": 2027, "balance": -4795215, "context": "Projected — Fund exhausted"}
+  ],
+
+  "overrides": [
+    {"year": 2005, "amount": 4700000, "peak": 4700000, "cycle_years": 6},
+    {"year": 2011, "amount": 6490000, "peak": 24000000, "cycle_years": 8},
+    {"year": 2019, "amount": 5500000, "peak": 26700000, "cycle_years": 4},
+    {"year": 2023, "amount": 7000000, "peak": 17100000, "cycle_years": 3},
+    {"year": 2026, "amount": null, "peak": null, "cycle_years": null}
+  ],
+
+  "health_insurance": [
+    {"fy": 2007, "amount": 13900000, "event": "Pre-GIC baseline"},
+    {"fy": 2012, "amount": 20000000, "event": "Pre-GIC peak (budget)"},
+    {"fy": 2014, "amount": 14739366, "event": "GIC dividend: costs below FY2007"},
+    {"fy": 2015, "amount": 15406731, "event": "GIC +1%, but growth factor adds employees"},
+    {"fy": 2019, "amount": 17850681, "event": "GIC rate decrease (-2.15%)"},
+    {"fy": 2021, "amount": 18858788, "event": null},
+    {"fy": 2022, "amount": 20212725, "event": "First time above $20M"},
+    {"fy": 2023, "amount": 21772313, "event": null},
+    {"fy": 2024, "amount": 22077822, "event": "Anomalously low GIC year"},
+    {"fy": 2025, "amount": 23241929, "event": null},
+    {"fy": 2026, "amount": 26210136, "event": "Crisis-level GIC increase"},
+    {"fy": 2027, "amount": 30000000, "event": "Double-digit continues (projected)"}
+  ],
+
+  "pensions": [
+    {"fy": 2007, "amount": 6300000},
+    {"fy": 2014, "amount": 8160032},
+    {"fy": 2015, "amount": 8663368},
+    {"fy": 2019, "amount": 10073964},
+    {"fy": 2021, "amount": 11921239},
+    {"fy": 2022, "amount": 12635573},
+    {"fy": 2023, "amount": 13367833},
+    {"fy": 2024, "amount": 14133735},
+    {"fy": 2025, "amount": 14994696},
+    {"fy": 2026, "amount": 15866268},
+    {"fy": 2027, "amount": 16596416}
+  ],
+
+  "opeb": [
+    {"fy": 2014, "liability": 197800000, "assets": 7000000, "funded_pct": 3.5},
+    {"fy": 2020, "liability": 252494363, "assets": 15865946, "funded_pct": 6.3},
+    {"fy": 2021, "liability": 264518341, "assets": 21268077, "funded_pct": 8.0},
+    {"fy": 2022, "liability": 210380832, "assets": 19078429, "funded_pct": 9.1},
+    {"fy": 2023, "liability": 216047532, "assets": 21797249, "funded_pct": 10.1},
+    {"fy": 2024, "liability": 192258194, "assets": 26446979, "funded_pct": 13.8},
+    {"fy": 2025, "liability": 177011180, "assets": 29846458, "funded_pct": 16.9}
+  ],
+
+  "budget_by_category": [
+    {"fy": 2007, "school": 35300000, "town": 26200000, "insurance": 13900000, "pensions": 6300000, "exempt_debt": 3100000},
+    {"fy": 2015, "school": 50700000, "town": 32300000, "insurance": 15400000, "pensions": 8700000, "exempt_debt": 2800000},
+    {"fy": 2016, "school": 53600000, "town": 32300000, "insurance": 16400000, "pensions": 9100000, "exempt_debt": 2600000},
+    {"fy": 2019, "school": 66300000, "town": 35700000, "insurance": 17900000, "pensions": 10100000, "exempt_debt": 4700000},
+    {"fy": 2020, "school": 71400000, "town": 37100000, "insurance": 18600000, "pensions": 10700000, "exempt_debt": 5000000},
+    {"fy": 2022, "school": 80100000, "town": 38800000, "insurance": 20200000, "pensions": 12600000, "exempt_debt": 10300000},
+    {"fy": 2024, "school": 88900000, "town": 41400000, "insurance": 22100000, "pensions": 14100000, "exempt_debt": 12000000},
+    {"fy": 2025, "school": 96500000, "town": 43000000, "insurance": 23200000, "pensions": 15000000, "exempt_debt": 14400000},
+    {"fy": 2026, "school": 103600000, "town": 44300000, "insurance": 26200000, "pensions": 15900000, "exempt_debt": 14400000},
+    {"fy": 2027, "school": 108000000, "town": 40500000, "insurance": 30000000, "pensions": 17000000, "exempt_debt": 14400000}
+  ],
+
+  "peer_new_growth": [
+    {"community": "North Andover", "rate": 3.66},
+    {"community": "Needham", "rate": 2.80},
+    {"community": "Natick", "rate": 2.58},
+    {"community": "Brookline", "rate": 2.04},
+    {"community": "Reading", "rate": 1.91},
+    {"community": "Winchester", "rate": 1.82},
+    {"community": "Watertown", "rate": 1.80},
+    {"community": "Milton", "rate": 1.37},
+    {"community": "Stoneham", "rate": 1.33},
+    {"community": "Belmont", "rate": 1.25},
+    {"community": "Melrose", "rate": 1.02},
+    {"community": "Medford", "rate": 0.88},
+    {"community": "Arlington", "rate": 0.80}
+  ],
+
+  "peer_commercial_base": [
+    {"community": "Brookline", "share": 27.50},
+    {"community": "Watertown", "share": 22.98},
+    {"community": "Natick", "share": 20.23},
+    {"community": "North Andover", "share": 19.56},
+    {"community": "Arlington", "share": 5.34}
+  ],
+
+  "peer_revenue_growth_factor": [
+    {"community": "North Andover", "factor": 6.56},
+    {"community": "Watertown", "factor": 5.28},
+    {"community": "Needham", "factor": 5.22},
+    {"community": "Winchester", "factor": 5.07},
+    {"community": "Natick", "factor": 4.72},
+    {"community": "Reading", "factor": 4.60},
+    {"community": "Brookline", "factor": 4.44},
+    {"community": "Melrose", "factor": 4.35},
+    {"community": "Stoneham", "factor": 4.06},
+    {"community": "Medford", "factor": 3.80},
+    {"community": "Belmont", "factor": 3.46},
+    {"community": "Milton", "factor": 3.41},
+    {"community": "Arlington", "factor": 3.24}
+  ],
+
+  "peer_tax_burden": [
+    {"fy": 2016, "arlington": 5.9, "peer_avg": 6.5, "rank": 10},
+    {"fy": 2025, "arlington": 8.20, "peer_avg": 8.07, "rank": 3}
+  ],
+
+  "peer_spending_per_capita": [
+    {"fy": 2016, "arlington": 2630, "peer_avg": 3013, "rank": 8},
+    {"fy": 2020, "arlington": 4013, "peer_avg": 4180, "rank": 6},
+    {"fy": 2022, "arlington": 4154, "peer_avg": 4535, "rank": 8},
+    {"fy": 2025, "arlington": 4580, "peer_avg": 4325, "rank": 7}
+  ],
+
+  "budget_composition": [
+    {"category": "Schools", "amount": 96521248, "pct": 44.1},
+    {"category": "Town Operations", "amount": 42957347, "pct": 19.6},
+    {"category": "Health Insurance", "amount": 23241929, "pct": 10.6},
+    {"category": "Pensions", "amount": 14994696, "pct": 6.9},
+    {"category": "Exempt Debt", "amount": 12522707, "pct": 5.7},
+    {"category": "Minuteman", "amount": 8562229, "pct": 3.9},
+    {"category": "Non-Exempt Debt", "amount": 7478172, "pct": 3.4},
+    {"category": "Cash Capital", "amount": 4952417, "pct": 2.3},
+    {"category": "Other", "amount": 7400000, "pct": 3.4}
+  ],
+
+  "projection": [
+    {"fy": 2025, "revenue": 214200219, "appropriations": 214200219, "fund_draw": 4646899, "balance": 0},
+    {"fy": 2026, "revenue": 221237966, "appropriations": 221237966, "fund_draw": 7160892, "balance": 0},
+    {"fy": 2027, "revenue": 229044297, "appropriations": 229044297, "fund_draw": 10323602, "balance": 0},
+    {"fy": 2028, "revenue": 224237417, "appropriations": 237137412, "fund_draw": 663967, "balance": -12899995}
+  ],
+
+  "state_aid_fy2025": {
+    "ugga": 9341579,
+    "ch70": 18884039,
+    "charter": 79555,
+    "other": 297840,
+    "total": 28603013
+  },
+
+  "town_departments": [
+    {"dept": "Public Works", "fy2016": 8101029, "fy2025": 11261076, "growth_pct": 50},
+    {"dept": "Police", "fy2016": 7544030, "fy2025": 9536698, "growth_pct": 29},
+    {"dept": "Fire", "fy2016": 6662960, "fy2025": 8797496, "growth_pct": 31},
+    {"dept": "Libraries", "fy2016": 2217065, "fy2025": 2884008, "growth_pct": 34},
+    {"dept": "IT", "fy2016": 695137, "fy2025": 1284659, "growth_pct": 107},
+    {"dept": "Facilities", "fy2016": 395615, "fy2025": 1222951, "growth_pct": 227}
+  ],
+
+  "growth_summary": {
+    "school": {"from": 35300000, "to": 108000000, "pct": 206},
+    "town": {"from": 26200000, "to": 40500000, "pct": 55},
+    "insurance": {"from": 13900000, "to": 30000000, "pct": 116},
+    "pensions": {"from": 6300000, "to": 17000000, "pct": 170}
+  }
+}

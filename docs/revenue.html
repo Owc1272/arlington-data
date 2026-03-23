@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arlington Revenue — Open Data Explorer</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hero { background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8c 100%); }
+        .stat-value { color: #1e3a5f; }
+    </style>
+</head>
+<body data-page="revenue">
+    <nav id="main-nav"></nav>
+    <script src="nav.js"></script>
+
+    <div class="hero">
+        <h1>Arlington Revenue</h1>
+        <p>Why 2.5% revenue growth can't cover 4-5% cost growth &mdash; the structural gap explained</p>
+    </div>
+
+    <div class="loading-spinner" id="loadingSpinner">Loading revenue data...</div>
+
+    <div class="stats-bar" id="statsBar"></div>
+
+    <div class="charts-section">
+        <!-- Chart 1: Total Revenue Over Time (full width) -->
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>Total General Fund Revenue</h3>
+                <canvas id="totalRevenueChart"></canvas>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+        </div>
+
+        <!-- Charts 2 + 3: Revenue Sources + Breakdown -->
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Revenue Sources Over Time</h3>
+                <canvas id="revenueSourcesChart"></canvas>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+            <div class="chart-card">
+                <h3 id="breakdownTitle">Revenue Breakdown (Latest Year)</h3>
+                <canvas id="revenueBreakdownChart"></canvas>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+        </div>
+
+        <!-- Peer Comparisons Section -->
+        <h2 class="section-header">Peer Comparisons: Why Arlington's Revenue Lags</h2>
+
+        <!-- Charts 4 + 5: New Growth + Commercial Base -->
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>New Growth Rate &mdash; 5-Year Average</h3>
+                <canvas id="newGrowthChart"></canvas>
+                <div class="insight-box">Arlington's new growth rate (0.80%) is last among all 13 peer communities. The peer average is 1.89%. This alone costs Arlington ~$1.8M/year in forgone revenue.</div>
+                <div class="source-note">Source: MA DOR Municipal Data</div>
+            </div>
+            <div class="chart-card">
+                <h3>Commercial/Industrial Share of Tax Base</h3>
+                <canvas id="commercialBaseChart"></canvas>
+                <div class="insight-box">Arlington's commercial base (5.34%) is one of the smallest among peers. Brookline (27.5%) and Watertown (23%) benefit from commercial corridors that Arlington lacks. Residential taxpayers bear 95% of the burden.</div>
+                <div class="source-note">Source: MA DOR Municipal Data</div>
+            </div>
+        </div>
+
+        <!-- Charts 6 + 7: State Aid + Revenue Growth Factor -->
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>State Aid to Arlington</h3>
+                <canvas id="stateAidChart"></canvas>
+                <div class="insight-box">Arlington's share of total state aid fell ~34% from 1989 to 2025. Chapter 70 school aid grew just 0.97% in FY2025 &mdash; less than half the rate of school cost growth.</div>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+            <div class="chart-card">
+                <h3>Municipal Revenue Growth Factor</h3>
+                <canvas id="revenueGrowthFactorChart"></canvas>
+                <div class="insight-box">The revenue growth factor (levy limit growth + new growth) determines how fast a town's revenue can grow. Arlington's 3.24 is 12th of 13 peers (avg: 4.50).</div>
+                <div class="source-note">Source: MA DOR Municipal Data</div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Source: Arlington Town Manager Financial Plans | MA DOR Municipal Data</p>
+        <p>Last updated: March 2026</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script>
+    (async function() {
+        const spinner = document.getElementById('loadingSpinner');
+        spinner.classList.add('active');
+
+        const [finances, drivers] = await Promise.all([
+            fetch('data/finances.json').then(r => r.json()),
+            fetch('data/override_drivers.json').then(r => r.json())
+        ]);
+
+        spinner.classList.remove('active');
+
+        const years = finances.years;
+        const latest = years[years.length - 1];
+        const latestFY = latest.fiscal_year;
+        const latestRev = latest.revenue.total_revenue;
+
+        /* ===== Helpers ===== */
+        function fmtDollar(v) {
+            if (v >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B';
+            if (v >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
+            if (v >= 1e3) return '$' + (v / 1e3).toFixed(0) + 'K';
+            return '$' + v.toLocaleString();
+        }
+        function fmtDollarAxis(v) {
+            if (v >= 1e6) return '$' + (v / 1e6).toFixed(0) + 'M';
+            return '$' + v.toLocaleString();
+        }
+
+        /* ===== Stats Bar ===== */
+        const statsData = [
+            { value: fmtDollar(latestRev), label: 'FY' + latestFY + ' Total Revenue' },
+            { value: '2.8%', label: 'FY2025 Revenue Growth' },
+            { value: '0.80%', label: 'New Growth Rate (Last of 13 Peers)' },
+            { value: '5.34%', label: 'Commercial Tax Base' },
+            { value: '$28.6M', label: 'State Aid (14% of Revenue)' },
+            { value: '3.24', label: 'Revenue Growth Factor (12th of 13)' }
+        ];
+        document.getElementById('statsBar').innerHTML = statsData.map(s =>
+            '<div class="stat-card"><div class="stat-value">' + s.value + '</div><div class="stat-label">' + s.label + '</div></div>'
+        ).join('');
+
+        /* ===== Chart 1: Total Revenue Over Time ===== */
+        new Chart(document.getElementById('totalRevenueChart'), {
+            type: 'line',
+            data: {
+                labels: years.map(y => 'FY' + y.fiscal_year),
+                datasets: [{
+                    label: 'Total Revenue',
+                    data: years.map(y => y.revenue.total_revenue),
+                    borderColor: '#1e3a5f',
+                    backgroundColor: 'rgba(30,58,95,0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        ticks: { callback: v => fmtDollarAxis(v) },
+                        title: { display: true, text: 'Total General Fund Revenue' }
+                    }
+                }
+            }
+        });
+
+        /* ===== Chart 2: Revenue Sources (Stacked Area) ===== */
+        const sourceColors = {
+            property_tax: '#1e3a5f',
+            state_aid: '#3b82f6',
+            local_receipts: '#14b8a6',
+            free_cash: '#d97706',
+            other_funds: '#6b7280'
+        };
+        const sourceLabels = {
+            property_tax: 'Property Tax',
+            state_aid: 'State Aid',
+            local_receipts: 'Local Receipts',
+            free_cash: 'Free Cash',
+            other_funds: 'Other Funds'
+        };
+        const sourceKeys = ['property_tax', 'state_aid', 'local_receipts', 'free_cash', 'other_funds'];
+
+        new Chart(document.getElementById('revenueSourcesChart'), {
+            type: 'line',
+            data: {
+                labels: years.map(y => 'FY' + y.fiscal_year),
+                datasets: sourceKeys.map(key => ({
+                    label: sourceLabels[key],
+                    data: years.map(y => y.revenue[key] || 0),
+                    borderColor: sourceColors[key],
+                    backgroundColor: sourceColors[key] + '80',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 0
+                }))
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom' } },
+                scales: {
+                    x: { ticks: { maxRotation: 45 } },
+                    y: {
+                        stacked: true,
+                        ticks: { callback: v => fmtDollarAxis(v) }
+                    }
+                }
+            }
+        });
+
+        /* ===== Chart 3: Revenue Breakdown (Doughnut) ===== */
+        document.getElementById('breakdownTitle').textContent = 'Revenue Breakdown (FY' + latestFY + ')';
+        const breakdownValues = sourceKeys.map(k => latest.revenue[k] || 0);
+        new Chart(document.getElementById('revenueBreakdownChart'), {
+            type: 'doughnut',
+            data: {
+                labels: sourceKeys.map(k => sourceLabels[k]),
+                datasets: [{
+                    data: breakdownValues,
+                    backgroundColor: sourceKeys.map(k => sourceColors[k])
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                var total = ctx.dataset.data.reduce((a,b) => a+b, 0);
+                                var pct = ((ctx.raw / total) * 100).toFixed(1);
+                                return ctx.label + ': ' + fmtDollar(ctx.raw) + ' (' + pct + '%)';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        /* ===== Chart 4: New Growth — Arlington vs Peers ===== */
+        var peerNG = drivers.peer_new_growth;
+        new Chart(document.getElementById('newGrowthChart'), {
+            type: 'bar',
+            data: {
+                labels: peerNG.map(p => p.community),
+                datasets: [{
+                    label: 'New Growth Rate (%)',
+                    data: peerNG.map(p => p.rate),
+                    backgroundColor: peerNG.map(p => p.community === 'Arlington' ? '#e63946' : '#457b9d')
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    annotation: undefined
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: '5-Year Avg New Growth Rate (%)' },
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            },
+            plugins: [{
+                id: 'avgLine',
+                afterDraw: function(chart) {
+                    var avg = 1.89;
+                    var xScale = chart.scales.x;
+                    var x = xScale.getPixelForValue(avg);
+                    var ctx = chart.ctx;
+                    ctx.save();
+                    ctx.strokeStyle = '#e63946';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([6, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(x, chart.chartArea.top);
+                    ctx.lineTo(x, chart.chartArea.bottom);
+                    ctx.stroke();
+                    ctx.fillStyle = '#e63946';
+                    ctx.font = '11px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Avg: 1.89%', x, chart.chartArea.top - 4);
+                    ctx.restore();
+                }
+            }]
+        });
+
+        /* ===== Chart 5: Commercial/Industrial Tax Base ===== */
+        var peerCB = drivers.peer_commercial_base;
+        new Chart(document.getElementById('commercialBaseChart'), {
+            type: 'bar',
+            data: {
+                labels: peerCB.map(p => p.community),
+                datasets: [{
+                    label: 'Commercial/Industrial Share (%)',
+                    data: peerCB.map(p => p.share),
+                    backgroundColor: peerCB.map(p => p.community === 'Arlington' ? '#e63946' : '#457b9d')
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Commercial/Industrial Share (%)' },
+                        ticks: { callback: v => v + '%' }
+                    }
+                }
+            },
+            plugins: [{
+                id: 'avgLine',
+                afterDraw: function(chart) {
+                    var avg = 16.21;
+                    var xScale = chart.scales.x;
+                    var x = xScale.getPixelForValue(avg);
+                    var ctx = chart.ctx;
+                    ctx.save();
+                    ctx.strokeStyle = '#e63946';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([6, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(x, chart.chartArea.top);
+                    ctx.lineTo(x, chart.chartArea.bottom);
+                    ctx.stroke();
+                    ctx.fillStyle = '#e63946';
+                    ctx.font = '11px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Avg: 16.21%', x, chart.chartArea.top - 4);
+                    ctx.restore();
+                }
+            }]
+        });
+
+        /* ===== Chart 6: State Aid ===== */
+        var aidYears = years.filter(y => y.revenue.state_aid);
+        new Chart(document.getElementById('stateAidChart'), {
+            type: 'line',
+            data: {
+                labels: aidYears.map(y => 'FY' + y.fiscal_year),
+                datasets: [{
+                    label: 'State Aid',
+                    data: aidYears.map(y => y.revenue.state_aid),
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59,130,246,0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 3
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: {
+                        ticks: { callback: v => fmtDollarAxis(v) },
+                        title: { display: true, text: 'State Aid ($)' }
+                    }
+                }
+            }
+        });
+
+        /* ===== Chart 7: Revenue Growth Factor ===== */
+        var peerRGF = drivers.peer_revenue_growth_factor;
+        new Chart(document.getElementById('revenueGrowthFactorChart'), {
+            type: 'bar',
+            data: {
+                labels: peerRGF.map(p => p.community),
+                datasets: [{
+                    label: 'Revenue Growth Factor',
+                    data: peerRGF.map(p => p.factor),
+                    backgroundColor: peerRGF.map(p => p.community === 'Arlington' ? '#e63946' : '#457b9d')
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Revenue Growth Factor' }
+                    }
+                }
+            },
+            plugins: [{
+                id: 'avgLine',
+                afterDraw: function(chart) {
+                    var avg = 4.50;
+                    var xScale = chart.scales.x;
+                    var x = xScale.getPixelForValue(avg);
+                    var ctx = chart.ctx;
+                    ctx.save();
+                    ctx.strokeStyle = '#e63946';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([6, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(x, chart.chartArea.top);
+                    ctx.lineTo(x, chart.chartArea.bottom);
+                    ctx.stroke();
+                    ctx.fillStyle = '#e63946';
+                    ctx.font = '11px sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Avg: 4.50', x, chart.chartArea.top - 4);
+                    ctx.restore();
+                }
+            }]
+        });
+
+    })();
+    </script>
+</body>
+</html>
