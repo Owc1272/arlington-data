@@ -51,31 +51,35 @@
     }
 
     /* === "Next page" card at bottom of inner pages === */
-    var currentIdx = -1;
-    for (var i = 0; i < links.length; i++) {
-        if (links[i].key === page) { currentIdx = i; break; }
-    }
+    function injectNextPage() {
+        var currentIdx = -1;
+        for (var i = 0; i < links.length; i++) {
+            if (links[i].key === page) { currentIdx = i; break; }
+        }
 
-    if (currentIdx >= 0 && currentIdx < links.length - 1) {
-        var next = links[currentIdx]; // next page info is stored on the CURRENT entry (it describes what comes after)
-        var nextPage = links[currentIdx + 1];
-        // The card content describes the NEXT page
-        if (next.title && next.desc) {
-            var footer = document.querySelector('footer');
-            if (footer) {
-                var card = document.createElement('div');
-                card.className = 'next-page-wrap';
-                card.innerHTML =
-                    '<a href="' + nextPage.href + '" class="section-card next-page-card">' +
-                        '<div class="section-icon">' + next.icon + '</div>' +
-                        '<h2>' + next.title + '</h2>' +
-                        '<p>' + next.desc + '</p>' +
-                        '<span class="section-link">Continue Reading &#x2192;</span>' +
-                    '</a>';
-                footer.parentNode.insertBefore(card, footer);
+        if (currentIdx >= 0 && currentIdx < links.length - 1) {
+            var next = links[currentIdx];
+            var nextPage = links[currentIdx + 1];
+            if (next.title && next.desc) {
+                var footer = document.querySelector('footer');
+                if (footer && !document.querySelector('.next-page-wrap')) {
+                    var card = document.createElement('div');
+                    card.className = 'next-page-wrap';
+                    card.innerHTML =
+                        '<a href="' + nextPage.href + '" class="section-card next-page-card">' +
+                            '<div class="section-icon">' + next.icon + '</div>' +
+                            '<h2>' + next.title + '</h2>' +
+                            '<p>' + next.desc + '</p>' +
+                            '<span class="section-link">Continue Reading &#x2192;</span>' +
+                        '</a>';
+                    footer.parentNode.insertBefore(card, footer);
+                }
             }
         }
     }
+    /* Try now (if footer already parsed), and also on DOMContentLoaded */
+    injectNextPage();
+    document.addEventListener('DOMContentLoaded', injectNextPage);
 
     /* === Chart.js tooltip dismiss on mobile === */
     if ('ontouchstart' in window) {

@@ -14,6 +14,11 @@
 /* Reset */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     background-color: var(--light-bg);
@@ -131,6 +136,8 @@ nav {
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     padding: 1.5rem;
+    overflow: hidden;
+    max-width: 100%;
 }
 .chart-card h3 {
     font-size: 1.1rem;
@@ -139,6 +146,7 @@ nav {
 }
 .chart-card canvas {
     max-height: 400px;
+    max-width: 100%;
 }
 .chart-card.full {
     grid-column: 1 / -1;
@@ -368,8 +376,9 @@ footer a {
     .stat-label { font-size: 0.65rem; }
 
     /* --- Charts section --- */
-    .charts-section { padding: 0 1rem; }
-    .chart-grid-2col { grid-template-columns: 1fr; gap: 1.25rem; }
+    .charts-section { padding: 0 0.75rem; max-width: 100%; }
+    .chart-grid { max-width: 100%; }
+    .chart-grid-2col { grid-template-columns: 1fr; gap: 1.25rem; max-width: 100%; }
     .chart-card { padding: 1rem; }
     .chart-card h3 { font-size: 1rem; margin-bottom: 0.75rem; }
     .chart-card canvas { min-height: 250px; max-height: none; }
