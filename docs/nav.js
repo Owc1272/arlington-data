@@ -57,7 +57,7 @@
             if (links[i].key === page) { currentIdx = i; break; }
         }
 
-        if (currentIdx >= 0 && currentIdx < links.length - 1) {
+        if (currentIdx > 0 && currentIdx < links.length - 1) {
             var next = links[currentIdx];
             var nextPage = links[currentIdx + 1];
             if (next.title && next.desc) {
