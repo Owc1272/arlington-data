@@ -187,38 +187,12 @@
     </div>
     <div class="insight-box"><ul><li>Per-pupil expenditure rose from $11,685 to $20,549 (+76%), but Arlington remains 9th of 13 peers.</li><li>Teacher FTE grew 80% (272 &rarr; 490) while enrollment grew more modestly.</li></ul></div>
 
-    <!-- (f) Per-Pupil Spending and NSS -->
-    <h2 class="section-header">Net School Spending</h2>
-    <div class="dese-chart-grid">
-        <div class="chart-card"><canvas id="spendingChart"></canvas></div>
-        <div class="chart-card"><canvas id="chart2c"></canvas></div>
-    </div>
-    <div class="insight-box"><ul><li>Arlington spends 147% of its required net school spending &mdash; 47 pts above the state minimum.</li></ul></div>
-
     <!-- (g) Demographics as historical line chart -->
     <h2 class="section-header">Student Demographics</h2>
     <div class="dese-chart-grid">
         <div class="chart-card full"><canvas id="demoChart"></canvas></div>
     </div>
     <div class="insight-box"><ul><li>The student body has become significantly more diverse over the past decade.</li></ul></div>
-
-    <!-- Remaining charts: Enrollment, MCAS, Graduation, Retention, etc. -->
-    <h2 class="section-header">Additional Data</h2>
-    <div class="dese-chart-grid">
-        <div class="chart-card"><canvas id="enrollmentChart"></canvas></div>
-        <div class="chart-card"><canvas id="gradeChart"></canvas></div>
-    </div>
-    <div class="dese-chart-grid">
-        <div class="chart-card"><canvas id="mcasChart"></canvas></div>
-        <div class="chart-card"><canvas id="gradChart"></canvas></div>
-    </div>
-    <div class="dese-chart-grid">
-        <div class="chart-card"><canvas id="teacherChart"></canvas></div>
-        <div class="chart-card"><canvas id="chart3b"></canvas></div>
-    </div>
-    <div class="dese-chart-grid">
-        <div class="chart-card full"><canvas id="chart6a"></canvas></div>
-    </div>
 
     <h2 class="section-header">Community Demographics Context</h2>
     <div class="chart-grid-2col">
@@ -265,14 +239,8 @@
                 const popResp = await fetch('data/population.json');
                 state.population = await popResp.json();
                 renderStats();
-                createEnrollmentChart();
-                createGradeChart();
                 createDemoChart();
-                createMcasChart();
-                createGradChart();
-                createTeacherChart();
                 createClassSizeChart();
-                createSpendingChart();
                 createFteEnrollChart();
                 createAgeCohortsChart();
                 createDiversityCompareChart();
@@ -295,49 +263,26 @@
             `).join('');
         }
 
-        function createEnrollmentChart() {
-            const d = state.data.enrollment;
-            new Chart(document.getElementById('enrollmentChart'), {
-                type: 'line',
-                data: {
-                    labels: d.map(r => r.year),
-                    datasets: [{ label: 'Total Enrollment', data: d.map(r => r.total), borderColor: '#7b2d6e', backgroundColor: 'rgba(123,45,110,0.1)', borderWidth: 2, pointRadius: 3, fill: true }]
-                },
-                options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false } } }
-            });
-        }
-
-        function createGradeChart() {
-            const latest = state.data.enrollment[state.data.enrollment.length - 1];
-            const g = latest.by_grade;
-            const labels = ['PK','K','1','2','3','4','5','6','7','8','9','10','11','12'];
-            const keys = ['pk','k','g1','g2','g3','g4','g5','g6','g7','g8','g9','g10','g11','g12'];
-            new Chart(document.getElementById('gradeChart'), {
-                type: 'bar',
-                data: { labels: labels, datasets: [{ label: 'Students', data: keys.map(k => g[k] || 0), backgroundColor: 'rgba(123,45,110,0.7)' }] },
-                options: { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: latest.year + ' Data' } }, scales: { y: { beginAtZero: true } } }
-            });
-        }
-
         function createDemoChart() {
-            // Historical line chart of racial composition
-            const d = state.data.enrollment;
-            const raceColors = { white: '#3b82f6', asian: '#d97706', multiracial: '#8b5cf6', hispanic: '#14b8a6', black: '#ef4444' };
-            const raceLabels = { white: 'White', asian: 'Asian', multiracial: 'Multiracial', hispanic: 'Hispanic', black: 'Black' };
-            const raceKeys = ['white', 'asian', 'hispanic', 'multiracial', 'black'];
+            // Stacked area chart of racial composition
+            const d = state.data.enrollment.filter(r => r.race_pct);
+            const raceColors = { white: '#3b82f6', asian: '#d97706', hispanic: '#14b8a6', multiracial: '#8b5cf6', black: '#ef4444' };
+            const raceLabels = { white: 'White', asian: 'Asian', hispanic: 'Hispanic', multiracial: 'Multiracial', black: 'Black' };
+            // Order: stack from bottom (smallest) to top (largest)
+            const raceKeys = ['black', 'multiracial', 'hispanic', 'asian', 'white'];
             new Chart(document.getElementById('demoChart'), {
                 type: 'line',
                 data: {
                     labels: d.map(r => r.year),
                     datasets: raceKeys.map(k => ({
                         label: raceLabels[k],
-                        data: d.map(r => r.race_pct ? r.race_pct[k] : null),
+                        data: d.map(r => r.race_pct[k] || 0),
                         borderColor: raceColors[k],
-                        backgroundColor: raceColors[k],
-                        borderWidth: 2.5,
-                        pointRadius: 2,
+                        backgroundColor: raceColors[k] + '99',
+                        borderWidth: 1,
+                        pointRadius: 0,
                         tension: 0.3,
-                        fill: false,
+                        fill: true,
                         spanGaps: true
                     }))
                 },
@@ -346,73 +291,13 @@
                     plugins: {
                         legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
                         title: { display: true, text: 'Student Racial/Ethnic Composition Over Time', font: { size: 15, weight: 'bold' }, padding: { bottom: 15 } },
-                        tooltip: { mode: 'index', intersect: false, callbacks: { label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y != null ? ctx.parsed.y.toFixed(1) + '%' : 'N/A') } }
+                        tooltip: { mode: 'index', intersect: false, callbacks: { label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y != null ? ctx.parsed.y.toFixed(1) + '%' : 'N/A') } },
+                        filler: { propagate: true }
                     },
+                    interaction: { mode: 'index', intersect: false },
                     scales: {
-                        x: { ticks: { maxRotation: 45, autoSkip: true } },
-                        y: { ticks: { callback: v => v + '%' }, title: { display: true, text: '% of Student Body' } }
-                    }
-                }
-            });
-        }
-
-        function createMcasChart() {
-            const d = state.data.mcas;
-            const ela = d.filter(r => r.subject === 'ELA').sort((a,b) => a.year - b.year);
-            const math = d.filter(r => r.subject === 'MTH').sort((a,b) => a.year - b.year);
-            const allYears = [...new Set([...ela.map(r=>r.year), ...math.map(r=>r.year)])].sort();
-            new Chart(document.getElementById('mcasChart'), {
-                type: 'line',
-                data: {
-                    labels: allYears,
-                    datasets: [
-                        { label: 'ELA', data: allYears.map(y => { const r = ela.find(e => e.year === y); return r ? r.proficient_advanced_pct : null; }), borderColor: '#3b82f6', borderWidth: 2, pointRadius: 3, spanGaps: true },
-                        { label: 'Math', data: allYears.map(y => { const r = math.find(e => e.year === y); return r ? r.proficient_advanced_pct : null; }), borderColor: '#d97706', borderWidth: 2, pointRadius: 3, spanGaps: true },
-                    ]
-                },
-                options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { min: 0, max: 100, ticks: { callback: v => v + '%' } } } }
-            });
-        }
-
-        function createGradChart() {
-            const grad = state.data.graduation;
-            const drop = state.data.dropout;
-            const allYears = [...new Set([...grad.map(r=>r.year), ...drop.map(r=>r.year)])].sort();
-            new Chart(document.getElementById('gradChart'), {
-                type: 'line',
-                data: {
-                    labels: allYears,
-                    datasets: [
-                        { label: 'Graduation Rate', data: allYears.map(y => { const r = grad.find(e => e.year === y); return r ? r.graduation_rate_4yr : null; }), borderColor: '#14b8a6', borderWidth: 2, pointRadius: 3, yAxisID: 'y', spanGaps: true },
-                        { label: 'Dropout Rate', data: allYears.map(y => { const r = drop.find(e => e.year === y); return r ? r.dropout_rate : null; }), borderColor: '#ef4444', borderWidth: 2, pointRadius: 3, yAxisID: 'y1', spanGaps: true },
-                    ]
-                },
-                options: {
-                    responsive: true, plugins: { legend: { position: 'top' } },
-                    scales: {
-                        y: { title: { display: true, text: 'Graduation %' }, min: 85, max: 100, ticks: { callback: v => v + '%' } },
-                        y1: { type: 'linear', display: true, position: 'right', title: { display: true, text: 'Dropout %' }, min: 0, max: 5, grid: { drawOnChartArea: false }, ticks: { callback: v => v + '%' } }
-                    }
-                }
-            });
-        }
-
-        function createTeacherChart() {
-            const t = state.data.teachers;
-            new Chart(document.getElementById('teacherChart'), {
-                type: 'line',
-                data: {
-                    labels: t.map(r => r.year),
-                    datasets: [
-                        { label: 'Teacher FTE', data: t.map(r => r.teacher_fte), borderColor: '#7b2d6e', borderWidth: 2, pointRadius: 3, yAxisID: 'y' },
-                        { label: 'Student-Teacher Ratio', data: t.map(r => r.student_teacher_ratio), borderColor: '#d97706', borderWidth: 2, pointRadius: 3, yAxisID: 'y1' },
-                    ]
-                },
-                options: {
-                    responsive: true, plugins: { legend: { position: 'top' } },
-                    scales: {
-                        y: { title: { display: true, text: 'Teachers (FTE)' } },
-                        y1: { type: 'linear', display: true, position: 'right', title: { display: true, text: 'Ratio' }, grid: { drawOnChartArea: false } }
+                        x: { stacked: true, ticks: { maxRotation: 45, autoSkip: true } },
+                        y: { stacked: true, max: 100, ticks: { callback: v => v + '%' }, title: { display: true, text: '% of Student Body' } }
                     }
                 }
             });
@@ -427,26 +312,6 @@
                     datasets: [{ label: 'Avg Class Size', data: c.map(r => r.avg_class_size), borderColor: '#14b8a6', backgroundColor: 'rgba(20,184,166,0.1)', borderWidth: 2, pointRadius: 3, fill: true }]
                 },
                 options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false, title: { display: true, text: 'Students per Class' } } } }
-            });
-        }
-
-        function createSpendingChart() {
-            const nss = state.data.nss;
-            if (!nss.length) return;
-            new Chart(document.getElementById('spendingChart'), {
-                type: 'line',
-                data: {
-                    labels: nss.map(r => 'FY' + r.year),
-                    datasets: [
-                        { label: 'Actual Net School Spending', data: nss.map(r => r.actual_nss), borderColor: '#7b2d6e', backgroundColor: 'rgba(123,45,110,0.1)', borderWidth: 2, pointRadius: 3, fill: true },
-                        { label: 'Required NSS', data: nss.map(r => r.required_nss), borderColor: '#ef4444', borderWidth: 2, pointRadius: 3, borderDash: [5,5] },
-                        { label: 'Foundation Budget', data: nss.map(r => r.foundation_budget), borderColor: '#6b7280', borderWidth: 2, pointRadius: 3, borderDash: [3,3] },
-                    ]
-                },
-                options: {
-                    responsive: true, plugins: { legend: { position: 'top' } },
-                    scales: { y: { ticks: { callback: v => '$' + (v/1e6).toFixed(0) + 'M' } } }
-                }
             });
         }
 
@@ -477,8 +342,8 @@
                         tooltip: { mode: 'index', intersect: false }
                     },
                     scales: {
-                        y: { position: 'left', title: { display: true, text: 'Teacher FTE' }, ticks: { color: '#e63946' } },
-                        y1: { position: 'right', title: { display: true, text: 'Enrollment' }, grid: { drawOnChartArea: false }, ticks: { color: '#457b9d' } }
+                        y: { position: 'left', title: { display: true, text: 'Teacher FTE', color: '#e63946' }, ticks: { color: '#e63946' } },
+                        y1: { position: 'right', title: { display: true, text: 'Enrollment', color: '#457b9d' }, grid: { drawOnChartArea: false }, ticks: { color: '#457b9d' } }
                     }
                 }
             });
@@ -570,7 +435,14 @@
         return ds.hidden !== true;
     };
 
-    new Chart(document.getElementById('chart1a'), {
+    // Safe chart creation — skip if canvas doesn't exist
+    var safeChart = function(id, config) {
+        var el = document.getElementById(id);
+        if (!el) return null;
+        return new Chart(el, config);
+    };
+
+    safeChart('chart1a', {
         type: 'line',
         data: {
             labels: ["1996-97", "1997-98", "1998-99", "1999-00", "2000-01", "2001-02", "2002-03", "2003-04", "2004-05", "2005-06", "2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24"],
@@ -612,7 +484,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart1b'), {
+    safeChart('chart1b'), {
         type: 'bar',
         data: {
             labels: ["1996-97", "1997-98", "1998-99", "1999-00", "2000-01", "2001-02", "2002-03", "2003-04", "2004-05", "2005-06", "2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24"],
@@ -654,7 +526,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart1c'), {
+    safeChart('chart1c'), {
         type: 'line',
         data: {
             labels: ["1996-97", "1997-98", "1998-99", "1999-00", "2000-01", "2001-02", "2002-03", "2003-04", "2004-05", "2005-06", "2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24"],
@@ -689,7 +561,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart2a'), {
+    safeChart('chart2a'), {
         type: 'line',
         data: {
             labels: ["2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
@@ -731,7 +603,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart2b'), {
+    safeChart('chart2b'), {
         type: 'line',
         data: {
             labels: ["2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024"],
@@ -773,7 +645,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart2c'), {
+    safeChart('chart2c'), {
         type: 'line',
         data: {
             labels: ["2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
@@ -815,7 +687,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart3a'), {
+    safeChart('chart3a'), {
         type: 'line',
         data: {
             labels: ["2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26"],
@@ -850,7 +722,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart3b'), {
+    safeChart('chart3b'), {
         type: 'line',
         data: {
             labels: ["2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"],
@@ -892,7 +764,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart3c'), {
+    safeChart('chart3c'), {
         type: 'line',
         data: {
             labels: ["2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25"],
@@ -934,7 +806,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart4a'), {
+    safeChart('chart4a'), {
         type: 'line',
         data: {
             labels: ["2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25"],
@@ -969,7 +841,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart4b'), {
+    safeChart('chart4b'), {
         type: 'bar',
         data: {
             labels: ["2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
@@ -1004,7 +876,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart4c'), {
+    safeChart('chart4c'), {
         type: 'line',
         data: {
             labels: ["2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
@@ -1046,7 +918,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart5a'), {
+    safeChart('chart5a'), {
         type: 'line',
         data: {
             labels: ["1994-95", "1995-96", "1996-97", "1997-98", "1998-99", "1999-00", "2000-01", "2001-02", "2002-03", "2003-04", "2004-05", "2005-06", "2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25"],
@@ -1088,7 +960,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart5b'), {
+    safeChart('chart5b'), {
         type: 'line',
         data: {
             labels: ["1994-95", "1995-96", "1996-97", "1997-98", "1998-99", "1999-00", "2000-01", "2001-02", "2002-03", "2003-04", "2004-05", "2005-06", "2006-07", "2007-08", "2008-09", "2009-10", "2010-11", "2011-12", "2012-13", "2013-14", "2014-15", "2015-16", "2016-17", "2017-18", "2018-19", "2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25"],
@@ -1130,7 +1002,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart6a'), {
+    safeChart('chart6a'), {
         type: 'line',
         data: {
             labels: ["2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
@@ -1172,7 +1044,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart6b'), {
+    safeChart('chart6b'), {
         type: 'line',
         data: {
             labels: ["2012", "2013", "2014", "2015", "2016", "2017", "2019", "2020", "2021", "2022", "2023", "2024"],
@@ -1214,7 +1086,7 @@
         }
     });
 
-    new Chart(document.getElementById('chart6c'), {
+    safeChart('chart6c'), {
         type: 'line',
         data: {
             labels: ["2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2019", "2020", "2021", "2022", "2023", "2024"],

@@ -34,14 +34,6 @@
             <div class="stat-label">DPW Yard Overrun ($20M&rarr;$47M)</div>
         </div>
         <div class="stat-card">
-            <div class="stat-value">12.7%</div>
-            <div class="stat-label">FY2026 Insurance Increase (vs 5.25% assumed)</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value">$3.38M</div>
-            <div class="stat-label">Insurance Deviation (single-year deficit impact)</div>
-        </div>
-        <div class="stat-card">
             <div class="stat-value">105+ yrs</div>
             <div class="stat-label">Ottoson Middle School Age (built 1921)</div>
         </div>
@@ -87,20 +79,6 @@
         </div>
         <div class="insight-box">
             The Capital Planning Committee acknowledged this pattern repeatedly: cost estimates are "reasonably accurate except in the case of major reconstruction of buildings, for which original cost estimates were significantly below actual cost."
-        </div>
-
-        <!-- Health Insurance: Actual vs Assumption (full width) -->
-        <h2 class="section-header">Budget Assumptions vs Reality</h2>
-
-        <div class="chart-grid">
-            <div class="chart-card full">
-                <h3>Health Insurance: When Assumptions Meet Reality</h3>
-                <canvas id="insuranceChart"></canvas>
-                <div class="source-note">Source: Arlington Town Manager Financial Plans FY2007–FY2027</div>
-            </div>
-        </div>
-        <div class="insight-box">
-            The town's long-range plans assume 5.25% annual health insurance growth. FY2026 actual growth was 12.7% — more than double the assumption. This single variance added $3.38M to the deficit.
         </div>
 
         <!-- Ottoson Middle School: The Next Capital Crisis -->
@@ -349,81 +327,6 @@ function buildCharts(forecasts, drivers) {
         });
     }
 
-    /* --- 5. Health Insurance: Actual vs Assumption --- */
-    var hiData = drivers.health_insurance;
-    var assumedRate = forecasts.insurance_assumption.assumed_annual_rate_pct / 100;
-
-    // Find FY2015 actual as the assumption baseline
-    var baseFY = 2015;
-    var baseAmount = null;
-    hiData.forEach(function(d) {
-        if (d.fy === baseFY) baseAmount = d.amount;
-    });
-
-    var hiLabels = hiData.map(function(d) { return 'FY' + d.fy; });
-    var hiActual = hiData.map(function(d) { return d.amount; });
-    var hiAssumed = hiData.map(function(d) {
-        if (baseAmount === null) return null;
-        var yearsFromBase = d.fy - baseFY;
-        if (yearsFromBase < 0) return null;
-        return Math.round(baseAmount * Math.pow(1 + assumedRate, yearsFromBase));
-    });
-
-    new Chart(document.getElementById('insuranceChart'), {
-        type: 'line',
-        data: {
-            labels: hiLabels,
-            datasets: [
-                {
-                    label: 'Actual Cost',
-                    data: hiActual,
-                    borderColor: '#dc2626',
-                    backgroundColor: 'rgba(220, 38, 38, 0.08)',
-                    fill: true,
-                    tension: 0.3,
-                    pointRadius: 5,
-                    pointBackgroundColor: '#dc2626',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
-                    borderWidth: 3
-                },
-                {
-                    label: '5.25%/yr Assumption (from FY2015)',
-                    data: hiAssumed,
-                    borderColor: '#9ca3af',
-                    borderDash: [8, 4],
-                    backgroundColor: 'transparent',
-                    fill: false,
-                    tension: 0.3,
-                    pointRadius: 3,
-                    pointBackgroundColor: '#9ca3af',
-                    borderWidth: 2
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                    labels: { usePointStyle: true, padding: 20 }
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(ctx) {
-                            return ctx.dataset.label + ': ' + fmtDollar(ctx.parsed.y);
-                        }
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: false,
-                    ticks: { callback: fmtDollarAxis }
-                }
-            }
-        }
-    });
 }
 </script>
 </body>

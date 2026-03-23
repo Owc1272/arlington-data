@@ -47,6 +47,17 @@
             </div>
         </div>
 
+        <!-- Chart 2b: School Budget Components -->
+        <h2 class="section-header">Inside the Schools Budget</h2>
+        <div class="chart-grid">
+            <div class="chart-card">
+                <h3>School Budget Components (FY20&ndash;FY26)</h3>
+                <canvas id="schoolComponentChart"></canvas>
+                <div class="insight-box">Teacher salaries are the largest component at $57.7M (FY25), growing 40% since FY20. Paraprofessional salaries nearly doubled (+95%) driven by special education caseloads. Special education overall ($27.6M) grows 8&ndash;12% annually &mdash; the fastest category &mdash; and is legally mandated regardless of budget constraints.</div>
+                <div class="source-note">Source: Arlington School Committee Budget Documents FY20&ndash;FY27</div>
+            </div>
+        </div>
+
         <!-- Chart 3: Health Insurance by Employee Group -->
         <h2 class="section-header">Health Insurance: The Volatility Problem</h2>
         <div class="chart-grid">
@@ -220,6 +231,46 @@
             }]
         });
 
+        /* ===== Chart 2b: School Budget Components ===== */
+        var schoolComp = [
+            { fy: 'FY20', teachers: 41273, paras: 3982, admin: 5165, sped_ood: 8294, other: 12713 },
+            { fy: 'FY22', teachers: 47990, paras: 5235, admin: 6606, sped_ood: 4454, other: 15819 },
+            { fy: 'FY25', teachers: 57723, paras: 7783, admin: 7742, sped_ood: 5594, other: 17679 },
+            { fy: 'FY26', teachers: 61500, paras: 8500, admin: 8200, sped_ood: 6200, other: 19230 }
+        ];
+        new Chart(document.getElementById('schoolComponentChart'), {
+            type: 'bar',
+            data: {
+                labels: schoolComp.map(function(d) { return d.fy; }),
+                datasets: [
+                    { label: 'Teacher Salaries', data: schoolComp.map(function(d) { return d.teachers * 1000; }), backgroundColor: '#e63946', stack: 'school' },
+                    { label: 'Admin & Clerical', data: schoolComp.map(function(d) { return d.admin * 1000; }), backgroundColor: '#457b9d', stack: 'school' },
+                    { label: 'Paraprofessionals', data: schoolComp.map(function(d) { return d.paras * 1000; }), backgroundColor: '#d97706', stack: 'school' },
+                    { label: 'SpEd Out-of-District', data: schoolComp.map(function(d) { return d.sped_ood * 1000; }), backgroundColor: '#7c3aed', stack: 'school' },
+                    { label: 'Other Operations', data: schoolComp.map(function(d) { return d.other * 1000; }), backgroundColor: '#6c757d', stack: 'school' }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 12 } },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) { return ctx.dataset.label + ': ' + fmtDollar(ctx.raw); },
+                            footer: function(items) {
+                                var total = items.reduce(function(s, i) { return s + i.parsed.y; }, 0);
+                                return 'Total: ' + fmtDollar(total);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: { stacked: true, ticks: { callback: fmtDollarAxis }, title: { display: true, text: 'School Budget ($)' } }
+                }
+            }
+        });
+
         /* ===== Chart 3: Health Insurance by Employee Group (stacked area) ===== */
         var hi = drivers.health_insurance;
         var groups = drivers.insurance_by_group;
@@ -361,8 +412,8 @@
                     }
                 },
                 scales: {
-                    y: { position: 'left', ticks: { callback: fmtDollarAxis }, title: { display: true, text: 'Dollars' } },
-                    y1: { position: 'right', min: 0, max: 25, grid: { drawOnChartArea: false }, ticks: { callback: function(v) { return v + '%'; } }, title: { display: true, text: 'Funded %' } }
+                    y: { position: 'left', ticks: { callback: fmtDollarAxis, color: '#14b8a6' }, title: { display: true, text: 'Dollars', color: '#14b8a6' } },
+                    y1: { position: 'right', min: 0, max: 25, grid: { drawOnChartArea: false }, ticks: { callback: function(v) { return v + '%'; }, color: '#059669' }, title: { display: true, text: 'Funded %', color: '#059669' } }
                 }
             }
         });

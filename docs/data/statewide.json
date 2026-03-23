@@ -3,9 +3,9 @@
   "source": "Override Drivers Report, MA DESE, MSBA, PERAC, GIC Annual Reports",
 
   "msba_reimbursement": [
-    {"era": "Pre-Reform (before 2004)", "rate": 63, "note": "School Building Assistance program"},
-    {"era": "Reform Era (2004-2015)", "rate": 50, "note": "MSBA restructured; state selects projects"},
-    {"era": "Wealthy Suburbs (current)", "rate": 29, "note": "Arlington's effective rate for AHS rebuild"}
+    {"era": "Pre-Reform (before 2004)", "rate": 63, "years": "Pre-2004", "note": "School Building Assistance program — state reimbursed ~63% of costs"},
+    {"era": "Reform Era (2004–2015)", "rate": 50, "years": "2004–2015", "note": "MSBA restructured; 50% is statewide avg across all approved projects"},
+    {"era": "Wealthy Suburbs (current)", "rate": 29, "years": "2019–present", "note": "Arlington's effective rate for AHS rebuild — wealth-adjusted"}
   ],
 
   "state_aid_history": [

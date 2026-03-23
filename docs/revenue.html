@@ -47,62 +47,7 @@
             </div>
         </div>
 
-        <!-- Peer Comparisons Section -->
-        <h2 class="section-header">Peer Comparisons: Why Arlington's Revenue Lags</h2>
-
-        <!-- Charts 4 + 5: New Growth + Commercial Base -->
-        <div class="chart-grid-2col">
-            <div class="chart-card">
-                <h3>New Growth Rate &mdash; 5-Year Average</h3>
-                <canvas id="newGrowthChart"></canvas>
-                <div class="insight-box">Arlington's new growth rate (0.80%) is last among all 13 peer communities. The peer average is 1.89%. This alone costs Arlington ~$1.8M/year in forgone revenue.</div>
-                <div class="source-note">Source: MA DOR Municipal Data</div>
-            </div>
-            <div class="chart-card">
-                <h3>Commercial/Industrial Share of Tax Base</h3>
-                <canvas id="commercialBaseChart"></canvas>
-                <div class="insight-box">Arlington's commercial base (5.34%) is one of the smallest among peers. Brookline (27.5%) and Watertown (23%) benefit from commercial corridors that Arlington lacks. Residential taxpayers bear 95% of the burden.</div>
-                <div class="source-note">Source: MA DOR Municipal Data</div>
-            </div>
-        </div>
-
-        <!-- Charts 6 + 7: State Aid + Revenue Growth Factor -->
-        <div class="chart-grid-2col">
-            <div class="chart-card">
-                <h3>State Aid to Arlington</h3>
-                <canvas id="stateAidChart"></canvas>
-                <div class="insight-box">Arlington's share of total state aid fell ~34% from 1989 to 2025. Chapter 70 school aid grew just 0.97% in FY2025 &mdash; less than half the rate of school cost growth.</div>
-                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
-            </div>
-            <div class="chart-card">
-                <h3>Municipal Revenue Growth Factor</h3>
-                <canvas id="revenueGrowthFactorChart"></canvas>
-                <div class="insight-box">The revenue growth factor (levy limit growth + new growth) determines how fast a town's revenue can grow. Arlington's 3.24 is 12th of 13 peers (avg: 4.50).</div>
-                <div class="source-note">Source: MA DOR Municipal Data</div>
-            </div>
-        </div>
-        <!-- Property Tax Base Section -->
-        <h2 class="section-header">Property Tax Base: Why 95% Falls on Homeowners</h2>
-
-        <div class="chart-grid-2col">
-            <div class="chart-card">
-                <h3>Tax Levy: Residential vs Commercial</h3>
-                <canvas id="propertyTaxSplitChart"></canvas>
-                <div class="source-note">Source: Arlington Assessor / MA DOR</div>
-            </div>
-            <div class="chart-card">
-                <h3>Assessed Value: Who Pays?</h3>
-                <canvas id="propertyValueChart"></canvas>
-                <div class="source-note">Source: Arlington GIS Assessment Data (18,835 parcels)</div>
-            </div>
-        </div>
-        <div class="insight-box">
-            <strong>Why so little commercial?</strong> Arlington is 5.5 square miles, nearly fully built out, with no Route 128 corridor and no large commercial district comparable to Brookline&rsquo;s Coolidge Corner or Watertown&rsquo;s Arsenal complex. The 17,599 residential parcels generate 95% of property tax revenue, leaving homeowners bearing virtually the entire burden.
-            <br><br>
-            <a href="gis.html" style="color: var(--primary-blue);">See detailed property maps &amp; assessment data &rarr;</a>
-        </div>
-
-        <!-- Historical Real Estate Tax Section -->
+        <!-- Historical Real Estate Tax Section (moved above Peer Comparisons) -->
         <h2 class="section-header">The Tax Rate Illusion: Rates Fall, Bills Rise</h2>
 
         <div class="chart-grid">
@@ -125,8 +70,62 @@
             <div class="chart-card">
                 <h3>Average Single-Family Tax Bill</h3>
                 <canvas id="totalLevyChart"></canvas>
-                <div class="source-note">Source: Arlington Tax Classification Hearing Presentations</div>
+                <div class="source-note"><span style="color:#e63946;">&#9632;</span> Override years &nbsp; <span style="color:#3b82f6;">&#9632;</span> Non-override years &nbsp; | &nbsp; Source: Arlington Tax Classification Hearing Presentations</div>
             </div>
+        </div>
+
+        <!-- Peer Comparisons Section -->
+        <h2 class="section-header">Peer Comparisons: Why Arlington's Revenue Lags</h2>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>New Growth Rate &mdash; 5-Year Average</h3>
+                <canvas id="newGrowthChart"></canvas>
+                <div class="insight-box">Arlington's new growth rate (0.80%) is last among all 13 peer communities. The peer average is 1.89%. This alone costs Arlington ~$1.8M/year in forgone revenue.</div>
+                <div class="source-note">Source: MA DOR Municipal Data</div>
+            </div>
+            <div class="chart-card">
+                <h3>Commercial/Industrial Share of Tax Base</h3>
+                <canvas id="commercialBaseChart"></canvas>
+                <div class="insight-box">Arlington's commercial base (5.34%) is one of the smallest among peers. Brookline (27.5%) and Watertown (23%) benefit from commercial corridors that Arlington lacks. Residential taxpayers bear 95% of the burden.</div>
+                <div class="source-note">Source: MA DOR Municipal Data</div>
+            </div>
+        </div>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>State Aid to Arlington</h3>
+                <canvas id="stateAidChart"></canvas>
+                <div class="insight-box">Arlington's share of total state aid fell ~34% from 1989 to 2025. Chapter 70 school aid grew just 0.97% in FY2025 &mdash; less than half the rate of school cost growth.</div>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans</div>
+            </div>
+            <div class="chart-card">
+                <h3>Municipal Revenue Growth Factor</h3>
+                <canvas id="revenueGrowthFactorChart"></canvas>
+                <div class="insight-box">The revenue growth factor (levy limit growth + new growth) determines how fast a town's revenue can grow. Arlington's 3.24 is 12th of 13 peers (avg: 4.50).</div>
+                <div class="source-note">Source: MA DOR Municipal Data</div>
+            </div>
+        </div>
+
+        <!-- Property Tax Base Section -->
+        <h2 class="section-header">Property Tax Base: Why 95% Falls on Homeowners</h2>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Tax Levy: Residential vs Commercial</h3>
+                <canvas id="propertyTaxSplitChart"></canvas>
+                <div class="source-note">Source: Arlington Assessor / MA DOR</div>
+            </div>
+            <div class="chart-card">
+                <h3>Assessed Value: Who Pays?</h3>
+                <canvas id="propertyValueChart"></canvas>
+                <div class="source-note">Source: Arlington GIS Assessment Data (18,835 parcels)</div>
+            </div>
+        </div>
+        <div class="insight-box">
+            <strong>Why so little commercial?</strong> Arlington is 5.5 square miles, nearly fully built out, with no Route 128 corridor and no large commercial district comparable to Brookline&rsquo;s Coolidge Corner or Watertown&rsquo;s Arsenal complex. The 17,599 residential parcels generate 95% of property tax revenue, leaving homeowners bearing virtually the entire burden.
+            <br><br>
+            <a href="gis.html" style="color: var(--primary-blue);">See detailed property maps &amp; assessment data &rarr;</a>
         </div>
     </div>
 
@@ -209,9 +208,9 @@
         const sourceColors = {
             property_tax: '#1e3a5f',
             state_aid: '#e63946',
-            local_receipts: '#14b8a6',
+            local_receipts: '#2a9d8f',
             free_cash: '#d97706',
-            other_funds: '#8b5cf6'
+            other_funds: '#7c3aed'
         };
         const sourceLabels = {
             property_tax: 'Property Tax',
@@ -229,11 +228,12 @@
                 datasets: sourceKeys.map(key => ({
                     label: sourceLabels[key],
                     data: years.map(y => y.revenue[key] || 0),
-                    borderColor: sourceColors[key],
-                    backgroundColor: sourceColors[key] + '80',
+                    borderColor: 'transparent',
+                    backgroundColor: sourceColors[key] + 'cc',
                     fill: true,
                     tension: 0.3,
-                    pointRadius: 0
+                    pointRadius: 0,
+                    borderWidth: 0
                 }))
             },
             options: {

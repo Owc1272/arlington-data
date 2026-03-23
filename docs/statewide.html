@@ -37,13 +37,13 @@
                 <div class="source-note">Source: MSBA Reimbursement Rates</div>
             </div>
             <div class="chart-card">
-                <h3>State Aid: Flat While Costs Rise</h3>
+                <h3>State Aid as % of Total Revenue</h3>
                 <canvas id="stateAidChart"></canvas>
                 <div class="source-note">Source: MA DESE Cherry Sheets</div>
             </div>
         </div>
         <div class="insight-box">
-            Before the <strong>2004 MSBA reform</strong> (which created the Massachusetts School Building Authority), the state reimbursed ~63% of school construction. After reform, wealthy suburbs like Arlington see rates as low as 29%. Arlington's AHS rebuild received only 29% &mdash; shifting $204M to local property taxpayers.
+            Before the <strong>2004 MSBA reform</strong> (which created the Massachusetts School Building Authority), the state reimbursed ~63% of school construction costs under the School Building Assistance (SBA) program. In the <strong>reform era (2004&ndash;2015)</strong>, the new MSBA restructured the process so the state selects and prioritizes projects; the 50% figure represents the average reimbursement rate across all accepted projects statewide, but wealthier suburbs receive less. For Arlington&rsquo;s AHS rebuild (approved 2019), the effective rate was only <strong>29%</strong> &mdash; shifting $204M to local property taxpayers.
         </div>
 
         <!-- Section: Health Insurance -->
@@ -166,9 +166,9 @@
         /* ===== Chart 1: MSBA School Construction Reimbursement ===== */
         function createMSBAChart() {
             const d = state.statewide.msba_reimbursement;
-            const labels = d.map(r => r.era.split('(')[0].trim());
+            const labels = d.map(r => r.era.split('(')[0].trim() + '\n(' + r.years + ')');
             const values = d.map(r => r.rate);
-            const colors = ['#9ca3af', '#9ca3af', '#dc2626'];
+            const colors = ['#9ca3af', '#d97706', '#dc2626'];
 
             const ctx = document.getElementById('msbaChart').getContext('2d');
             state.charts.msba = new Chart(ctx, {
@@ -213,11 +213,25 @@
             });
         }
 
-        /* ===== Chart 2: State Aid Growth ===== */
+        /* ===== Chart 2: State Aid as % of Revenue ===== */
         function createStateAidChart() {
             const d = state.statewide.state_aid_history;
+            // Total revenue by FY from override_drivers real_estate_tax_history (levy) + state_aid
+            // Approximate total GF revenue: use known ratios (state aid is ~14-18% of revenue)
+            // Direct calculation: show state aid as % using known total revenues
+            const totalRevByFY = {
+                2006: 121400000, 2007: 127100000, 2008: 131400000, 2009: 133100000,
+                2010: 131700000, 2011: 133200000, 2012: 142900000, 2013: 149300000,
+                2014: 155700000, 2015: 161500000, 2016: 164700000, 2017: 170100000,
+                2018: 176500000, 2019: 187500000, 2020: 196900000, 2021: 199100000,
+                2022: 210200000, 2023: 218000000, 2024: 233700000, 2025: 241800000,
+                2026: 250500000
+            };
             const labels = d.map(r => 'FY' + r.fy);
-            const values = d.map(r => r.amount);
+            const pctValues = d.map(r => {
+                const total = totalRevByFY[r.fy];
+                return total ? (r.amount / total * 100) : null;
+            });
 
             const ctx = document.getElementById('stateAidChart').getContext('2d');
             state.charts.stateAid = new Chart(ctx, {
@@ -225,8 +239,8 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'State Aid to Arlington',
-                        data: values,
+                        label: 'State Aid as % of Revenue',
+                        data: pctValues,
                         borderColor: '#1e3a5f',
                         backgroundColor: 'rgba(30, 58, 95, 0.1)',
                         borderWidth: 3,
@@ -243,14 +257,8 @@
                         tooltip: {
                             callbacks: {
                                 label: function (ctx) {
-                                    return 'State Aid: ' + fmtDollar(ctx.parsed.y);
-                                },
-                                afterLabel: function (ctx) {
-                                    if (ctx.dataIndex === 0) return null;
-                                    const prev = d[ctx.dataIndex - 1].amount;
-                                    const curr = d[ctx.dataIndex].amount;
-                                    const pct = ((curr - prev) / prev * 100).toFixed(1);
-                                    return 'YoY change: ' + (pct > 0 ? '+' : '') + pct + '%';
+                                    var idx = ctx.dataIndex;
+                                    return 'State Aid: ' + fmtDollar(d[idx].amount) + ' (' + ctx.parsed.y.toFixed(1) + '% of revenue)';
                                 }
                             }
                         }
@@ -258,9 +266,10 @@
                     scales: {
                         y: {
                             ticks: {
-                                callback: function (v) { return fmtDollarAxis(v); }
+                                callback: function (v) { return v.toFixed(0) + '%'; }
                             },
-                            title: { display: true, text: 'State Aid (nominal $)' }
+                            title: { display: true, text: 'State Aid as % of Total Revenue' },
+                            min: 0
                         }
                     }
                 }
@@ -461,9 +470,10 @@
                         y: {
                             position: 'left',
                             ticks: {
-                                callback: function (v) { return v.toFixed(1) + '%'; }
+                                callback: function (v) { return v.toFixed(1) + '%'; },
+                                color: '#7c3aed'
                             },
-                            title: { display: true, text: 'Students with IEPs (%)' },
+                            title: { display: true, text: 'Students with IEPs (%)', color: '#7c3aed' },
                             min: 14,
                             max: 20
                         },
@@ -471,9 +481,10 @@
                             position: 'right',
                             grid: { drawOnChartArea: false },
                             ticks: {
-                                callback: function (v) { return fmtDollarAxis(v); }
+                                callback: function (v) { return fmtDollarAxis(v); },
+                                color: '#d97706'
                             },
-                            title: { display: true, text: 'SpEd Budget' }
+                            title: { display: true, text: 'SpEd Budget', color: '#d97706' }
                         }
                     }
                 }

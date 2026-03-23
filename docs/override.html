@@ -53,7 +53,7 @@
 
         <div class="chart-grid">
             <div class="chart-card" style="max-width: 600px;">
-                <h3>Override Cycle Length (Years)</h3>
+                <h3>Override Amount Requested ($M)</h3>
                 <canvas id="cycleChart"></canvas>
                 <div class="source-note">Source: Arlington Override History</div>
             </div>
@@ -84,19 +84,6 @@
             </ul>
         </div>
 
-        <!-- Section: What's Next -->
-        <h2 class="section-header">What's Next</h2>
-
-        <div class="chart-grid">
-            <div class="chart-card full">
-                <h3>Long-Range Financial Projection (FY2025–FY2028)</h3>
-                <canvas id="projectionChart"></canvas>
-                <div class="source-note">Source: Arlington Town Manager FY2025 Long-Range Financial Plan</div>
-            </div>
-        </div>
-        <div class="insight-box">
-            Without a new override, FY2028 projects a $12.9M deficit — the fund will be exhausted.
-        </div>
 
     </div>
 
@@ -136,7 +123,6 @@
                 createCycleChart();
                 createTaxBurdenChart();
                 createSpendingCapitaChart();
-                createProjectionChart();
             } catch (e) {
                 console.error('Error loading data:', e);
             }
@@ -282,24 +268,34 @@
             });
         }
 
-        /* ===== Chart 2: Override Cycle Acceleration (proportional time axis) ===== */
+        /* ===== Chart 2: Override Amounts (proportional time axis) ===== */
         function createCycleChart() {
-            const overrides = state.data.overrides.filter(o => o.cycle_years != null);
-            const colors = ['#fca5a5', '#f87171', '#dc2626', '#991b1b'];
+            const overrides = state.data.overrides.filter(o => o.amount != null);
+            // Add the 2003 failed override
+            const allOverrides = [
+                { year: 2003, amount: 4000000, passed: false },
+                ...overrides.map(o => ({ year: o.year, amount: o.amount, passed: true }))
+            ];
 
-            // Build proportional time axis from first to last override year
-            const minYr = Math.min(...overrides.map(o => o.year));
-            const maxYr = Math.max(...overrides.map(o => o.year));
+            // Build proportional time axis
+            const minYr = 2003;
+            const maxYr = Math.max(...allOverrides.map(o => o.year));
             const allYears = [];
             for (let yr = minYr; yr <= maxYr; yr++) allYears.push(yr.toString());
 
             const sparseValues = allYears.map(yr => {
-                const o = overrides.find(x => x.year.toString() === yr);
-                return o ? o.cycle_years : null;
+                const o = allOverrides.find(x => x.year.toString() === yr);
+                return o ? o.amount : null;
             });
             const sparseColors = allYears.map(yr => {
-                const idx = overrides.findIndex(x => x.year.toString() === yr);
-                return idx >= 0 ? colors[idx % colors.length] : 'transparent';
+                const o = allOverrides.find(x => x.year.toString() === yr);
+                if (!o) return 'transparent';
+                return o.passed ? 'rgba(185, 28, 28, 0.8)' : 'rgba(107, 114, 128, 0.5)';
+            });
+            const borderColors = allYears.map(yr => {
+                const o = allOverrides.find(x => x.year.toString() === yr);
+                if (!o) return 'transparent';
+                return o.passed ? '#991b1b' : '#6b7280';
             });
 
             const ctx = document.getElementById('cycleChart').getContext('2d');
@@ -308,10 +304,10 @@
                 data: {
                     labels: allYears,
                     datasets: [{
-                        label: 'Years Between Overrides',
+                        label: 'Override Amount',
                         data: sparseValues,
                         backgroundColor: sparseColors,
-                        borderColor: sparseColors,
+                        borderColor: borderColors,
                         borderWidth: 1,
                         borderRadius: 6,
                         barPercentage: 0.9,
@@ -326,7 +322,10 @@
                             filter: function(item) { return item.raw !== null; },
                             callbacks: {
                                 label: function (ctx) {
-                                    return ctx.parsed.y + ' years until next override';
+                                    var o = allOverrides.find(x => x.year.toString() === allYears[ctx.dataIndex]);
+                                    var label = '$' + (ctx.parsed.y / 1e6).toFixed(1) + 'M';
+                                    if (o && !o.passed) label += ' (FAILED)';
+                                    return label;
                                 }
                             }
                         }
@@ -336,15 +335,14 @@
                             ticks: {
                                 callback: function(val, idx) {
                                     var yr = allYears[idx];
-                                    return overrides.find(o => o.year.toString() === yr) ? yr : '';
+                                    return allOverrides.find(o => o.year.toString() === yr) ? yr : '';
                                 }
                             }
                         },
                         y: {
                             beginAtZero: true,
-                            max: 10,
-                            title: { display: true, text: 'Years' },
-                            ticks: { stepSize: 2 }
+                            title: { display: true, text: 'Override Amount ($M)' },
+                            ticks: { callback: function(v) { return '$' + (v / 1e6).toFixed(0) + 'M'; } }
                         }
                     }
                 }
@@ -469,127 +467,6 @@
             });
         }
 
-        /* ===== Chart 8: Long-Range Projection ===== */
-        function createProjectionChart() {
-            const pr = state.data.projection;
-            const labels = pr.map(r => 'FY' + r.fy);
-
-            const ctx = document.getElementById('projectionChart').getContext('2d');
-            state.charts.projection = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            type: 'line',
-                            label: 'Revenue',
-                            data: pr.map(r => r.revenue),
-                            borderColor: '#059669',
-                            backgroundColor: 'rgba(5, 150, 105, 0.05)',
-                            borderWidth: 3,
-                            pointRadius: 5,
-                            pointBackgroundColor: '#059669',
-                            fill: false,
-                            tension: 0.2,
-                            order: 1
-                        },
-                        {
-                            type: 'line',
-                            label: 'Appropriations',
-                            data: pr.map(r => r.appropriations),
-                            borderColor: '#dc2626',
-                            backgroundColor: 'rgba(220, 38, 38, 0.05)',
-                            borderWidth: 3,
-                            pointRadius: 5,
-                            pointBackgroundColor: '#dc2626',
-                            fill: false,
-                            tension: 0.2,
-                            order: 1
-                        },
-                        {
-                            type: 'bar',
-                            label: 'Fund Draw Required',
-                            data: pr.map(r => r.fund_draw),
-                            backgroundColor: pr.map(r => r.balance < 0 ? 'rgba(220, 38, 38, 0.4)' : 'rgba(217, 119, 6, 0.5)'),
-                            borderColor: pr.map(r => r.balance < 0 ? '#dc2626' : '#d97706'),
-                            borderWidth: 1,
-                            borderRadius: 4,
-                            yAxisID: 'y1',
-                            order: 2
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { position: 'top' },
-                        tooltip: {
-                            callbacks: {
-                                label: function (ctx) {
-                                    if (ctx.dataset.yAxisID === 'y1') return 'Fund Draw: ' + fmt(ctx.parsed.y);
-                                    return ctx.dataset.label + ': ' + fmt(ctx.parsed.y);
-                                },
-                                afterBody: function (items) {
-                                    const idx = items[0].dataIndex;
-                                    const b = pr[idx].balance;
-                                    if (b < 0) return ['DEFICIT: ' + fmt(Math.abs(b))];
-                                    return [];
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            position: 'left',
-                            ticks: {
-                                callback: function (v) { return '$' + (v / 1e6).toFixed(0) + 'M'; }
-                            },
-                            title: { display: true, text: 'Revenue / Appropriations' }
-                        },
-                        y1: {
-                            position: 'right',
-                            grid: { drawOnChartArea: false },
-                            ticks: {
-                                callback: function (v) { return '$' + (v / 1e6).toFixed(1) + 'M'; }
-                            },
-                            title: { display: true, text: 'Fund Draw' }
-                        }
-                    }
-                }
-            });
-
-            // Add deficit shading via plugin
-            const deficitPlugin = {
-                id: 'deficitShading',
-                beforeDraw: function (chart) {
-                    const meta0 = chart.getDatasetMeta(0); // revenue
-                    const meta1 = chart.getDatasetMeta(1); // appropriations
-                    if (!meta0.data.length || !meta1.data.length) return;
-
-                    const ctxCanvas = chart.ctx;
-                    ctxCanvas.save();
-                    ctxCanvas.globalAlpha = 0.1;
-                    ctxCanvas.fillStyle = '#dc2626';
-
-                    for (let i = 0; i < meta0.data.length; i++) {
-                        const revY = meta0.data[i].y;
-                        const appY = meta1.data[i].y;
-                        if (appY < revY) { // appropriations line is above revenue (higher $)
-                            const x = meta0.data[i].x;
-                            const prevX = i > 0 ? meta0.data[i - 1].x : x - 20;
-                            const nextX = i < meta0.data.length - 1 ? meta0.data[i + 1].x : x + 20;
-                            const left = (prevX + x) / 2;
-                            const right = (x + nextX) / 2;
-                            ctxCanvas.fillRect(left, appY, right - left, revY - appY);
-                        }
-                    }
-                    ctxCanvas.restore();
-                }
-            };
-            state.charts.projection.config.plugins = [deficitPlugin];
-            state.charts.projection.update();
-        }
     </script>
 </body>
 </html>
