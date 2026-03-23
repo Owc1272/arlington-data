@@ -31,16 +31,11 @@
         <!-- Section: State Funding -->
         <h2 class="section-header">State Funding &amp; Mandates</h2>
 
-        <div class="chart-grid-2col">
+        <div class="chart-grid">
             <div class="chart-card">
                 <h3>State Reimbursement for School Construction</h3>
                 <canvas id="msbaChart"></canvas>
                 <div class="source-note">Source: MSBA Reimbursement Rates</div>
-            </div>
-            <div class="chart-card">
-                <h3>State Aid as % of Total Revenue</h3>
-                <canvas id="stateAidChart"></canvas>
-                <div class="source-note">Source: MA DESE Cherry Sheets</div>
             </div>
         </div>
         <div class="insight-box">
@@ -138,7 +133,6 @@
                 state.drivers = await drResp.json();
                 renderStats();
                 createMSBAChart();
-                createStateAidChart();
                 createGICChart();
                 createPensionChart();
                 createSpEdChart();
@@ -213,70 +207,7 @@
             });
         }
 
-        /* ===== Chart 2: State Aid as % of Revenue ===== */
-        function createStateAidChart() {
-            const d = state.statewide.state_aid_history;
-            // Total revenue by FY from override_drivers real_estate_tax_history (levy) + state_aid
-            // Approximate total GF revenue: use known ratios (state aid is ~14-18% of revenue)
-            // Direct calculation: show state aid as % using known total revenues
-            const totalRevByFY = {
-                2006: 121400000, 2007: 127100000, 2008: 131400000, 2009: 133100000,
-                2010: 131700000, 2011: 133200000, 2012: 142900000, 2013: 149300000,
-                2014: 155700000, 2015: 161500000, 2016: 164700000, 2017: 170100000,
-                2018: 176500000, 2019: 187500000, 2020: 196900000, 2021: 199100000,
-                2022: 210200000, 2023: 218000000, 2024: 233700000, 2025: 241800000,
-                2026: 250500000
-            };
-            const labels = d.map(r => 'FY' + r.fy);
-            const pctValues = d.map(r => {
-                const total = totalRevByFY[r.fy];
-                return total ? (r.amount / total * 100) : null;
-            });
-
-            const ctx = document.getElementById('stateAidChart').getContext('2d');
-            state.charts.stateAid = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'State Aid as % of Revenue',
-                        data: pctValues,
-                        borderColor: '#1e3a5f',
-                        backgroundColor: 'rgba(30, 58, 95, 0.1)',
-                        borderWidth: 3,
-                        pointRadius: 4,
-                        pointBackgroundColor: '#1e3a5f',
-                        fill: true,
-                        tension: 0.2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function (ctx) {
-                                    var idx = ctx.dataIndex;
-                                    return 'State Aid: ' + fmtDollar(d[idx].amount) + ' (' + ctx.parsed.y.toFixed(1) + '% of revenue)';
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            ticks: {
-                                callback: function (v) { return v.toFixed(0) + '%'; }
-                            },
-                            title: { display: true, text: 'State Aid as % of Total Revenue' },
-                            min: 0
-                        }
-                    }
-                }
-            });
-        }
-
-        /* ===== Chart 3: GIC Rate Decisions ===== */
+        /* ===== Chart 2: GIC Rate Decisions ===== */
         function createGICChart() {
             const d = state.statewide.gic_rate_changes;
             const labels = d.map(r => 'FY' + r.fy);
