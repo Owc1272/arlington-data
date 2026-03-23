@@ -48,18 +48,7 @@
             </div>
         </div>
         <div class="insight-box">
-            The fund follows a predictable pattern: override passes &rarr; fund builds &rarr; costs outpace revenue &rarr; fund drains &rarr; new override needed. Each cycle is shorter than the last. In 2003, a $4M override attempt failed by 687 votes &mdash; the only failed override in Arlington&rsquo;s modern history.
-        </div>
-
-        <div class="chart-grid">
-            <div class="chart-card" style="max-width: 600px;">
-                <h3>Override Amount Requested ($M)</h3>
-                <canvas id="cycleChart"></canvas>
-                <div class="source-note">Source: Arlington Override History</div>
-            </div>
-        </div>
-        <div class="insight-box">
-            The interval between overrides has shrunk from 6 years to 3 years as cost growth compounds faster on a larger budget base.
+            The fund follows a predictable pattern: override passes &rarr; fund builds &rarr; costs outpace revenue &rarr; fund drains &rarr; new override needed. Each cycle is shorter than the last &mdash; shrinking from 6 years to 3 years as cost growth compounds faster on a larger budget base. In 2003, a $4M override attempt failed by 687 votes &mdash; the only failed override in Arlington&rsquo;s modern history.
         </div>
 
         <!-- Section: The Tax Squeeze -->
@@ -120,7 +109,6 @@
                 state.data = await resp.json();
                 renderStats();
                 createSawtoothChart();
-                createCycleChart();
                 createTaxBurdenChart();
                 createSpendingCapitaChart();
             } catch (e) {
@@ -268,88 +256,7 @@
             });
         }
 
-        /* ===== Chart 2: Override Amounts (proportional time axis) ===== */
-        function createCycleChart() {
-            const overrides = state.data.overrides.filter(o => o.amount != null);
-            // Add the 2003 failed override
-            const allOverrides = [
-                { year: 2003, amount: 4000000, passed: false },
-                ...overrides.map(o => ({ year: o.year, amount: o.amount, passed: true }))
-            ];
-
-            // Build proportional time axis
-            const minYr = 2003;
-            const maxYr = Math.max(...allOverrides.map(o => o.year));
-            const allYears = [];
-            for (let yr = minYr; yr <= maxYr; yr++) allYears.push(yr.toString());
-
-            const sparseValues = allYears.map(yr => {
-                const o = allOverrides.find(x => x.year.toString() === yr);
-                return o ? o.amount : null;
-            });
-            const sparseColors = allYears.map(yr => {
-                const o = allOverrides.find(x => x.year.toString() === yr);
-                if (!o) return 'transparent';
-                return o.passed ? 'rgba(185, 28, 28, 0.8)' : 'rgba(107, 114, 128, 0.5)';
-            });
-            const borderColors = allYears.map(yr => {
-                const o = allOverrides.find(x => x.year.toString() === yr);
-                if (!o) return 'transparent';
-                return o.passed ? '#991b1b' : '#6b7280';
-            });
-
-            const ctx = document.getElementById('cycleChart').getContext('2d');
-            state.charts.cycle = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: allYears,
-                    datasets: [{
-                        label: 'Override Amount',
-                        data: sparseValues,
-                        backgroundColor: sparseColors,
-                        borderColor: borderColors,
-                        borderWidth: 1,
-                        borderRadius: 6,
-                        barPercentage: 0.9,
-                        categoryPercentage: 0.8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            filter: function(item) { return item.raw !== null; },
-                            callbacks: {
-                                label: function (ctx) {
-                                    var o = allOverrides.find(x => x.year.toString() === allYears[ctx.dataIndex]);
-                                    var label = '$' + (ctx.parsed.y / 1e6).toFixed(1) + 'M';
-                                    if (o && !o.passed) label += ' (FAILED)';
-                                    return label;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            ticks: {
-                                callback: function(val, idx) {
-                                    var yr = allYears[idx];
-                                    return allOverrides.find(o => o.year.toString() === yr) ? yr : '';
-                                }
-                            }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            title: { display: true, text: 'Override Amount ($M)' },
-                            ticks: { callback: function(v) { return '$' + (v / 1e6).toFixed(0) + 'M'; } }
-                        }
-                    }
-                }
-            });
-        }
-
-        /* ===== Chart 3: Tax Burden ===== */
+        /* ===== Chart 2: Tax Burden ===== */
         function createTaxBurdenChart() {
             const tb = state.data.peer_tax_burden;
             const labels = tb.map(r => 'FY' + r.fy);

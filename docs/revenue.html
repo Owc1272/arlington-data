@@ -204,7 +204,9 @@
             }
         });
 
-        /* ===== Chart 2: Revenue Sources (Stacked Area) ===== */
+        /* ===== Chart 2: Revenue Sources (Stacked Area) — taller to match doughnut ===== */
+        document.getElementById('revenueSourcesChart').parentElement.style.minHeight = '400px';
+        document.getElementById('revenueSourcesChart').style.maxHeight = 'none';
         const sourceColors = {
             property_tax: '#1e3a5f',
             state_aid: '#e63946',
@@ -238,6 +240,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: { legend: { position: 'bottom' } },
                 scales: {
                     x: { ticks: { maxRotation: 45 } },
