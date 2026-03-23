@@ -11,9 +11,6 @@
             background: linear-gradient(135deg, #7f1d1d 0%, #b91c1c 100%);
         }
         .stat-value { color: #7f1d1d; }
-        @media (max-width: 768px) {
-            .tax-chart-card { max-width: 280px; }
-        }
         .override-marker {
             border-left: 2px dashed #b91c1c;
             padding-left: 0.5rem;
@@ -149,26 +146,14 @@
             const bridgeIdx = d.findIndex(r => r.fy === 2023);
             if (bridgeIdx !== -1) projectedValues[bridgeIdx] = d[bridgeIdx].balance;
 
-            // Override year markers as vertical line datasets
-            const overrideYears = [2005, 2011, 2019, 2023];
-            const overrideDatasets = overrideYears.map(yr => {
-                // Find the closest FY (override year + 1 is when fund starts)
-                const fyIdx = d.findIndex(r => r.fy === yr + 1 || r.fy === yr);
-                const markerData = d.map(() => null);
-                if (fyIdx !== -1) {
-                    markerData[fyIdx] = Math.max(...values.filter(v => v != null)) * 1.05;
-                    markerData[fyIdx > 0 ? fyIdx : 0] = Math.max(...values.filter(v => v != null)) * 1.05;
-                }
-                return null; // We'll use annotations approach below
+            // Override data: map vote years to FY (vote year → FY = year + 1)
+            const overrideVotes = state.data.override_votes;
+            const overrideByFY = {};
+            overrideVotes.forEach(v => {
+                if (v.passed !== false) overrideByFY[v.year + 1] = v.amount;
             });
-
-            // Build background color bands per cycle
-            const bgColors = d.map(r => {
-                if (r.fy <= 2010) return 'rgba(185, 28, 28, 0.06)';
-                if (r.fy <= 2018) return 'rgba(30, 58, 95, 0.06)';
-                if (r.fy <= 2022) return 'rgba(20, 184, 166, 0.06)';
-                return 'rgba(217, 119, 6, 0.06)';
-            });
+            // Uniform marker height for all overrides
+            const markerHeight = Math.max(...values.filter(v => v > 0)) * 1.15;
 
             const ctx = document.getElementById('sawtoothChart').getContext('2d');
             state.charts.sawtooth = new Chart(ctx, {
@@ -208,18 +193,30 @@
                         },
                         {
                             type: 'bar',
-                            label: 'Override Cycle',
-                            data: d.map(r => {
-                                const peak = Math.max(...values.filter(v => v > 0));
-                                // Only show bars at override years
-                                if ([2006, 2012, 2020, 2024].includes(r.fy)) return peak * 1.15;
-                                return null;
-                            }),
-                            backgroundColor: 'rgba(185, 28, 28, 0.12)',
-                            borderColor: 'rgba(185, 28, 28, 0.3)',
+                            label: 'Override Amount',
+                            data: d.map(r => overrideByFY[r.fy] || null),
+                            backgroundColor: 'rgba(22, 163, 74, 0.7)',
+                            borderColor: '#16a34a',
                             borderWidth: 1,
-                            barPercentage: 0.3,
+                            barPercentage: 0.35,
+                            stack: 'override',
                             order: 3
+                        },
+                        {
+                            type: 'bar',
+                            label: 'Override Year',
+                            data: d.map(r => {
+                                var amt = overrideByFY[r.fy];
+                                if (amt == null && amt !== 0) return null;
+                                // Fill up to uniform marker height
+                                return markerHeight - (amt || 0);
+                            }),
+                            backgroundColor: 'rgba(22, 163, 74, 0.12)',
+                            borderColor: 'rgba(22, 163, 74, 0.3)',
+                            borderWidth: 1,
+                            barPercentage: 0.35,
+                            stack: 'override',
+                            order: 4
                         }
                     ]
                 },
@@ -228,13 +225,19 @@
                     aspectRatio: mobileRatio,
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
-                        legend: { position: 'top' },
+                        legend: {
+                            position: 'top',
+                            labels: { filter: function(item) { return item.text !== 'Override Year'; } }
+                        },
                         tooltip: {
                             callbacks: {
                                 label: function (ctx) {
-                                    if (ctx.dataset.label === 'Override Cycle') {
-                                        const yr = d[ctx.dataIndex].fy - 1;
-                                        return 'Override passed: ' + yr;
+                                    if (ctx.dataset.label === 'Override Year') return null;
+                                    if (ctx.dataset.label === 'Override Amount') {
+                                        var fy = d[ctx.dataIndex].fy;
+                                        var vote = overrideVotes.find(function(v) { return v.year + 1 === fy; });
+                                        var status = vote && vote.passed === null ? ' (Pending)' : '';
+                                        return 'Override: ' + fmt(ctx.parsed.y) + status;
                                     }
                                     return ctx.dataset.label + ': ' + fmt(ctx.parsed.y);
                                 },
