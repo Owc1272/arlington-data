@@ -312,6 +312,22 @@
     </div>
     <div class="insight-box"><strong>Key Insights:</strong><ul><li>Student stability rate was 97.7% in 2025.</li><li>Special education full inclusion rate stood at 51.7% in 2024.</li></ul></div>
 
+    <h2 class="section-header">Community Demographics Context</h2>
+    <div class="chart-grid-2col">
+        <div class="chart-card">
+            <h3>School-Age Population Trends</h3>
+            <canvas id="ageCohortsChart"></canvas>
+            <div class="insight-box">The school-age population (5-17) has been relatively stable, but shifts between age cohorts affect enrollment at different grade levels.</div>
+            <div class="source-note">Source: US Census ACS via Arlington GIS</div>
+        </div>
+        <div class="chart-card">
+            <h3>Community vs Student Racial/Ethnic Diversity</h3>
+            <canvas id="diversityCompareChart"></canvas>
+            <div class="insight-box">The student body is more diverse than the overall town population, reflecting demographic change led by younger families.</div>
+            <div class="source-note">Source: US Census ACS, MA DESE</div>
+        </div>
+    </div>
+
     </div>
 
     <footer>
@@ -340,6 +356,8 @@
             try {
                 const resp = await fetch('data/schools.json');
                 state.data = await resp.json();
+                const popResp = await fetch('data/population.json');
+                state.population = await popResp.json();
                 renderStats();
                 createEnrollmentChart();
                 createGradeChart();
@@ -349,7 +367,9 @@
                 createTeacherChart();
                 createClassSizeChart();
                 createSpendingChart();
-            } catch(e) { console.error('Error loading schools.json:', e); }
+                createAgeCohortsChart();
+                createDiversityCompareChart();
+            } catch(e) { console.error('Error loading data:', e); }
             document.getElementById('loadingSpinner').classList.remove('active');
         });
 
@@ -492,6 +512,82 @@
                 options: {
                     responsive: true, plugins: { legend: { position: 'top' } },
                     scales: { y: { ticks: { callback: v => '$' + (v/1e6).toFixed(0) + 'M' } } }
+                }
+            });
+        }
+
+        function createAgeCohortsChart() {
+            const pop = state.population;
+            if (!pop || !pop.acs_annual) return;
+            const acs = pop.acs_annual;
+            const years = acs.map(r => r.year);
+            const age5to9 = acs.map(r => r.age_distribution['5_to_9']);
+            const age10to14 = acs.map(r => r.age_distribution['10_to_14']);
+            const age15to17 = acs.map(r => r.age_distribution['15_to_17']);
+            new Chart(document.getElementById('ageCohortsChart'), {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [
+                        { label: 'Ages 5-9', data: age5to9, borderColor: '#e63946', backgroundColor: '#e63946', borderWidth: 2, pointRadius: 3, tension: 0.3, fill: false },
+                        { label: 'Ages 10-14', data: age10to14, borderColor: '#457b9d', backgroundColor: '#457b9d', borderWidth: 2, pointRadius: 3, tension: 0.3, fill: false },
+                        { label: 'Ages 15-17', data: age15to17, borderColor: '#2a9d8f', backgroundColor: '#2a9d8f', borderWidth: 2, pointRadius: 3, tension: 0.3, fill: false }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    scales: {
+                        x: { ticks: { maxRotation: 45, autoSkip: true } },
+                        y: { beginAtZero: false, ticks: { callback: v => v.toLocaleString() }, grid: { color: '#eee' } }
+                    }
+                }
+            });
+        }
+
+        function createDiversityCompareChart() {
+            const pop = state.population;
+            if (!pop || !pop.acs_annual) return;
+            const latestAcs = pop.acs_annual[pop.acs_annual.length - 1];
+            const townRace = latestAcs.race;
+            const townTotal = latestAcs.total_population;
+            const townPcts = {
+                white: (townRace.white / townTotal * 100),
+                asian: (townRace.asian / townTotal * 100),
+                hispanic: (townRace.hispanic_latino / townTotal * 100),
+                black: (townRace.black / townTotal * 100),
+                multiracial: (townRace.two_or_more / townTotal * 100)
+            };
+
+            const latestEnroll = state.data.enrollment[state.data.enrollment.length - 1];
+            const studentPcts = latestEnroll.race_pct;
+
+            const labels = ['White', 'Asian', 'Hispanic', 'Black', 'Multiracial'];
+            const townData = [townPcts.white, townPcts.asian, townPcts.hispanic, townPcts.black, townPcts.multiracial];
+            const studentData = [studentPcts.white, studentPcts.asian, studentPcts.hispanic, studentPcts.black, studentPcts.multiracial || 0];
+
+            new Chart(document.getElementById('diversityCompareChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Town Population (' + latestAcs.year + ')', data: townData, backgroundColor: '#457b9d' },
+                        { label: 'Student Body (' + latestEnroll.year + ')', data: studentData, backgroundColor: '#e63946' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15 } },
+                        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '%' } }
+                    },
+                    scales: {
+                        x: { grid: { display: false } },
+                        y: { beginAtZero: true, ticks: { callback: v => v + '%' }, grid: { color: '#eee' } }
+                    }
                 }
             });
         }

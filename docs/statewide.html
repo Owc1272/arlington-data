@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statewide Forces — Arlington Data Explorer</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #4b5563 100%);
+        }
+        .stat-value { color: #1e3a5f; }
+    </style>
+</head>
+<body data-page="statewide">
+    <nav id="main-nav"></nav>
+
+    <div class="hero">
+        <h1>Statewide Forces</h1>
+        <p>Policy decisions and mandates beyond Arlington's control that drive the override cycle</p>
+    </div>
+
+    <div class="loading-spinner" id="loadingSpinner">Loading statewide data...</div>
+
+    <div class="stats-bar" id="statsBar"></div>
+
+    <div class="charts-section">
+
+        <!-- Section: State Funding -->
+        <h2 class="section-header">State Funding &amp; Mandates</h2>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>State Reimbursement for School Construction</h3>
+                <canvas id="msbaChart"></canvas>
+                <div class="source-note">Source: MSBA Reimbursement Rates</div>
+            </div>
+            <div class="chart-card">
+                <h3>State Aid: Flat While Costs Rise</h3>
+                <canvas id="stateAidChart"></canvas>
+                <div class="source-note">Source: MA DESE Cherry Sheets</div>
+            </div>
+        </div>
+        <div class="insight-box">
+            Before MSBA reform, the state reimbursed ~63% of school construction. Arlington's AHS rebuild received only 29% &mdash; shifting $204M to local property taxpayers.
+        </div>
+
+        <!-- Section: Health Insurance -->
+        <h2 class="section-header">Health Insurance</h2>
+
+        <div class="chart-grid">
+            <div class="chart-card full">
+                <h3>GIC Health Insurance Rate Changes</h3>
+                <canvas id="gicChart"></canvas>
+                <div class="source-note">Source: GIC Annual Reports</div>
+            </div>
+        </div>
+        <div class="insight-box">
+            Arlington has no control over GIC rates &mdash; these are set by a state commission. The 12.7% FY2026 spike alone added $3M+ to the budget.
+        </div>
+
+        <!-- Section: Pensions & Special Education -->
+        <h2 class="section-header">Pensions &amp; Special Education</h2>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Pension Full-Funding Deadline: A Moving Target</h3>
+                <canvas id="pensionChart"></canvas>
+                <div class="source-note">Source: PERAC</div>
+            </div>
+            <div class="chart-card">
+                <h3>Special Education: Federal Mandates, Local Costs</h3>
+                <canvas id="spedChart"></canvas>
+                <div class="source-note">Source: MA DESE / Arlington Budget Reports</div>
+            </div>
+        </div>
+        <div class="insight-box">
+            <ul>
+                <li><strong>Pensions:</strong> State law mandates municipalities fully fund pension liabilities by FY2040. Arlington's annual pension cost grows 5.5-6% &mdash; non-negotiable.</li>
+                <li><strong>Special Education:</strong> Federal law (IDEA) requires districts to provide services for every student with an IEP regardless of cost. Arlington's SpEd budget grows 6.5-7% annually &mdash; the fastest-growing category.</li>
+            </ul>
+        </div>
+
+        <!-- Section: The Structural Gap -->
+        <h2 class="section-header">The Structural Gap</h2>
+
+        <div class="chart-grid">
+            <div class="chart-card full">
+                <h3>The Prop 2&frac12; Structural Gap</h3>
+                <canvas id="gapChart"></canvas>
+                <div class="source-note">Source: Arlington Financial Plans / Prop 2&frac12; Model</div>
+            </div>
+        </div>
+        <div class="insight-box">
+            With costs growing 4-6% annually and revenue capped at ~3.3% (2.5% + 0.8% new growth), the gap compounds every year. After 20 years, cumulative excess cost exceeds $70M annually.
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Sources: MSBA, MA DESE, GIC Annual Reports, PERAC, Override Drivers Report</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: March 2026</p>
+    </footer>
+
+    <script src="nav.js"></script>
+    <script>
+        const state = { statewide: null, drivers: null, charts: {} };
+
+        function fmtDollar(v) {
+            if (v >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B';
+            if (v >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
+            if (v >= 1e3) return '$' + (v / 1e3).toFixed(0) + 'K';
+            return '$' + v.toLocaleString();
+        }
+
+        function fmtDollarAxis(v) {
+            if (v >= 1e6) return '$' + (v / 1e6).toFixed(0) + 'M';
+            return '$' + v.toLocaleString();
+        }
+
+        function setLoading(on) {
+            document.getElementById('loadingSpinner').classList.toggle('active', on);
+        }
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            setLoading(true);
+            try {
+                const [swResp, drResp] = await Promise.all([
+                    fetch('data/statewide.json'),
+                    fetch('data/override_drivers.json')
+                ]);
+                state.statewide = await swResp.json();
+                state.drivers = await drResp.json();
+                renderStats();
+                createMSBAChart();
+                createStateAidChart();
+                createGICChart();
+                createPensionChart();
+                createSpEdChart();
+                createGapChart();
+            } catch (e) {
+                console.error('Error loading data:', e);
+            }
+            setLoading(false);
+        });
+
+        function renderStats() {
+            const items = [
+                { value: '29%', label: 'MSBA Reimbursement Rate (down from 63%)' },
+                { value: '12.7%', label: 'FY2026 GIC Rate Increase' },
+                { value: 'FY2040', label: 'Pension Full-Funding Deadline' },
+                { value: '18.0%', label: 'Students with IEPs (up from 15.9%)' }
+            ];
+            document.getElementById('statsBar').innerHTML = items.map(i =>
+                '<div class="stat-card">' +
+                    '<div class="stat-value">' + i.value + '</div>' +
+                    '<div class="stat-label">' + i.label + '</div>' +
+                '</div>'
+            ).join('');
+        }
+
+        /* ===== Chart 1: MSBA School Construction Reimbursement ===== */
+        function createMSBAChart() {
+            const d = state.statewide.msba_reimbursement;
+            const labels = d.map(r => r.era.split('(')[0].trim());
+            const values = d.map(r => r.rate);
+            const colors = ['#9ca3af', '#9ca3af', '#dc2626'];
+
+            const ctx = document.getElementById('msbaChart').getContext('2d');
+            state.charts.msba = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Reimbursement Rate (%)',
+                        data: values,
+                        backgroundColor: colors,
+                        borderColor: colors,
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function (ctx) {
+                                    return ctx.parsed.y + '% state reimbursement';
+                                },
+                                afterLabel: function (ctx) {
+                                    return d[ctx.dataIndex].note;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 80,
+                            ticks: {
+                                callback: function (v) { return v + '%'; }
+                            },
+                            title: { display: true, text: 'State Reimbursement Rate' }
+                        }
+                    }
+                }
+            });
+        }
+
+        /* ===== Chart 2: State Aid Growth ===== */
+        function createStateAidChart() {
+            const d = state.statewide.state_aid_history;
+            const labels = d.map(r => 'FY' + r.fy);
+            const values = d.map(r => r.amount);
+
+            const ctx = document.getElementById('stateAidChart').getContext('2d');
+            state.charts.stateAid = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'State Aid to Arlington',
+                        data: values,
+                        borderColor: '#1e3a5f',
+                        backgroundColor: 'rgba(30, 58, 95, 0.1)',
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#1e3a5f',
+                        fill: true,
+                        tension: 0.2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function (ctx) {
+                                    return 'State Aid: ' + fmtDollar(ctx.parsed.y);
+                                },
+                                afterLabel: function (ctx) {
+                                    if (ctx.dataIndex === 0) return null;
+                                    const prev = d[ctx.dataIndex - 1].amount;
+                                    const curr = d[ctx.dataIndex].amount;
+                                    const pct = ((curr - prev) / prev * 100).toFixed(1);
+                                    return 'YoY change: ' + (pct > 0 ? '+' : '') + pct + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function (v) { return fmtDollarAxis(v); }
+                            },
+                            title: { display: true, text: 'State Aid (nominal $)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        /* ===== Chart 3: GIC Rate Decisions ===== */
+        function createGICChart() {
+            const d = state.statewide.gic_rate_changes;
+            const labels = d.map(r => 'FY' + r.fy);
+            const values = d.map(r => r.change_pct);
+            const bgColors = values.map(v => v < 0 ? 'rgba(5, 150, 105, 0.7)' : 'rgba(220, 38, 38, 0.7)');
+            const borderColors = values.map(v => v < 0 ? '#059669' : '#dc2626');
+
+            const ctx = document.getElementById('gicChart').getContext('2d');
+            state.charts.gic = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Rate Change (%)',
+                        data: values,
+                        backgroundColor: bgColors,
+                        borderColor: borderColors,
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function (ctx) {
+                                    const v = ctx.parsed.y;
+                                    return (v > 0 ? '+' : '') + v.toFixed(1) + '% rate change';
+                                },
+                                afterLabel: function (ctx) {
+                                    const evt = d[ctx.dataIndex].event;
+                                    return evt ? evt : '';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function (v) { return (v > 0 ? '+' : '') + v + '%'; }
+                            },
+                            title: { display: true, text: 'Year-over-Year Rate Change' }
+                        }
+                    }
+                }
+            });
+
+            // Add event annotations as a custom plugin
+            const annotationPlugin = {
+                id: 'gicAnnotations',
+                afterDraw: function (chart) {
+                    const ctxCanvas = chart.ctx;
+                    const meta = chart.getDatasetMeta(0);
+                    ctxCanvas.save();
+                    ctxCanvas.font = '11px sans-serif';
+                    ctxCanvas.fillStyle = '#374151';
+                    ctxCanvas.textAlign = 'center';
+
+                    d.forEach(function (item, i) {
+                        if (item.event && meta.data[i]) {
+                            const bar = meta.data[i];
+                            const y = item.change_pct < 0 ? bar.y + bar.height + 14 : bar.y - 8;
+                            ctxCanvas.fillText(item.event, bar.x, y);
+                        }
+                    });
+                    ctxCanvas.restore();
+                }
+            };
+            state.charts.gic.config.plugins = [annotationPlugin];
+            state.charts.gic.update();
+        }
+
+        /* ===== Chart 4: Pension Funding Mandate ===== */
+        function createPensionChart() {
+            const d = state.statewide.pension_mandate_timeline;
+            const labels = d.map(r => 'FY' + r.target_fy);
+            const values = d.map(r => r.target_fy);
+            const colors = ['#9ca3af', '#6b7280', '#1e3a5f'];
+
+            const ctx = document.getElementById('pensionChart').getContext('2d');
+            state.charts.pension = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Full-Funding Target Year',
+                        data: d.map(r => r.target_fy - 2010),
+                        backgroundColor: colors,
+                        borderColor: colors,
+                        borderWidth: 1,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function (items) {
+                                    return d[items[0].dataIndex].note;
+                                },
+                                label: function (ctx) {
+                                    return 'Target: FY' + d[ctx.dataIndex].target_fy;
+                                },
+                                afterLabel: function (ctx) {
+                                    return 'Set in ' + d[ctx.dataIndex].year;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                callback: function (v) { return 'FY' + (v + 2010); }
+                            },
+                            title: { display: true, text: 'Years from Baseline (2010)' },
+                            min: 0,
+                            max: 35
+                        }
+                    }
+                }
+            });
+        }
+
+        /* ===== Chart 5: Special Education ===== */
+        function createSpEdChart() {
+            const sped = state.statewide.sped_identification;
+            const budgetData = state.drivers.budget_by_category.filter(r => r.sped != null);
+            const labels = sped.map(r => 'FY' + r.fy);
+            const iepValues = sped.map(r => r.iep_pct);
+
+            // Match sped budget to IEP years
+            const spedBudgets = sped.map(r => {
+                const match = budgetData.find(b => b.fy === r.fy);
+                return match ? match.sped : null;
+            });
+
+            const ctx = document.getElementById('spedChart').getContext('2d');
+            state.charts.sped = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'IEP Rate (%)',
+                            data: iepValues,
+                            borderColor: '#7c3aed',
+                            backgroundColor: 'rgba(124, 58, 237, 0.1)',
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#7c3aed',
+                            fill: false,
+                            tension: 0.2,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'SpEd Budget ($)',
+                            data: spedBudgets,
+                            borderColor: '#d97706',
+                            backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                            borderWidth: 3,
+                            pointRadius: 5,
+                            pointBackgroundColor: '#d97706',
+                            fill: true,
+                            tension: 0.2,
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: {
+                            callbacks: {
+                                label: function (ctx) {
+                                    if (ctx.dataset.yAxisID === 'y1') {
+                                        return 'SpEd Budget: ' + (ctx.parsed.y ? fmtDollar(ctx.parsed.y) : 'N/A');
+                                    }
+                                    return 'IEP Rate: ' + ctx.parsed.y.toFixed(1) + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            position: 'left',
+                            ticks: {
+                                callback: function (v) { return v.toFixed(1) + '%'; }
+                            },
+                            title: { display: true, text: 'Students with IEPs (%)' },
+                            min: 14,
+                            max: 20
+                        },
+                        y1: {
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            ticks: {
+                                callback: function (v) { return fmtDollarAxis(v); }
+                            },
+                            title: { display: true, text: 'SpEd Budget' }
+                        }
+                    }
+                }
+            });
+        }
+
+        /* ===== Chart 6: The Structural Gap ===== */
+        function createGapChart() {
+            const startYear = 2007;
+            const endYear = 2027;
+            const base = 100000000;
+            const revenueRate = 1.025;
+            const costRate = 1.05;
+
+            const labels = [];
+            const revenueData = [];
+            const costData = [];
+
+            for (let yr = startYear; yr <= endYear; yr++) {
+                labels.push('FY' + yr);
+                const n = yr - startYear;
+                revenueData.push(Math.round(base * Math.pow(revenueRate, n)));
+                costData.push(Math.round(base * Math.pow(costRate, n)));
+            }
+
+            const ctx = document.getElementById('gapChart').getContext('2d');
+            state.charts.gap = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Revenue (2.5% growth)',
+                            data: revenueData,
+                            borderColor: '#059669',
+                            backgroundColor: 'rgba(5, 150, 105, 0.15)',
+                            borderWidth: 3,
+                            pointRadius: 0,
+                            fill: true,
+                            tension: 0.2
+                        },
+                        {
+                            label: 'Costs (~5% growth)',
+                            data: costData,
+                            borderColor: '#dc2626',
+                            backgroundColor: 'rgba(220, 38, 38, 0.15)',
+                            borderWidth: 3,
+                            pointRadius: 0,
+                            fill: true,
+                            tension: 0.2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: {
+                        legend: { position: 'top' },
+                        tooltip: {
+                            callbacks: {
+                                label: function (ctx) {
+                                    return ctx.dataset.label + ': ' + fmtDollar(ctx.parsed.y);
+                                },
+                                afterBody: function (items) {
+                                    const idx = items[0].dataIndex;
+                                    const gap = costData[idx] - revenueData[idx];
+                                    if (gap > 0) return ['Annual gap: ' + fmtDollar(gap)];
+                                    return [];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            ticks: {
+                                callback: function (v) { return fmtDollarAxis(v); }
+                            },
+                            title: { display: true, text: 'Compounded from $100M Base' }
+                        }
+                    }
+                }
+            });
+
+            // Fill the gap area between the two lines
+            const gapPlugin = {
+                id: 'gapFill',
+                beforeDraw: function (chart) {
+                    const meta0 = chart.getDatasetMeta(0); // revenue (lower)
+                    const meta1 = chart.getDatasetMeta(1); // costs (higher)
+                    if (!meta0.data.length || !meta1.data.length) return;
+
+                    const ctxCanvas = chart.ctx;
+                    ctxCanvas.save();
+                    ctxCanvas.globalAlpha = 0.15;
+                    ctxCanvas.fillStyle = '#dc2626';
+
+                    ctxCanvas.beginPath();
+                    // Trace cost line forward
+                    for (let i = 0; i < meta1.data.length; i++) {
+                        if (i === 0) ctxCanvas.moveTo(meta1.data[i].x, meta1.data[i].y);
+                        else ctxCanvas.lineTo(meta1.data[i].x, meta1.data[i].y);
+                    }
+                    // Trace revenue line backward
+                    for (let i = meta0.data.length - 1; i >= 0; i--) {
+                        ctxCanvas.lineTo(meta0.data[i].x, meta0.data[i].y);
+                    }
+                    ctxCanvas.closePath();
+                    ctxCanvas.fill();
+                    ctxCanvas.restore();
+                }
+            };
+            state.charts.gap.config.plugins = [gapPlugin];
+            state.charts.gap.update();
+        }
+    </script>
+</body>
+</html>

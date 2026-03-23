@@ -1,0 +1,75 @@
+{
+  "generated": "2026-03-23",
+  "source": "Override Drivers Report, MA DESE, MSBA, PERAC, GIC Annual Reports",
+
+  "msba_reimbursement": [
+    {"era": "Pre-Reform (before 2004)", "rate": 63, "note": "School Building Assistance program"},
+    {"era": "Reform Era (2004-2015)", "rate": 50, "note": "MSBA restructured; state selects projects"},
+    {"era": "Wealthy Suburbs (current)", "rate": 29, "note": "Arlington's effective rate for AHS rebuild"}
+  ],
+
+  "state_aid_history": [
+    {"fy": 2006, "amount": 14790887},
+    {"fy": 2007, "amount": 15841023},
+    {"fy": 2008, "amount": 16441023},
+    {"fy": 2009, "amount": 17041023},
+    {"fy": 2010, "amount": 14240565},
+    {"fy": 2011, "amount": 13701410},
+    {"fy": 2012, "amount": 13341134},
+    {"fy": 2013, "amount": 14574468},
+    {"fy": 2014, "amount": 16505918},
+    {"fy": 2015, "amount": 17472050},
+    {"fy": 2016, "amount": 18230770},
+    {"fy": 2017, "amount": 18639576},
+    {"fy": 2018, "amount": 19207063},
+    {"fy": 2019, "amount": 19958018},
+    {"fy": 2020, "amount": 22439702},
+    {"fy": 2021, "amount": 21043298},
+    {"fy": 2022, "amount": 23532421},
+    {"fy": 2023, "amount": 24923804},
+    {"fy": 2024, "amount": 28125135},
+    {"fy": 2025, "amount": 28603013},
+    {"fy": 2026, "amount": 29836872}
+  ],
+
+  "gic_rate_changes": [
+    {"fy": 2013, "change_pct": -10.0, "event": "GIC entry — immediate savings"},
+    {"fy": 2014, "change_pct": -5.0, "event": "GIC dividend year"},
+    {"fy": 2015, "change_pct": 4.5, "event": null},
+    {"fy": 2019, "change_pct": -2.15, "event": "Rate decrease"},
+    {"fy": 2022, "change_pct": 7.2, "event": "Post-COVID rebound"},
+    {"fy": 2023, "change_pct": 7.7, "event": null},
+    {"fy": 2024, "change_pct": 1.4, "event": "Anomalously low year"},
+    {"fy": 2025, "change_pct": 5.3, "event": null},
+    {"fy": 2026, "change_pct": 12.7, "event": "Crisis-level increase"},
+    {"fy": 2027, "change_pct": 14.0, "event": "Double-digit continues (projected)"}
+  ],
+
+  "pension_mandate_timeline": [
+    {"year": 2010, "target_fy": 2028, "note": "Original state mandate"},
+    {"year": 2015, "target_fy": 2030, "note": "Legislative extension"},
+    {"year": 2020, "target_fy": 2040, "note": "Current deadline"}
+  ],
+
+  "sped_identification": [
+    {"fy": 2020, "iep_pct": 15.9},
+    {"fy": 2021, "iep_pct": 16.2},
+    {"fy": 2022, "iep_pct": 16.8},
+    {"fy": 2023, "iep_pct": 17.2},
+    {"fy": 2024, "iep_pct": 17.6},
+    {"fy": 2025, "iep_pct": 18.0}
+  ],
+
+  "structural_gap": {
+    "levy_cap_pct": 2.5,
+    "new_growth_pct": 0.80,
+    "effective_revenue_growth": 3.3,
+    "cost_growth_ranges": [
+      {"category": "Special Education", "annual_growth_pct": 6.9},
+      {"category": "Health Insurance", "annual_growth_pct": 8.5, "note": "5-year avg"},
+      {"category": "Pensions", "annual_growth_pct": 5.5},
+      {"category": "Contractual Salaries", "annual_growth_pct": 4.0},
+      {"category": "School Budget (total)", "annual_growth_pct": 5.8}
+    ]
+  }
+}

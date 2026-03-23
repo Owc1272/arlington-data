@@ -81,6 +81,26 @@
                 <div class="source-note">Source: MA DOR Municipal Data</div>
             </div>
         </div>
+        <!-- Property Tax Base Section -->
+        <h2 class="section-header">Property Tax Base: Why 95% Falls on Homeowners</h2>
+
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>Tax Levy: Residential vs Commercial</h3>
+                <canvas id="propertyTaxSplitChart"></canvas>
+                <div class="source-note">Source: Arlington Assessor / MA DOR</div>
+            </div>
+            <div class="chart-card">
+                <h3>Assessed Value: Who Pays?</h3>
+                <canvas id="propertyValueChart"></canvas>
+                <div class="source-note">Source: Arlington GIS Assessment Data (18,835 parcels)</div>
+            </div>
+        </div>
+        <div class="insight-box">
+            <strong>Why so little commercial?</strong> Arlington is 5.5 square miles, nearly fully built out, with no Route 128 corridor and no large commercial district comparable to Brookline&rsquo;s Coolidge Corner or Watertown&rsquo;s Arsenal complex. The 17,599 residential parcels generate 95% of property tax revenue, leaving homeowners bearing virtually the entire burden.
+            <br><br>
+            <a href="gis.html" style="color: var(--primary-blue);">See detailed property maps &amp; assessment data &rarr;</a>
+        </div>
     </div>
 
     <footer>
@@ -400,6 +420,64 @@
                     ctx.restore();
                 }
             }]
+        });
+
+        /* ===== Chart 8: Property Tax Levy Split ===== */
+        var ptb = drivers.property_tax_base;
+        new Chart(document.getElementById('propertyTaxSplitChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Residential (' + ptb.residential_pct_of_levy + '%)', 'Commercial (' + ptb.commercial_pct_of_levy + '%)'],
+                datasets: [{
+                    data: [ptb.residential_pct_of_levy, ptb.commercial_pct_of_levy],
+                    backgroundColor: ['#1e3a5f', '#e63946'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) { return ctx.label + ' of property tax levy'; }
+                        }
+                    }
+                }
+            }
+        });
+
+        /* ===== Chart 9: Property Value Distribution ===== */
+        new Chart(document.getElementById('propertyValueChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Residential\n(' + ptb.residential_parcels.toLocaleString() + ' parcels)', 'Commercial\n(' + ptb.commercial_parcels.toLocaleString() + ' parcels)'],
+                datasets: [{
+                    label: 'Total Assessed Value',
+                    data: [ptb.residential_value, ptb.commercial_value],
+                    backgroundColor: ['#1e3a5f', '#e63946'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(ctx) {
+                                return fmtDollar(ctx.raw) + ' (' + (ctx.dataIndex === 0 ? ptb.residential_pct_of_value : ptb.commercial_pct_of_value) + '% of total)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: { callback: v => { if (v >= 1e9) return '$' + (v/1e9).toFixed(0) + 'B'; return fmtDollarAxis(v); } },
+                        title: { display: true, text: 'Total Assessed Value' }
+                    }
+                }
+            }
         });
 
     })();

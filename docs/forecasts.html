@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historical Forecasts — Arlington Data Explorer</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #7c2d12 0%, #c2410c 100%);
+        }
+        .stat-value { color: #7c2d12; }
+    </style>
+</head>
+<body data-page="forecasts">
+    <nav id="main-nav"></nav>
+    <script src="nav.js"></script>
+
+    <div class="hero">
+        <h1>Historical Forecasts</h1>
+        <p>When cost estimates miss by 100%+ — a pattern of systematic underpricing</p>
+    </div>
+
+    <div class="loading-spinner" id="loadingSpinner">Loading forecast data...</div>
+
+    <div class="stats-bar" id="statsBar">
+        <div class="stat-card">
+            <div class="stat-value">+191%</div>
+            <div class="stat-label">AHS Cost Overrun ($100M&rarr;$291M)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">+133%</div>
+            <div class="stat-label">DPW Yard Overrun ($20M&rarr;$47M)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">12.7%</div>
+            <div class="stat-label">FY2026 Insurance Increase (vs 5.25% assumed)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">$3.38M</div>
+            <div class="stat-label">Insurance Deviation (single-year deficit impact)</div>
+        </div>
+    </div>
+
+    <div class="charts-section">
+
+        <!-- AHS Cost Evolution (full width) -->
+        <h2 class="section-header">Capital Project Cost Escalation</h2>
+
+        <div class="chart-grid">
+            <div class="chart-card full">
+                <h3>Arlington High School: From $100M to $291M</h3>
+                <canvas id="ahsChart"></canvas>
+                <div class="source-note">Source: Arlington Capital Planning Committee Reports 2005–2025</div>
+            </div>
+        </div>
+
+        <!-- DPW + Other Overruns side by side -->
+        <div class="chart-grid-2col">
+            <div class="chart-card">
+                <h3>DPW Yard: +133% in 3 Years</h3>
+                <canvas id="dpwChart"></canvas>
+                <div class="source-note">Source: Arlington Capital Planning Committee Reports 2005–2025</div>
+            </div>
+            <div class="chart-card">
+                <h3>Other Project Overruns</h3>
+                <div class="km-table-wrap">
+                    <table class="km-table" id="overrunsTable">
+                        <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Initial Estimate</th>
+                                <th>Final Cost</th>
+                                <th>Overrun %</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="source-note">Source: Arlington Capital Planning Committee Reports 2005–2025</div>
+            </div>
+        </div>
+        <div class="insight-box">
+            The Capital Planning Committee acknowledged this pattern repeatedly: cost estimates are "reasonably accurate except in the case of major reconstruction of buildings, for which original cost estimates were significantly below actual cost."
+        </div>
+
+        <!-- Health Insurance: Actual vs Assumption (full width) -->
+        <h2 class="section-header">Budget Assumptions vs Reality</h2>
+
+        <div class="chart-grid">
+            <div class="chart-card full">
+                <h3>Health Insurance: When Assumptions Meet Reality</h3>
+                <canvas id="insuranceChart"></canvas>
+                <div class="source-note">Source: Arlington Town Manager Financial Plans FY2007–FY2027</div>
+            </div>
+        </div>
+        <div class="insight-box">
+            The town's long-range plans assume 5.25% annual health insurance growth. FY2026 actual growth was 12.7% — more than double the assumption. This single variance added $3.38M to the deficit.
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Source: Arlington Capital Planning Committee Reports, Town Manager Financial Plans</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Last updated: March 2026</p>
+    </footer>
+
+<script>
+/* ===== Helpers ===== */
+function fmtDollar(v) {
+    if (v >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B';
+    if (v >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M';
+    if (v >= 1e3) return '$' + (v / 1e3).toFixed(0) + 'K';
+    return '$' + v.toLocaleString();
+}
+function fmtDollarAxis(v) {
+    if (v >= 1e6) return '$' + (v / 1e6).toFixed(0) + 'M';
+    return '$' + v.toLocaleString();
+}
+
+/* ===== Load data and build charts ===== */
+var spinner = document.getElementById('loadingSpinner');
+spinner.classList.add('active');
+
+Promise.all([
+    fetch('data/forecasts.json').then(function(r) { return r.json(); }),
+    fetch('data/override_drivers.json').then(function(r) { return r.json(); })
+]).then(function(results) {
+    var forecasts = results[0];
+    var drivers = results[1];
+    spinner.classList.remove('active');
+    buildCharts(forecasts, drivers);
+}).catch(function(err) {
+    spinner.classList.remove('active');
+    console.error('Failed to load data:', err);
+});
+
+function buildCharts(forecasts, drivers) {
+
+    /* --- 1. AHS Cost Evolution --- */
+    var ahsData = forecasts.ahs_cost_evolution;
+    new Chart(document.getElementById('ahsChart'), {
+        type: 'line',
+        data: {
+            labels: ahsData.map(function(d) { return d.year; }),
+            datasets: [{
+                label: 'Cost Estimate',
+                data: ahsData.map(function(d) { return d.estimate; }),
+                borderColor: '#dc2626',
+                backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 8,
+                pointBackgroundColor: function(ctx) {
+                    var colors = ['#f87171', '#ef4444', '#dc2626', '#991b1b'];
+                    return colors[ctx.dataIndex] || '#dc2626';
+                },
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(ctx) {
+                            return fmtDollar(ctx.parsed.y) + ' — ' + ahsData[ctx.dataIndex].label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: fmtDollarAxis }
+                },
+                x: {
+                    title: { display: true, text: 'Year' }
+                }
+            }
+        },
+        plugins: [{
+            afterDatasetsDraw: function(chart) {
+                var ctx = chart.ctx;
+                var meta = chart.getDatasetMeta(0);
+                ctx.save();
+                ctx.font = 'bold 13px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'center';
+                meta.data.forEach(function(point, i) {
+                    var val = ahsData[i].estimate;
+                    ctx.fillStyle = '#991b1b';
+                    ctx.fillText(fmtDollar(val), point.x, point.y - 16);
+                });
+                ctx.restore();
+            }
+        }]
+    });
+
+    /* --- 2. DPW Yard Cost Escalation --- */
+    var dpwData = forecasts.dpw_yard;
+    new Chart(document.getElementById('dpwChart'), {
+        type: 'line',
+        data: {
+            labels: dpwData.map(function(d) { return d.year; }),
+            datasets: [{
+                label: 'Cost Estimate',
+                data: dpwData.map(function(d) { return d.estimate; }),
+                borderColor: '#ea580c',
+                backgroundColor: 'rgba(234, 88, 12, 0.1)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 7,
+                pointBackgroundColor: '#ea580c',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(ctx) {
+                            return fmtDollar(ctx.parsed.y) + ' — ' + dpwData[ctx.dataIndex].label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: fmtDollarAxis }
+                },
+                x: {
+                    title: { display: true, text: 'Year' }
+                }
+            }
+        },
+        plugins: [{
+            afterDatasetsDraw: function(chart) {
+                var ctx = chart.ctx;
+                var meta = chart.getDatasetMeta(0);
+                ctx.save();
+                ctx.font = 'bold 12px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'center';
+                meta.data.forEach(function(point, i) {
+                    var val = dpwData[i].estimate;
+                    ctx.fillStyle = '#9a3412';
+                    ctx.fillText(fmtDollar(val), point.x, point.y - 14);
+                });
+                ctx.restore();
+            }
+        }]
+    });
+
+    /* --- 3. Other Project Overruns Table --- */
+    var tbody = document.querySelector('#overrunsTable tbody');
+    forecasts.other_overruns.forEach(function(row) {
+        var tr = document.createElement('tr');
+        tr.innerHTML =
+            '<td>' + row.project + '</td>' +
+            '<td>' + fmtDollar(row.initial) + '</td>' +
+            '<td>' + fmtDollar(row.final) + '</td>' +
+            '<td class="negative">+' + row.growth_pct + '%</td>';
+        tbody.appendChild(tr);
+    });
+
+    /* --- 4. Health Insurance: Actual vs Assumption --- */
+    var hiData = drivers.health_insurance;
+    var assumedRate = forecasts.insurance_assumption.assumed_annual_rate_pct / 100;
+
+    // Find FY2015 actual as the assumption baseline
+    var baseFY = 2015;
+    var baseAmount = null;
+    hiData.forEach(function(d) {
+        if (d.fy === baseFY) baseAmount = d.amount;
+    });
+
+    var hiLabels = hiData.map(function(d) { return 'FY' + d.fy; });
+    var hiActual = hiData.map(function(d) { return d.amount; });
+    var hiAssumed = hiData.map(function(d) {
+        if (baseAmount === null) return null;
+        var yearsFromBase = d.fy - baseFY;
+        if (yearsFromBase < 0) return null;
+        return Math.round(baseAmount * Math.pow(1 + assumedRate, yearsFromBase));
+    });
+
+    new Chart(document.getElementById('insuranceChart'), {
+        type: 'line',
+        data: {
+            labels: hiLabels,
+            datasets: [
+                {
+                    label: 'Actual Cost',
+                    data: hiActual,
+                    borderColor: '#dc2626',
+                    backgroundColor: 'rgba(220, 38, 38, 0.08)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#dc2626',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    borderWidth: 3
+                },
+                {
+                    label: '5.25%/yr Assumption (from FY2015)',
+                    data: hiAssumed,
+                    borderColor: '#9ca3af',
+                    borderDash: [8, 4],
+                    backgroundColor: 'transparent',
+                    fill: false,
+                    tension: 0.3,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#9ca3af',
+                    borderWidth: 2
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: { usePointStyle: true, padding: 20 }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(ctx) {
+                            return ctx.dataset.label + ': ' + fmtDollar(ctx.parsed.y);
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    ticks: { callback: fmtDollarAxis }
+                }
+            }
+        }
+    });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "generated": "2026-03-23",
+  "source": "Arlington Capital Planning Committee Reports 2005-2025, Town Manager Financial Plans",
+
+  "ahs_cost_evolution": [
+    {"year": 2014, "estimate": 100000000, "label": "Initial rough estimate"},
+    {"year": 2015, "estimate": 125000000, "label": "Planning phase revision"},
+    {"year": 2018, "estimate": 200000000, "label": "Design phase (with MSBA)"},
+    {"year": 2019, "estimate": 290800000, "label": "Final MSBA-capped cost"}
+  ],
+
+  "dpw_yard": [
+    {"year": 2018, "estimate": 20000000, "label": "Initial estimate"},
+    {"year": 2019, "estimate": 32200000, "label": "Approved budget (+61%)"},
+    {"year": 2020, "estimate": 38900000, "label": "First revision (+21%)"},
+    {"year": 2021, "estimate": 46520000, "label": "Final cost (+20%)"}
+  ],
+
+  "other_overruns": [
+    {"project": "Hardy School Expansion", "initial": 3500000, "final": 4800000, "growth_pct": 37, "note": "Bids exceeded estimate"},
+    {"project": "Community Safety Building", "initial": 1350000, "final": 2550000, "growth_pct": 89, "note": "Poor initial construction quality of 1983 building"},
+    {"project": "Central Fire Station", "initial": 4000000, "final": 6050000, "growth_pct": 51, "note": "Seismic code changes + trade price escalation"}
+  ],
+
+  "insurance_assumption": {
+    "assumed_annual_rate_pct": 5.25,
+    "note": "Long-range financial plans assume 5.25%/year health insurance growth"
+  }
+}

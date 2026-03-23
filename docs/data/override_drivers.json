@@ -75,16 +75,16 @@
   ],
 
   "budget_by_category": [
-    {"fy": 2007, "school": 35300000, "town": 26200000, "insurance": 13900000, "pensions": 6300000, "exempt_debt": 3100000},
-    {"fy": 2015, "school": 50700000, "town": 32300000, "insurance": 15400000, "pensions": 8700000, "exempt_debt": 2800000},
-    {"fy": 2016, "school": 53600000, "town": 32300000, "insurance": 16400000, "pensions": 9100000, "exempt_debt": 2600000},
-    {"fy": 2019, "school": 66300000, "town": 35700000, "insurance": 17900000, "pensions": 10100000, "exempt_debt": 4700000},
-    {"fy": 2020, "school": 71400000, "town": 37100000, "insurance": 18600000, "pensions": 10700000, "exempt_debt": 5000000},
-    {"fy": 2022, "school": 80100000, "town": 38800000, "insurance": 20200000, "pensions": 12600000, "exempt_debt": 10300000},
-    {"fy": 2024, "school": 88900000, "town": 41400000, "insurance": 22100000, "pensions": 14100000, "exempt_debt": 12000000},
-    {"fy": 2025, "school": 96500000, "town": 43000000, "insurance": 23200000, "pensions": 15000000, "exempt_debt": 14400000},
-    {"fy": 2026, "school": 103600000, "town": 44300000, "insurance": 26200000, "pensions": 15900000, "exempt_debt": 14400000},
-    {"fy": 2027, "school": 108000000, "town": 40500000, "insurance": 30000000, "pensions": 17000000, "exempt_debt": 14400000}
+    {"fy": 2007, "school": 35300000, "town": 26200000, "insurance": 13900000, "pensions": 6300000, "exempt_debt": 3100000, "sped": null},
+    {"fy": 2015, "school": 50700000, "town": 32300000, "insurance": 15400000, "pensions": 8700000, "exempt_debt": 2800000, "sped": 16356500},
+    {"fy": 2016, "school": 53600000, "town": 32300000, "insurance": 16400000, "pensions": 9100000, "exempt_debt": 2600000, "sped": 17501455},
+    {"fy": 2019, "school": 66300000, "town": 35700000, "insurance": 17900000, "pensions": 10100000, "exempt_debt": 4700000, "sped": 21440034},
+    {"fy": 2020, "school": 71400000, "town": 37100000, "insurance": 18600000, "pensions": 10700000, "exempt_debt": 5000000, "sped": 22940836},
+    {"fy": 2022, "school": 80100000, "town": 38800000, "insurance": 20200000, "pensions": 12600000, "exempt_debt": 10300000, "sped": 26264964},
+    {"fy": 2024, "school": 88900000, "town": 41400000, "insurance": 22100000, "pensions": 14100000, "exempt_debt": 12000000, "sped": 30070757},
+    {"fy": 2025, "school": 96500000, "town": 43000000, "insurance": 23200000, "pensions": 15000000, "exempt_debt": 14400000, "sped": 32025356},
+    {"fy": 2026, "school": 103600000, "town": 44300000, "insurance": 26200000, "pensions": 15900000, "exempt_debt": 14400000, "sped": 34107004},
+    {"fy": 2027, "school": 108000000, "town": 40500000, "insurance": 30000000, "pensions": 17000000, "exempt_debt": 14400000, "sped": 34000000}
   ],
 
   "peer_new_growth": [
@@ -179,6 +179,34 @@
     "school": {"from": 35300000, "to": 108000000, "pct": 206},
     "town": {"from": 26200000, "to": 40500000, "pct": 55},
     "insurance": {"from": 13900000, "to": 30000000, "pct": 116},
-    "pensions": {"from": 6300000, "to": 17000000, "pct": 170}
-  }
+    "pensions": {"from": 6300000, "to": 17000000, "pct": 170},
+    "exempt_debt": {"from": 3100000, "to": 14400000, "pct": 365}
+  },
+
+  "override_votes": [
+    {"year": 2003, "amount": 4000000, "passed": false, "margin": "Failed by 687 votes", "date": null},
+    {"year": 2005, "amount": 6000000, "passed": true, "margin": null, "date": "2005-04-02", "notes": "Lyons Plan: 4% cap, no override for 5 years"},
+    {"year": 2011, "amount": 6500000, "passed": true, "margin": "+860 votes", "date": "2011-06-07", "notes": "Linked to GIC health insurance transition"},
+    {"year": 2019, "amount": 5500000, "passed": true, "margin": "68% yes", "date": "2019-06-11", "notes": "Plus $204.8M AHS debt exclusion (76% yes)"},
+    {"year": 2023, "amount": 7000000, "passed": true, "margin": "62% yes", "date": "2023-11-07", "notes": "Funded strategic plan, OPEB, solid waste"},
+    {"year": 2026, "amount": 14800000, "passed": null, "margin": "Pending", "date": "2026-03-28", "notes": "Avg impact $1,030/yr per household"}
+  ],
+
+  "property_tax_base": {
+    "residential_parcels": 17599,
+    "commercial_parcels": 398,
+    "residential_value": 17507737960,
+    "commercial_value": 607165300,
+    "residential_pct_of_value": 96.6,
+    "commercial_pct_of_value": 3.4,
+    "residential_pct_of_levy": 94.66,
+    "commercial_pct_of_levy": 5.34
+  },
+
+  "insurance_by_group": [
+    {"group": "School Staff", "estimated_covered": 800, "pct": 39},
+    {"group": "Retirees", "estimated_covered": 700, "pct": 34},
+    {"group": "Other Municipal", "estimated_covered": 350, "pct": 17},
+    {"group": "Police & Fire", "estimated_covered": 200, "pct": 10}
+  ]
 }

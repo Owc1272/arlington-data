@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arlington, MA — Open Data Explorer</title>
+    <title>Arlington, MA &mdash; Open Data Explorer</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
     <style>
@@ -22,9 +22,9 @@
 
         /* Hero chart card — overlaps hero */
         .hero-chart-card {
-            max-width: 900px;
+            max-width: 960px;
             margin: -4rem auto 2rem;
-            padding: 1.5rem 2rem;
+            padding: 1.5rem 2rem 1rem;
             background: var(--white);
             border-radius: 12px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.12);
@@ -34,12 +34,46 @@
         .hero-chart-card h3 {
             font-size: 1.1rem;
             color: var(--primary-dark);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.25rem;
             text-align: center;
+        }
+        .hero-chart-card .chart-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 0.75rem;
         }
         .hero-chart-card canvas {
             width: 100% !important;
-            max-height: 220px;
+            max-height: 370px;
+        }
+
+        /* Insight callouts below hero chart */
+        .hero-insights {
+            max-width: 960px;
+            margin: -0.5rem auto 2rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .hero-insight {
+            background: #fff8e1;
+            border-left: 4px solid #e63946;
+            border-radius: 0 8px 8px 0;
+            padding: 0.75rem 1rem;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: var(--text-dark);
+        }
+        .hero-insight strong {
+            color: #e63946;
+        }
+        .hero-insight.bright-spot {
+            border-left-color: #14b8a6;
+        }
+        .hero-insight.bright-spot strong {
+            color: #14b8a6;
         }
 
         /* Key stats row */
@@ -72,6 +106,49 @@
             color: var(--text-light);
             margin-top: 0.5rem;
             line-height: 1.4;
+        }
+
+        /* Waterfall chart section */
+        .waterfall-section {
+            max-width: 960px;
+            margin: 0 auto 2.5rem;
+            padding: 0 2rem;
+        }
+        .waterfall-card {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 1.5rem 2rem 1rem;
+        }
+        .waterfall-card h3 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.25rem;
+            text-align: center;
+        }
+        .waterfall-card .chart-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-align: center;
+            margin-bottom: 0.75rem;
+        }
+        .waterfall-card canvas {
+            width: 100% !important;
+            max-height: 340px;
+        }
+        #overrideVoteChart {
+            max-height: 260px !important;
+        }
+        .waterfall-insight {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: var(--text-dark);
+            margin-top: 1rem;
+            text-align: center;
         }
 
         /* Section cards — question-driven */
@@ -109,6 +186,12 @@
             margin-left: auto;
             margin-right: auto;
         }
+
+        @media (max-width: 768px) {
+            .hero-insights {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body data-page="home">
@@ -119,10 +202,21 @@
         <p>Understanding the Override Cycle &mdash; data-driven analysis of why a well-managed town keeps needing tax overrides</p>
     </div>
 
-    <!-- Hero chart: Override Stabilization Fund sawtooth -->
+    <!-- Hero chart: Indexed Growth Race -->
     <div class="hero-chart-card">
-        <h3>Override Stabilization Fund Balance</h3>
-        <canvas id="heroChart"></canvas>
+        <h3>The Cost Growth Race</h3>
+        <div class="chart-subtitle">Every major cost category outpaces the 2.5% Prop 2&frac12; revenue cap (FY2007 = 100)</div>
+        <canvas id="growthRaceChart"></canvas>
+    </div>
+
+    <!-- Insight callouts for SpEd and OPEB -->
+    <div class="hero-insights">
+        <div class="hero-insight">
+            <strong>Within Schools:</strong> Special Education grows at 6.9%/yr &mdash; doubling every decade. It&rsquo;s mandated by law and now exceeds $32M, up from $14M in FY2014.
+        </div>
+        <div class="hero-insight bright-spot">
+            <strong>Bright spot:</strong> OPEB (retiree health) funding improved from 3.5% to 16.9% funded &mdash; but $147M in unfunded liability remains.
+        </div>
     </div>
 
     <!-- Key stats -->
@@ -141,47 +235,75 @@
         </div>
     </div>
 
+    <!-- Waterfall chart: What's eating the budget -->
+    <div class="waterfall-section">
+        <div class="waterfall-card">
+            <h3>What&rsquo;s Eating the Budget?</h3>
+            <div class="chart-subtitle">Annual cost above what 2.5%/yr growth from FY2007 would support, by category</div>
+            <canvas id="waterfallChart"></canvas>
+            <div class="waterfall-insight">
+                By FY2027, Arlington&rsquo;s costs exceed what the Prop 2&frac12; cap can support by <strong>$73M per year</strong>. This is the structural deficit that drives the override cycle.
+            </div>
+        </div>
+    </div>
+
+    <!-- Override vote history chart -->
+    <div class="waterfall-section">
+        <div class="waterfall-card">
+            <h3>Arlington&rsquo;s Override History</h3>
+            <div class="chart-subtitle">Every override attempt since Prop 2&frac12; &mdash; amounts requested and outcomes</div>
+            <canvas id="overrideVoteChart"></canvas>
+        </div>
+    </div>
+
     <!-- Section cards -->
     <div class="sections">
-        <a href="revenue.html" class="section-card">
-            <div class="section-icon">&#x1F4C9;</div>
-            <h2>Why Can&rsquo;t Revenue Keep Up?</h2>
-            <p>Arlington&rsquo;s new growth rate is last among 13 peers. Commercial tax base is structurally absent. State aid lags.</p>
-            <span class="section-link">Explore Revenue &#x2192;</span>
+        <a href="override.html" class="section-card">
+            <div class="section-icon">&#x1F504;</div>
+            <h2>The Override Cycle</h2>
+            <p>The sawtooth pattern: override passes, fund builds, costs outpace revenue, fund drains. Each cycle is shorter than the last.</p>
+            <span class="section-link">Explore the Cycle &#x2192;</span>
         </a>
 
         <a href="spending.html" class="section-card">
             <div class="section-icon">&#x1F4CA;</div>
-            <h2>Where Does the Money Go?</h2>
-            <p>School budget doubled in 20 years. Health insurance and pensions grow 5&ndash;12% annually. Town departments held to 2&ndash;3%.</p>
+            <h2>Where the Money Goes</h2>
+            <p>School budget doubled in 20 years. Health insurance, pensions, and special education grow 5&ndash;12% annually.</p>
             <span class="section-link">Explore Spending &#x2192;</span>
         </a>
 
-        <a href="override.html" class="section-card">
-            <div class="section-icon">&#x1F504;</div>
-            <h2>The Override Pattern</h2>
-            <p>Every 3&ndash;7 years: override passes, fund builds, costs outpace revenue, fund drains, new override needed.</p>
-            <span class="section-link">Explore the Cycle &#x2192;</span>
+        <a href="revenue.html" class="section-card">
+            <div class="section-icon">&#x1F4C9;</div>
+            <h2>Why Revenue Can&rsquo;t Keep Up</h2>
+            <p>Last among 13 peers in new growth. 95% residential tax base. State aid lags cost growth.</p>
+            <span class="section-link">Explore Revenue &#x2192;</span>
         </a>
 
         <a href="schools.html" class="section-card">
             <div class="section-icon">&#x1F3EB;</div>
-            <h2>How Do Arlington Schools Compare?</h2>
-            <p>17 interactive charts comparing Arlington to 12 peer districts across teacher pay, spending, test scores, and outcomes.</p>
+            <h2>Arlington Schools</h2>
+            <p>Below-average spending, above-average outcomes. 25+ charts comparing Arlington to 12 peer districts.</p>
             <span class="section-link">Explore Schools &#x2192;</span>
         </a>
 
-        <a href="gis.html" class="section-card">
-            <div class="section-icon">&#x1F5FA;</div>
-            <h2>Property Values &amp; Assessments</h2>
-            <p>Interactive maps, property assessments, public tree inventory, and neighborhood analysis from Arlington GIS.</p>
-            <span class="section-link">Explore Property &#x2192;</span>
+        <a href="forecasts.html" class="section-card">
+            <div class="section-icon">&#x1F4D0;</div>
+            <h2>Historical Forecasts</h2>
+            <p>When estimates miss by 100%+. AHS from $100M to $291M. DPW Yard from $20M to $47M. Insurance exceeding assumptions.</p>
+            <span class="section-link">Explore Forecasts &#x2192;</span>
+        </a>
+
+        <a href="statewide.html" class="section-card">
+            <div class="section-icon">&#x1F3DB;</div>
+            <h2>Statewide Forces</h2>
+            <p>MSBA reimbursement cuts, GIC rate spikes, pension mandates, special ed requirements &mdash; forces beyond Arlington&rsquo;s control.</p>
+            <span class="section-link">Explore Statewide &#x2192;</span>
         </a>
     </div>
 
     <!-- Additional links -->
     <div class="also-available">
-        Also available: <a href="population.html">Population &amp; Demographics</a> | <a href="crime.html">Crime Statistics</a>
+        Also available: <a href="population.html">Population &amp; Demographics</a> | <a href="gis.html">GIS Property Maps &amp; Estimator</a>
     </div>
 
     <footer>
@@ -195,50 +317,111 @@
         fetch('data/override_drivers.json')
             .then(r => r.json())
             .then(data => {
-                const fund = data.override_fund;
-                const labels = fund.map(d => 'FY' + d.fy);
-                const values = fund.map(d => d.balance);
+                const byCat = data.budget_by_category;
+                const labels = byCat.map(d => 'FY' + d.fy);
+                const baseYear = byCat[0]; // FY2007
 
-                // Determine projected cutoff (FY2025 is last actual)
-                const projectedStartIndex = fund.findIndex(d => d.fy >= 2026);
+                // Index each category to 100 at FY2007
+                function indexSeries(key) {
+                    const base = baseYear[key];
+                    return byCat.map(d => d[key] != null ? (d[key] / base * 100) : null);
+                }
 
-                // Build segment colors: solid for actual, dashed for projected
-                const segmentBorder = function(ctx) {
-                    return ctx.p1DataIndex >= projectedStartIndex ? [6, 4] : [];
-                };
+                // 2.5% cap line: 100 * 1.025^(year - 2007)
+                const capLine = byCat.map(d => 100 * Math.pow(1.025, d.fy - 2007));
 
-                new Chart(document.getElementById('heroChart'), {
+                // === CHART 1: Indexed Growth Race ===
+                new Chart(document.getElementById('growthRaceChart'), {
                     type: 'line',
                     data: {
                         labels: labels,
-                        datasets: [{
-                            data: values,
-                            borderColor: '#e63946',
-                            backgroundColor: 'rgba(230, 57, 70, 0.08)',
-                            borderWidth: 2.5,
-                            fill: true,
-                            pointRadius: 0,
-                            pointHoverRadius: 4,
-                            tension: 0.15,
-                            segment: {
-                                borderDash: function(ctx) {
-                                    return ctx.p1DataIndex >= projectedStartIndex ? [6, 4] : [];
-                                }
+                        datasets: [
+                            {
+                                label: 'Schools (+206%)',
+                                data: indexSeries('school'),
+                                borderColor: '#e63946',
+                                backgroundColor: 'rgba(230, 57, 70, 0.05)',
+                                borderWidth: 3,
+                                fill: false,
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                tension: 0.2
+                            },
+                            {
+                                label: 'Exempt Debt (+365%)',
+                                data: indexSeries('exempt_debt'),
+                                borderColor: '#457b9d',
+                                borderWidth: 2.5,
+                                fill: false,
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                tension: 0.2
+                            },
+                            {
+                                label: 'Pensions (+170%)',
+                                data: indexSeries('pensions'),
+                                borderColor: '#2a9d8f',
+                                borderWidth: 2.5,
+                                fill: false,
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                tension: 0.2
+                            },
+                            {
+                                label: 'Health Insurance (+116%)',
+                                data: indexSeries('insurance'),
+                                borderColor: '#f4a261',
+                                borderWidth: 2.5,
+                                fill: false,
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                tension: 0.2
+                            },
+                            {
+                                label: 'Town Departments (+55%)',
+                                data: indexSeries('town'),
+                                borderColor: '#6c757d',
+                                borderWidth: 2,
+                                fill: false,
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                tension: 0.2
+                            },
+                            {
+                                label: '2.5% Prop 2½ Cap',
+                                data: capLine,
+                                borderColor: 'rgba(0, 0, 0, 0.3)',
+                                borderWidth: 2,
+                                borderDash: [8, 4],
+                                fill: false,
+                                pointRadius: 0,
+                                pointHoverRadius: 0,
+                                tension: 0
                             }
-                        }]
+                        ]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        aspectRatio: 3,
+                        aspectRatio: 2.2,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
                         plugins: {
-                            legend: { display: false },
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 16,
+                                    font: { size: 11 }
+                                }
+                            },
                             tooltip: {
                                 callbacks: {
                                     label: function(ctx) {
-                                        const v = ctx.parsed.y;
-                                        if (v < 0) return '-$' + Math.abs(v / 1e6).toFixed(1) + 'M';
-                                        return '$' + (v / 1e6).toFixed(1) + 'M';
+                                        if (ctx.parsed.y == null) return null;
+                                        return ctx.dataset.label.split('(')[0].trim() + ': ' + ctx.parsed.y.toFixed(0);
                                     }
                                 }
                             }
@@ -246,25 +429,193 @@
                         scales: {
                             x: {
                                 grid: { display: false },
-                                ticks: {
-                                    maxTicksLimit: 8,
-                                    font: { size: 11 }
-                                }
+                                ticks: { font: { size: 11 } }
                             },
                             y: {
-                                grid: { color: 'rgba(0,0,0,0.05)' },
+                                grid: { color: 'rgba(0,0,0,0.06)' },
                                 ticks: {
-                                    callback: function(v) {
-                                        if (v < 0) return '-$' + Math.abs(v / 1e6).toFixed(0) + 'M';
-                                        return '$' + (v / 1e6).toFixed(0) + 'M';
-                                    },
                                     font: { size: 11 },
-                                    maxTicksLimit: 5
+                                    callback: function(v) { return v; }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Index (FY2007 = 100)',
+                                    font: { size: 11, weight: 'normal' },
+                                    color: '#6b7280'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // === CHART 2: Stacked Deficit Waterfall ===
+                // For each year, compute excess = actual - (FY2007_base * 1.025^years)
+                const categories = [
+                    { key: 'school', label: 'Schools', color: '#e63946' },
+                    { key: 'insurance', label: 'Health Insurance', color: '#f4a261' },
+                    { key: 'pensions', label: 'Pensions', color: '#2a9d8f' },
+                    { key: 'exempt_debt', label: 'School Construction Debt', color: '#457b9d' },
+                    { key: 'town', label: 'Town Departments', color: '#6c757d' }
+                ];
+
+                const waterfallDatasets = categories.map(cat => {
+                    const base = baseYear[cat.key];
+                    const excessData = byCat.map(d => {
+                        const years = d.fy - 2007;
+                        const expected = base * Math.pow(1.025, years);
+                        const excess = d[cat.key] - expected;
+                        return Math.max(0, excess / 1e6); // in millions, floor at 0
+                    });
+                    return {
+                        label: cat.label,
+                        data: excessData,
+                        backgroundColor: cat.color,
+                        borderColor: cat.color,
+                        borderWidth: 0.5
+                    };
+                });
+
+                // === CHART 3: Override Vote History ===
+                const votes = data.override_votes;
+                const voteLabels = votes.map(v => v.year.toString());
+                const voteAmounts = votes.map(v => v.amount / 1e6);
+                const voteColors = votes.map(v => {
+                    if (v.passed === false) return '#e63946';
+                    if (v.passed === null) return '#d97706';
+                    return '#2a9d8f';
+                });
+                const voteBorders = voteColors;
+
+                new Chart(document.getElementById('overrideVoteChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: voteLabels,
+                        datasets: [{
+                            label: 'Override Amount',
+                            data: voteAmounts,
+                            backgroundColor: voteColors,
+                            borderColor: voteBorders,
+                            borderWidth: 1,
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        aspectRatio: 2.5,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    title: function(items) {
+                                        const idx = items[0].dataIndex;
+                                        const v = votes[idx];
+                                        const status = v.passed === false ? 'FAILED' : v.passed === null ? 'PENDING' : 'PASSED';
+                                        return v.year + ' — ' + status;
+                                    },
+                                    label: function(ctx) {
+                                        return '$' + ctx.parsed.y.toFixed(1) + 'M requested';
+                                    },
+                                    afterLabel: function(ctx) {
+                                        const v = votes[ctx.dataIndex];
+                                        var lines = [];
+                                        if (v.margin) lines.push(v.margin);
+                                        if (v.notes) lines.push(v.notes);
+                                        return lines;
+                                    }
                                 }
                             }
                         },
-                        layout: {
-                            padding: { left: 4, right: 4 }
+                        scales: {
+                            x: { grid: { display: false }, ticks: { font: { size: 12, weight: 'bold' } } },
+                            y: {
+                                grid: { color: 'rgba(0,0,0,0.06)' },
+                                ticks: {
+                                    font: { size: 11 },
+                                    callback: function(v) { return '$' + v + 'M'; }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Override Amount ($M)',
+                                    font: { size: 11, weight: 'normal' },
+                                    color: '#6b7280'
+                                }
+                            }
+                        }
+                    },
+                    plugins: [{
+                        id: 'voteLabels',
+                        afterDraw: function(chart) {
+                            var ctx2 = chart.ctx;
+                            ctx2.save();
+                            ctx2.textAlign = 'center';
+                            ctx2.font = 'bold 11px -apple-system, sans-serif';
+                            chart.getDatasetMeta(0).data.forEach(function(bar, i) {
+                                var v = votes[i];
+                                var label = v.passed === false ? 'FAILED' : v.passed === null ? 'PENDING' : 'PASSED';
+                                ctx2.fillStyle = voteColors[i];
+                                ctx2.fillText(label, bar.x, bar.y - 6);
+                            });
+                            ctx2.restore();
+                        }
+                    }]
+                });
+
+                new Chart(document.getElementById('waterfallChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: waterfallDatasets
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        aspectRatio: 2.4,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 16,
+                                    font: { size: 11 }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(ctx) {
+                                        return ctx.dataset.label + ': $' + ctx.parsed.y.toFixed(1) + 'M';
+                                    },
+                                    footer: function(items) {
+                                        const total = items.reduce((s, i) => s + i.parsed.y, 0);
+                                        return 'Total excess: $' + total.toFixed(1) + 'M';
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                stacked: true,
+                                grid: { display: false },
+                                ticks: { font: { size: 11 } }
+                            },
+                            y: {
+                                stacked: true,
+                                grid: { color: 'rgba(0,0,0,0.06)' },
+                                ticks: {
+                                    font: { size: 11 },
+                                    callback: function(v) { return '$' + v + 'M'; }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Annual excess above 2.5% cap ($M)',
+                                    font: { size: 11, weight: 'normal' },
+                                    color: '#6b7280'
+                                }
+                            }
                         }
                     }
                 });

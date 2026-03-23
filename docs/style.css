@@ -58,40 +58,6 @@ nav {
 .nav-links a:hover,
 .nav-links a.nav-active { color: var(--primary-blue); }
 
-/* Dropdown ("More" menu) */
-.nav-dropdown {
-    position: relative;
-}
-
-.nav-dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: var(--white);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    min-width: 160px;
-    padding: 0.5rem 0;
-    z-index: 200;
-}
-
-.nav-dropdown:hover .nav-dropdown-menu {
-    display: block;
-}
-
-.nav-dropdown-menu a {
-    display: block;
-    padding: 0.5rem 1.25rem;
-    color: var(--text-dark);
-}
-
-.nav-dropdown-menu a:hover {
-    background: var(--light-bg);
-    color: var(--primary-blue);
-}
-
 /* ===== Hero ===== */
 .hero {
     background: linear-gradient(135deg, var(--primary-dark) 0%, #2d5a8c 100%);

@@ -36,6 +36,10 @@
         <!-- Section: The Sawtooth Pattern -->
         <h2 class="section-header">The Sawtooth Pattern</h2>
 
+        <div class="insight-box">
+            <strong>What is the Override Stabilization Fund?</strong> When Arlington passes a Prop 2&frac12; override, the additional tax revenue exceeds immediate needs in the first few years. The surplus is deposited into the Override Stabilization Fund, which is then drawn down in later years as costs grow beyond what the levy can support. When the fund runs out, a new override is needed.
+        </div>
+
         <div class="chart-grid">
             <div class="chart-card full">
                 <h3>Override Stabilization Fund Balance (FY2006–FY2027)</h3>
@@ -44,7 +48,7 @@
             </div>
         </div>
         <div class="insight-box">
-            The fund follows a predictable pattern: override passes → fund builds → costs outpace revenue → fund drains → new override needed. Each cycle is shorter than the last.
+            The fund follows a predictable pattern: override passes &rarr; fund builds &rarr; costs outpace revenue &rarr; fund drains &rarr; new override needed. Each cycle is shorter than the last. In 2003, a $4M override attempt failed by 687 votes &mdash; the only failed override in Arlington&rsquo;s modern history.
         </div>
 
         <div class="chart-grid">
@@ -56,39 +60,6 @@
         </div>
         <div class="insight-box">
             The interval between overrides has shrunk from 6 years to 3 years as cost growth compounds faster on a larger budget base.
-        </div>
-
-        <!-- Section: Cost Drivers -->
-        <h2 class="section-header">Cost Drivers</h2>
-
-        <div class="chart-grid">
-            <div class="chart-card full">
-                <h3>Health Insurance: Actual vs 5.25% Assumption</h3>
-                <canvas id="healthChart"></canvas>
-                <div class="source-note">Source: Arlington Budget Health Insurance Appropriations &amp; GIC Rate Notices</div>
-            </div>
-        </div>
-        <div class="insight-box">
-            GIC entry in FY2013 delivered years of savings, temporarily pushing costs below FY2007 levels. But recent double-digit increases (12.7% in FY2026) have erased the dividend — costs now exceed $30M projected for FY2027.
-        </div>
-
-        <div class="chart-grid-2col">
-            <div class="chart-card">
-                <h3>Pension Costs (Net General Fund)</h3>
-                <canvas id="pensionChart"></canvas>
-                <div class="source-note">Source: Arlington Retirement System Actuarial Schedule</div>
-            </div>
-            <div class="chart-card">
-                <h3>OPEB: Liability, Assets &amp; Funded Percentage</h3>
-                <canvas id="opebChart"></canvas>
-                <div class="source-note">Source: Arlington OPEB Actuarial Valuations</div>
-            </div>
-        </div>
-        <div class="insight-box">
-            <ul>
-                <li><strong>Pensions:</strong> Growth is actuarially mandated at 5.5–6% annually — the most predictable cost driver, but also the most inflexible.</li>
-                <li><strong>OPEB:</strong> The one genuine success story — funded percentage improved from 3.5% to 16.9% through disciplined annual contributions.</li>
-            </ul>
         </div>
 
         <!-- Section: The Tax Squeeze -->
@@ -163,9 +134,6 @@
                 renderStats();
                 createSawtoothChart();
                 createCycleChart();
-                createHealthChart();
-                createPensionChart();
-                createOpebChart();
                 createTaxBurdenChart();
                 createSpendingCapitaChart();
                 createProjectionChart();
@@ -181,8 +149,8 @@
                 { value: '$23.7M', label: 'Permanent Levy Additions' },
                 { value: '3 years', label: 'Latest Cycle Length' },
                 { value: '-$12.9M', label: 'FY2028 Projected Deficit' },
-                { value: '$30M', label: 'FY2027 Insurance Cost' },
-                { value: '$17M', label: 'FY2027 Pension Cost' },
+                { value: '1 of 6', label: 'Override Attempts Failed' },
+                { value: '$14.8M', label: 'Pending 2026 Override' },
             ];
             document.getElementById('statsBar').innerHTML = items.map(i =>
                 '<div class="stat-card">' +
@@ -359,213 +327,7 @@
             });
         }
 
-        /* ===== Chart 3: Health Insurance ===== */
-        function createHealthChart() {
-            const hi = state.data.health_insurance;
-            const labels = hi.map(r => 'FY' + r.fy);
-            const actual = hi.map(r => r.amount);
-
-            // 5.25% trend line from FY2016
-            const fy2016 = hi.find(r => r.fy === 2016);
-            // Closest: use FY2015 actual as base
-            const fy2015 = hi.find(r => r.fy === 2015);
-            const trendBase = fy2015 ? fy2015.amount : hi[0].amount;
-            const trendBaseYear = fy2015 ? 2015 : hi[0].fy;
-            const trend = hi.map(r => {
-                if (r.fy < trendBaseYear) return null;
-                const years = r.fy - trendBaseYear;
-                return trendBase * Math.pow(1.0525, years);
-            });
-
-            const ctx = document.getElementById('healthChart').getContext('2d');
-            state.charts.health = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'Actual Health Insurance',
-                            data: actual,
-                            borderColor: '#e63946',
-                            backgroundColor: 'rgba(230, 57, 70, 0.1)',
-                            borderWidth: 3,
-                            pointRadius: 5,
-                            pointBackgroundColor: '#e63946',
-                            fill: true,
-                            tension: 0.2
-                        },
-                        {
-                            label: '5.25% Annual Growth Assumption',
-                            data: trend,
-                            borderColor: '#9ca3af',
-                            borderDash: [6, 4],
-                            borderWidth: 2,
-                            pointRadius: 0,
-                            fill: false,
-                            tension: 0.2
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { position: 'top' },
-                        tooltip: {
-                            callbacks: {
-                                label: function (ctx) {
-                                    return ctx.dataset.label + ': ' + fmt(ctx.parsed.y);
-                                },
-                                afterBody: function (items) {
-                                    const idx = items[0].dataIndex;
-                                    const evt = hi[idx].event;
-                                    return evt ? [evt] : [];
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            ticks: {
-                                callback: function (v) { return '$' + (v / 1e6).toFixed(0) + 'M'; }
-                            },
-                            title: { display: true, text: 'Annual Cost' }
-                        }
-                    }
-                }
-            });
-        }
-
-        /* ===== Chart 4: Pensions ===== */
-        function createPensionChart() {
-            const p = state.data.pensions;
-            const labels = p.map(r => 'FY' + r.fy);
-            const values = p.map(r => r.amount);
-
-            const ctx = document.getElementById('pensionChart').getContext('2d');
-            state.charts.pension = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Pension Cost',
-                        data: values,
-                        borderColor: '#457b9d',
-                        backgroundColor: 'rgba(69, 123, 157, 0.1)',
-                        borderWidth: 3,
-                        pointRadius: 5,
-                        pointBackgroundColor: '#457b9d',
-                        fill: true,
-                        tension: 0.2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function (ctx) { return 'Pension Cost: ' + fmt(ctx.parsed.y); }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            ticks: {
-                                callback: function (v) { return '$' + (v / 1e6).toFixed(0) + 'M'; }
-                            },
-                            title: { display: true, text: 'Annual Cost' }
-                        }
-                    }
-                }
-            });
-        }
-
-        /* ===== Chart 5: OPEB ===== */
-        function createOpebChart() {
-            const o = state.data.opeb;
-            const labels = o.map(r => 'FY' + r.fy);
-
-            const ctx = document.getElementById('opebChart').getContext('2d');
-            state.charts.opeb = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            type: 'bar',
-                            label: 'Total Liability',
-                            data: o.map(r => r.liability),
-                            backgroundColor: 'rgba(209, 213, 219, 0.7)',
-                            borderColor: '#9ca3af',
-                            borderWidth: 1,
-                            borderRadius: 4,
-                            yAxisID: 'y',
-                            order: 2
-                        },
-                        {
-                            type: 'bar',
-                            label: 'Plan Assets',
-                            data: o.map(r => r.assets),
-                            backgroundColor: 'rgba(20, 184, 166, 0.7)',
-                            borderColor: '#14b8a6',
-                            borderWidth: 1,
-                            borderRadius: 4,
-                            yAxisID: 'y',
-                            order: 2
-                        },
-                        {
-                            type: 'line',
-                            label: 'Funded %',
-                            data: o.map(r => r.funded_pct),
-                            borderColor: '#059669',
-                            backgroundColor: '#059669',
-                            borderWidth: 3,
-                            pointRadius: 5,
-                            pointBackgroundColor: '#059669',
-                            yAxisID: 'y1',
-                            order: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    interaction: { mode: 'index', intersect: false },
-                    plugins: {
-                        legend: { position: 'top' },
-                        tooltip: {
-                            callbacks: {
-                                label: function (ctx) {
-                                    if (ctx.dataset.yAxisID === 'y1') return 'Funded: ' + ctx.parsed.y.toFixed(1) + '%';
-                                    return ctx.dataset.label + ': ' + fmt(ctx.parsed.y);
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            position: 'left',
-                            ticks: {
-                                callback: function (v) { return '$' + (v / 1e6).toFixed(0) + 'M'; }
-                            },
-                            title: { display: true, text: 'Dollars' }
-                        },
-                        y1: {
-                            position: 'right',
-                            min: 0,
-                            max: 25,
-                            grid: { drawOnChartArea: false },
-                            ticks: {
-                                callback: function (v) { return v + '%'; }
-                            },
-                            title: { display: true, text: 'Funded %' }
-                        }
-                    }
-                }
-            });
-        }
-
-        /* ===== Chart 6: Tax Burden ===== */
+        /* ===== Chart 3: Tax Burden ===== */
         function createTaxBurdenChart() {
             const tb = state.data.peer_tax_burden;
             const labels = tb.map(r => 'FY' + r.fy);
