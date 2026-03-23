@@ -79,8 +79,8 @@
 
     /* === Chart.js tooltip dismiss on mobile === */
     if ('ontouchstart' in window) {
+        /* Tap outside any canvas → dismiss all tooltips */
         document.addEventListener('touchstart', function (e) {
-            // If tap is outside any canvas, hide all active tooltips
             if (e.target.tagName !== 'CANVAS' && typeof Chart !== 'undefined') {
                 Chart.helpers.each(Chart.instances, function (chart) {
                     if (chart.tooltip) {
@@ -90,6 +90,24 @@
                     }
                 });
             }
+        });
+
+        /* Double-tap a canvas → dismiss its tooltip */
+        var lastTap = 0;
+        document.addEventListener('touchend', function (e) {
+            if (e.target.tagName !== 'CANVAS' || typeof Chart === 'undefined') return;
+            var now = Date.now();
+            if (now - lastTap < 400) {
+                // Double-tap detected — clear tooltip on this chart
+                var chart = Chart.getChart(e.target);
+                if (chart && chart.tooltip) {
+                    chart.tooltip.setActiveElements([], { x: 0, y: 0 });
+                    chart.setActiveElements([]);
+                    chart.update('none');
+                }
+                e.preventDefault();
+            }
+            lastTap = now;
         });
     }
 })();
